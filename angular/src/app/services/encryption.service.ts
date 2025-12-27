@@ -40,6 +40,18 @@ export class EncryptionService {
         padding: CryptoJS.pad.Pkcs7
       });
 
+      // --- DEBUGGING LOGS START ---
+      console.log('DEBUG: decrypted.sigBytes', decrypted.sigBytes);
+      if (decrypted.sigBytes > 0) {
+        try {
+          const possibleDecryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+          console.log('DEBUG: possibleDecryptedString (UTF8)', possibleDecryptedString);
+        } catch (e) {
+          console.error('DEBUG: Error converting decrypted bytes to UTF8 string', e);
+        }
+      }
+      // --- DEBUGGING LOGS END ---
+
       if (decrypted.sigBytes <= 0) { // Check if decryption yielded any bytes
         throw new Error('Decryption failed or resulted in empty data.');
       }
