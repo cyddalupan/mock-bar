@@ -17,7 +17,8 @@ export class EncryptionService {
   encrypt(data: any): string {
     const dataString = JSON.stringify(data);
     const iv = CryptoJS.lib.WordArray.random(16); // 16 bytes = 128 bits for AES-256-CBC IV
-    const encrypted = CryptoJS.AES.encrypt(dataString, this.SECRET_KEY, {
+    const keyHex = CryptoJS.enc.Utf8.parse(this.SECRET_KEY); // Convert string key to WordArray
+    const encrypted = CryptoJS.AES.encrypt(dataString, keyHex, {
       iv: iv,
       mode: CryptoJS.mode.CBC,
       padding: CryptoJS.pad.Pkcs7
@@ -32,7 +33,8 @@ export class EncryptionService {
       const iv = CryptoJS.lib.WordArray.create(decoded.words.slice(0, 4)); // Extract first 16 bytes (4 words) as IV
       const ciphertext = CryptoJS.lib.WordArray.create(decoded.words.slice(4)); // Remaining is ciphertext
 
-      const decrypted = CryptoJS.AES.decrypt({ ciphertext: ciphertext } as CryptoJS.lib.CipherParams, this.SECRET_KEY, {
+      const keyHex = CryptoJS.enc.Utf8.parse(this.SECRET_KEY); // Convert string key to WordArray
+      const decrypted = CryptoJS.AES.decrypt({ ciphertext: ciphertext } as CryptoJS.lib.CipherParams, keyHex, {
         iv: iv,
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
