@@ -26,18 +26,19 @@ export class App implements OnInit {
   fetchCategories() {
     this.apiService.getCategoriesWithCourses().subscribe({
       next: (data) => {
-        console.log('Raw data from API:', data); // Add this line
+    
         this.categories = data.map((category: any) => {
           // Parse the courses JSON string into an array of objects
           category.courses = category.courses ? JSON.parse(`[${category.courses}]`) : [];
           // Use upcoming_image_thumbnail as thumbnail for display
           category.courses = category.courses.map((course: any) => ({
             ...course,
+            category_name: category.category_name, // Add category name to each course
             thumbnail: course.upcoming_image_thumbnail || 'https://via.placeholder.com/300x200?text=No+Image'
           }));
           return category;
         });
-        console.log('Processed Categories:', this.categories); // Add this for verification
+    
       },
       error: (error) => {
         console.error('Error fetching categories:', error);

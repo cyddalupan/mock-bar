@@ -5,13 +5,12 @@
   </div>
 
   <section class="categories-section" *ngFor="let category of categories">
-    <h2>{{ category.category_name }}</h2>
     <div class="course-cards">
       <!-- Course cards will be rendered here -->
       <mat-card *ngFor="let course of category.courses" class="course-card">
         <img mat-card-image [src]="course.thumbnail || 'https://via.placeholder.com/150'" alt="Course Thumbnail">
         <mat-card-header>
-          <mat-card-title>{{ course.title }}</mat-card-title>
+          <mat-card-title>{{ course.category_name }}: {{ course.title }}</mat-card-title>
           <mat-card-subtitle>{{ course.short_description }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>

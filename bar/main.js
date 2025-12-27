@@ -43019,7 +43019,7 @@ var ApiService = class _ApiService {
 })();
 
 // src/app/app.ts
-function App_section_3_mat_card_4_Template(rf, ctx) {
+function App_section_3_mat_card_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "mat-card", 7);
     \u0275\u0275element(1, "img", 8);
@@ -43046,14 +43046,14 @@ function App_section_3_mat_card_4_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275property("src", course_r1.thumbnail || "https://via.placeholder.com/150", \u0275\u0275sanitizeUrl);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(course_r1.title);
+    \u0275\u0275textInterpolate2("", course_r1.category_name, ": ", course_r1.title);
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(course_r1.short_description);
     \u0275\u0275advance(5);
     \u0275\u0275textInterpolate1(" ", course_r1.level);
   }
 }
-function App_section_3_div_5_Template(rf, ctx) {
+function App_section_3_div_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 10)(1, "p");
     \u0275\u0275text(2, "No courses available yet in this category.");
@@ -43062,17 +43062,12 @@ function App_section_3_div_5_Template(rf, ctx) {
 }
 function App_section_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "section", 3)(1, "h2");
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 4);
-    \u0275\u0275template(4, App_section_3_mat_card_4_Template, 17, 4, "mat-card", 5)(5, App_section_3_div_5_Template, 3, 0, "div", 6);
+    \u0275\u0275elementStart(0, "section", 3)(1, "div", 4);
+    \u0275\u0275template(2, App_section_3_mat_card_2_Template, 17, 5, "mat-card", 5)(3, App_section_3_div_3_Template, 3, 0, "div", 6);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
     const category_r2 = ctx.$implicit;
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(category_r2.category_name);
     \u0275\u0275advance(2);
     \u0275\u0275property("ngForOf", category_r2.courses);
     \u0275\u0275advance();
@@ -43093,15 +43088,15 @@ var App = class _App {
   fetchCategories() {
     this.apiService.getCategoriesWithCourses().subscribe({
       next: (data) => {
-        console.log("Raw data from API:", data);
         this.categories = data.map((category) => {
           category.courses = category.courses ? JSON.parse(`[${category.courses}]`) : [];
           category.courses = category.courses.map((course) => __spreadProps(__spreadValues({}, course), {
+            category_name: category.category_name,
+            // Add category name to each course
             thumbnail: course.upcoming_image_thumbnail || "https://via.placeholder.com/300x200?text=No+Image"
           }));
           return category;
         });
-        console.log("Processed Categories:", this.categories);
       },
       error: (error) => {
         console.error("Error fetching categories:", error);
@@ -43116,7 +43111,7 @@ var App = class _App {
       \u0275\u0275elementStart(0, "main")(1, "div", 0);
       \u0275\u0275element(2, "img", 1);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(3, App_section_3_Template, 6, 3, "section", 2);
+      \u0275\u0275template(3, App_section_3_Template, 4, 2, "section", 2);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(4, "footer")(5, "p");
       \u0275\u0275text(6, "\xA9 premierebarreview 2025");
@@ -43126,7 +43121,7 @@ var App = class _App {
       \u0275\u0275advance(3);
       \u0275\u0275property("ngForOf", ctx.categories);
     }
-  }, dependencies: [CommonModule, NgForOf, NgIf, MatButtonModule, MatButton, MatIconModule, MatCardModule, MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardImage, MatCardSubtitle, MatCardTitle], styles: ["\n\n.banner[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.courses-section[_ngcontent-%COMP%] {\n  padding: 20px;\n}\n.courses-section[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-bottom: 30px;\n  color: #3f51b5;\n}\n.course-cards[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n  gap: 20px;\n  justify-content: center;\n}\n.course-card[_ngcontent-%COMP%] {\n  max-width: 350px;\n  width: 100%;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-image[_ngcontent-%COMP%] {\n  height: 200px;\n  object-fit: cover;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-header[_ngcontent-%COMP%] {\n  padding-bottom: 0;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-title[_ngcontent-%COMP%] {\n  font-size: 1.2em;\n  font-weight: bold;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-subtitle[_ngcontent-%COMP%] {\n  color: #757575;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.no-courses[_ngcontent-%COMP%] {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=app.css.map */"] });
+  }, dependencies: [CommonModule, NgForOf, NgIf, MatButtonModule, MatButton, MatIconModule, MatCardModule, MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardImage, MatCardSubtitle, MatCardTitle], styles: ["\n\n.banner[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.courses-section[_ngcontent-%COMP%] {\n  padding: 20px;\n}\n.courses-section[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-bottom: 30px;\n  color: #3f51b5;\n}\n.course-cards[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n  gap: 20px;\n  justify-content: center;\n}\n.course-card[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-image[_ngcontent-%COMP%] {\n  height: 200px;\n  object-fit: cover;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-header[_ngcontent-%COMP%] {\n  padding-bottom: 0;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-title[_ngcontent-%COMP%] {\n  font-size: 1.2em;\n  font-weight: bold;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-subtitle[_ngcontent-%COMP%] {\n  color: #757575;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.no-courses[_ngcontent-%COMP%] {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=app.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(App, [{
@@ -43138,13 +43133,12 @@ var App = class _App {
   </div>
 
   <section class="categories-section" *ngFor="let category of categories">
-    <h2>{{ category.category_name }}</h2>
     <div class="course-cards">
       <!-- Course cards will be rendered here -->
       <mat-card *ngFor="let course of category.courses" class="course-card">
         <img mat-card-image [src]="course.thumbnail || 'https://via.placeholder.com/150'" alt="Course Thumbnail">
         <mat-card-header>
-          <mat-card-title>{{ course.title }}</mat-card-title>
+          <mat-card-title>{{ course.category_name }}: {{ course.title }}</mat-card-title>
           <mat-card-subtitle>{{ course.short_description }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
@@ -43167,7 +43161,7 @@ var App = class _App {
 
 <footer>
   <p>&copy; premierebarreview 2025</p>
-</footer>`, styles: ["/* src/app/app.css */\n.banner {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.courses-section {\n  padding: 20px;\n}\n.courses-section h2 {\n  text-align: center;\n  margin-bottom: 30px;\n  color: #3f51b5;\n}\n.course-cards {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n  gap: 20px;\n  justify-content: center;\n}\n.course-card {\n  max-width: 350px;\n  width: 100%;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.course-card mat-card-image {\n  height: 200px;\n  object-fit: cover;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1.2em;\n  font-weight: bold;\n}\n.course-card mat-card-subtitle {\n  color: #757575;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=app.css.map */\n"] }]
+</footer>`, styles: ["/* src/app/app.css */\n.banner {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.courses-section {\n  padding: 20px;\n}\n.courses-section h2 {\n  text-align: center;\n  margin-bottom: 30px;\n  color: #3f51b5;\n}\n.course-cards {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n  gap: 20px;\n  justify-content: center;\n}\n.course-card {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.course-card mat-card-image {\n  height: 200px;\n  object-fit: cover;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1.2em;\n  font-weight: bold;\n}\n.course-card mat-card-subtitle {\n  color: #757575;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=app.css.map */\n"] }]
   }], () => [{ type: ApiService }], null);
 })();
 (() => {

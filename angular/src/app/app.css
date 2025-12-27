@@ -28,9 +28,6 @@
 }
 
 .course-card {
-  max-width: 350px;
-  width: 100%;
-  margin: auto;
   display: flex;
   flex-direction: column;
   height: 100%; /* Ensures all cards in a row try to match height */
