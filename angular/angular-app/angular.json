@@ -19,7 +19,6 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "outputPath": "../../mock-bar",
             "assets": [
               {
                 "glob": "**/*",
@@ -44,12 +43,14 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "outputPath": "../../mock-bar"
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "outputPath": "../../mock-bar"
             }
           },
           "defaultConfiguration": "production"
