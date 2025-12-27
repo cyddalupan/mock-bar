@@ -4,9 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "postbuild": "if [ -d ../bar/browser ]; then cp -R ../bar/browser/. ../bar/; rm -rf ../bar/browser; fi",
-    "watch": "ng build --watch --configuration development",
+    "build": "ng build --configuration development",
+        "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "prettier": {
