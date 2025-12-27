@@ -18,6 +18,12 @@ The API consists of three main PHP files:
 *   `ai.php`: Interacts with the OpenAI API, taking a system prompt and conversation history.
 *   `gitpull.php`: When accessed (`/api/gitpull.php`), pulls the latest updates from the Git repository for deployment.
 
+**CRITICAL SECURITY WARNING: `db.php` allows arbitrary SQL execution.**
+The current implementation of `db.php` directly accepts SQL queries from the frontend. This means any SQL query (SELECT, INSERT, UPDATE, DELETE, etc.) can be executed through this endpoint. **This is a severe SQL Injection vulnerability and should never be exposed to untrusted user input in a production environment.** For any production usage, `db.php` *must* be refactored to use prepared statements with whitelisted queries or an ORM, and restrict allowed operations.
+
+**Backend Development Notes:**
+The `db.php` and `ai.php` files are currently considered stable. Future development efforts and code changes should primarily focus on the Angular frontend.
+
 **Security:**
 *   Communication between the Angular frontend and the PHP backend will be via plain JSON over HTTPS.
 *   Sensitive data, such as API keys and database credentials, will be stored in a `.env` file at the project root. This file should not be committed to version control.
@@ -85,10 +91,8 @@ The Angular application's initial homepage will feature test functionalities for
 
     *   [ ] Verify the `npm run build` command successfully moves compiled files to `/bar`.
 
-5.  **Refinement & Testing:**
+5.  **Refinement & Testing (Angular Focus):**
 
-    *   [ ] Thoroughly test both API endpoints from the Angular frontend.
-
-    *   [ ] Ensure robust error handling and security measures are in place.
-
-    *   [ ] Document API endpoints and usage.
+    *   [x] Thoroughly test both API endpoints from the Angular frontend.
+    *   [ ] Ensure robust error handling is implemented in the Angular frontend.
+    *   [ ] Document API endpoints and usage (with explicit security warnings for `db.php`).

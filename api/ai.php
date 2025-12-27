@@ -25,7 +25,7 @@ function callOpenAI($system_prompt, $history) {
 
     $url = 'https://api.openai.com/v1/chat/completions';
     $data = [
-        'model' => 'gpt-3.5-turbo',
+        'model' => 'gpt-5.2',
         'messages' => array_merge([['role' => 'system', 'content' => $system_prompt]], $history)
     ];
 
