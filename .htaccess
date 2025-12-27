@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Handle API requests
+  RewriteRule ^api/(.*)$ api/$1 [L]
+
+  # Serve Angular app from mock-bar subdirectory
+  # If the request is for a file that exists, serve it directly
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^mock-bar/(.*)$ mock-bar/index.html [L]
+</IfModule>
