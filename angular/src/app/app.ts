@@ -15,7 +15,7 @@ import { ApiService } from './services/api.service'; // Import ApiService
 export class App implements OnInit {
   protected readonly title = signal('Mock Bar App');
 
-  categories: any[] = []; // Array to hold categories and their courses
+  allCourses: any[] = []; // Array to hold all courses flattened from categories
 
   constructor(private apiService: ApiService) {}
 
@@ -26,8 +26,9 @@ export class App implements OnInit {
   fetchCategories() {
     this.apiService.getCategoriesWithCourses().subscribe({
       next: (data) => {
-    
-        this.categories = data.map((category: any) => {
+        let tempAllCourses: any[] = []; // Temporary array to hold all courses
+
+        data.map((category: any) => {
           // Parse the courses JSON string into an array of objects
           category.courses = category.courses ? JSON.parse(`[${category.courses}]`) : [];
           // Use upcoming_image_thumbnail as thumbnail for display
@@ -36,9 +37,11 @@ export class App implements OnInit {
             category_name: category.category_name, // Add category name to each course
             thumbnail: course.upcoming_image_thumbnail || 'https://via.placeholder.com/300x200?text=No+Image'
           }));
-          return category;
+          // Add processed courses to the temporary array
+          tempAllCourses = tempAllCourses.concat(category.courses);
+          return category; // This return is technically not used, as we are flattening outside
         });
-    
+        this.allCourses = tempAllCourses; // Assign the flattened array to allCourses
       },
       error: (error) => {
         console.error('Error fetching categories:', error);
