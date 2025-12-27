@@ -30,7 +30,7 @@ if (!function_exists('loadEnv')) {
 }
 
 
-$encryption_key = base64_decode($_ENV['ENCRYPTION_KEY']);
+$encryption_key = $_ENV['ENCRYPTION_KEY'];
 if (empty($encryption_key)) {
     die("Encryption key not set in .env file.");
 }

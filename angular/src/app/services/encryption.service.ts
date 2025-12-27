@@ -17,8 +17,8 @@ export class EncryptionService {
   encrypt(data: any): string {
     const dataString = JSON.stringify(data);
     const iv = CryptoJS.lib.WordArray.random(16); // 16 bytes = 128 bits for AES-256-CBC IV
-    const keyHex = CryptoJS.enc.Base64.parse(this.SECRET_KEY); // Convert Base64 string key to WordArray
-    const encrypted = CryptoJS.AES.encrypt(dataString, keyHex, {
+    const key = CryptoJS.enc.Utf8.parse(this.SECRET_KEY); // Parse the raw string key as UTF-8
+    const encrypted = CryptoJS.AES.encrypt(dataString, key, {
       iv: iv,
       mode: CryptoJS.mode.CBC,
       padding: CryptoJS.pad.Pkcs7
@@ -33,24 +33,12 @@ export class EncryptionService {
       const iv = CryptoJS.lib.WordArray.create(decoded.words.slice(0, 4)); // Extract first 16 bytes (4 words) as IV
       const ciphertext = CryptoJS.lib.WordArray.create(decoded.words.slice(4)); // Remaining is ciphertext
 
-      const keyHex = CryptoJS.enc.Base64.parse(this.SECRET_KEY); // Convert Base64 string key to WordArray
-      const decrypted = CryptoJS.AES.decrypt({ ciphertext: ciphertext } as CryptoJS.lib.CipherParams, keyHex, {
+      const key = CryptoJS.enc.Utf8.parse(this.SECRET_KEY); // Parse the raw string key as UTF-8
+      const decrypted = CryptoJS.AES.decrypt({ ciphertext: ciphertext } as CryptoJS.lib.CipherParams, key, {
         iv: iv,
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
       });
-
-      // --- DEBUGGING LOGS START ---
-      console.log('DEBUG: decrypted.sigBytes', decrypted.sigBytes);
-      if (decrypted.sigBytes > 0) {
-        try {
-          const possibleDecryptedString = decrypted.toString(CryptoJS.enc.Utf8);
-          console.log('DEBUG: possibleDecryptedString (UTF8)', possibleDecryptedString);
-        } catch (e) {
-          console.error('DEBUG: Error converting decrypted bytes to UTF8 string', e);
-        }
-      }
-      // --- DEBUGGING LOGS END ---
 
       if (decrypted.sigBytes <= 0) { // Check if decryption yielded any bytes
         throw new Error('Decryption failed or resulted in empty data.');
