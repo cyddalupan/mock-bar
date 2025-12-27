@@ -7,7 +7,7 @@ This project consists of three main components: a PHP API, an Angular frontend, 
 ## Directory Structure
 
 *   `/api`: Contains the PHP backend files.
-*   `/angular`: Contains the Angular frontend source code.
+*   `/angular`: Contains the Angular frontend project files.
 *   `/bar`: Serves the built Angular application (formerly `mock-bar`).
 
 ## Backend API (`/api`)
