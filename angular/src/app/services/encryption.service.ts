@@ -21,7 +21,7 @@ export class EncryptionService {
     const encrypted = CryptoJS.AES.encrypt(dataString, keyHex, {
       iv: iv,
       mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7
+      padding: CryptoJS.pad.ZeroPadding
     });
     // Concatenate IV and ciphertext as a Base64 string, matching PHP's format
     return CryptoJS.enc.Base64.stringify(iv.concat(encrypted.ciphertext));
@@ -37,7 +37,7 @@ export class EncryptionService {
       const decrypted = CryptoJS.AES.decrypt({ ciphertext: ciphertext } as CryptoJS.lib.CipherParams, keyHex, {
         iv: iv,
         mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
+        padding: CryptoJS.pad.ZeroPadding
       });
 
       // --- DEBUGGING LOGS START ---

@@ -41,7 +41,7 @@ function encryptData($data) {
     $cipher = 'aes-256-cbc';
     $ivlen = openssl_cipher_iv_length($cipher);
     $iv = openssl_random_pseudo_bytes($ivlen);
-    $ciphertext = openssl_encrypt(json_encode($data), $cipher, $encryption_key, 0, $iv);
+    $ciphertext = openssl_encrypt(json_encode($data), $cipher, $encryption_key, OPENSSL_ZERO_PADDING, $iv);
     return base64_encode($iv . $ciphertext);
 }
 
@@ -53,7 +53,7 @@ function decryptData($encrypted_data) {
     $decoded = base64_decode($encrypted_data);
     $iv = substr($decoded, 0, $ivlen);
     $ciphertext = substr($decoded, $ivlen);
-    $plaintext = openssl_decrypt($ciphertext, $cipher, $encryption_key, 0, $iv);
+    $plaintext = openssl_decrypt($ciphertext, $cipher, $encryption_key, OPENSSL_ZERO_PADDING, $iv);
     return json_decode($plaintext, true);
 }
 ?>
