@@ -1,11 +1,22 @@
 <?php
-require_once 'encryption.php'; // Includes encryption functions and loads .env
+// ai.php - Handles plain JSON OpenAI API calls
+
+// Load .env file
+if (file_exists(__DIR__ . '/../.env')) {
+    $lines = file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        list($name, $value) = explode('=', $line, 2);
+        $_ENV[trim($name)] = trim($value);
+    }
+}
 
 // Get the OpenAI API key
 $openai_api_key = $_ENV['OPENAI_API_KEY'];
 if (empty($openai_api_key)) {
-    // In a real application, you might want to log this error and return a generic message
-    die(encryptData(['error' => 'OpenAI API key not set in .env file.']));
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'OpenAI API key not set in .env file.']);
+    exit();
 }
 
 // Function to call the OpenAI API
@@ -38,21 +49,21 @@ function callOpenAI($system_prompt, $history) {
     return json_decode($result, true);
 }
 
-// Handle incoming encrypted payload
+// Handle incoming plain JSON payload
 $input = file_get_contents('php://input');
-$decrypted_payload = decryptData($input);
+$request_data = json_decode($input, true);
 
-if (!$decrypted_payload || !isset($decrypted_payload['system_prompt']) || !isset($decrypted_payload['history'])) {
+if (!$request_data || !isset($request_data['system_prompt']) || !isset($request_data['history'])) {
     header('Content-Type: application/json');
-    echo encryptData(['error' => 'Invalid or unreadable encrypted payload, or missing system_prompt/history.']);
+    echo json_encode(['error' => 'Invalid or unreadable JSON payload, or missing system_prompt/history.']);
     exit();
 }
 
-$system_prompt = $decrypted_payload['system_prompt'];
-$history = $decrypted_payload['history'];
+$system_prompt = $request_data['system_prompt'];
+$history = $request_data['history'];
 
 $response = callOpenAI($system_prompt, $history);
 
 header('Content-Type: application/json');
-echo encryptData($response);
+echo json_encode($response);
 ?>

@@ -19,7 +19,7 @@ The API consists of three main PHP files:
 *   `gitpull.php`: When accessed (`/api/gitpull.php`), pulls the latest updates from the Git repository for deployment.
 
 **Security:**
-*   All communication between the Angular frontend and the PHP backend will be encrypted. The specific encryption method needs to be defined and implemented.
+*   Communication between the Angular frontend and the PHP backend will be via plain JSON over HTTPS.
 *   Sensitive data, such as API keys and database credentials, will be stored in a `.env` file at the project root. This file should not be committed to version control.
 
 ## Frontend Application (`/angular`)
@@ -62,14 +62,14 @@ The Angular application's initial homepage will feature test functionalities for
 
     *   [x] Implement `ai.php` to handle requests to the OpenAI API, including `.env` loading and a basic `callOpenAI` function.
 
-    *   [ ] Define and implement the encryption/decryption mechanism for payloads between the frontend and backend in both `db.php` and `ai.php`.
+
     *   [ ] Implement `gitpull.php` to securely pull the latest changes from the Git repository.
 
 3.  **Frontend Development (`/angular`):**
 
     *   [ ] Set up the basic Angular application structure.
 
-    *   [ ] Create Angular services to communicate with the `/api` backend, handling encrypted payloads.
+    *   [ ] Create Angular services to communicate with the `/api` backend, handling plain JSON payloads.
 
     *   [ ] Implement the initial homepage UI:
 
@@ -77,7 +77,7 @@ The Angular application's initial homepage will feature test functionalities for
 
         *   Provide an interface to trigger an AI call via `ai.php` and display the response.
 
-    *   [ ] Implement the client-side encryption for payloads sent to the backend.
+
 
 4.  **Build & Deployment (`/angular` & `/bar`):**
 

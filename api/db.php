@@ -1,5 +1,15 @@
 <?php
-require_once 'encryption.php'; // Includes encryption functions and loads .env
+// db.php - Handles plain JSON database queries
+
+// Load .env file
+if (file_exists(__DIR__ . '/../.env')) {
+    $lines = file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        list($name, $value) = explode('=', $line, 2);
+        $_ENV[trim($name)] = trim($value);
+    }
+}
 
 // Get database credentials from .env
 $db_host = $_ENV['DB_HOST'];
@@ -12,8 +22,9 @@ $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name);
 
 // Check for connection errors
 if ($mysqli->connect_error) {
-    // In a real application, you might want to log this error and return a generic message
-    die(encryptData(['error' => 'Database connection failed.']));
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Database connection failed: ' . $mysqli->connect_error]);
+    exit();
 }
 
 // Function to execute a query
@@ -27,8 +38,7 @@ function executeQuery($query, $params = []) {
     }
 
     if (!empty($params)) {
-        // Dynamically determine types
-        $types = '';
+        $types = ''; // This assumes all params are strings, adjust as needed
         foreach ($params as $param) {
             if (is_int($param)) {
                 $types .= 'i';
@@ -53,31 +63,21 @@ function executeQuery($query, $params = []) {
     return $data;
 }
 
-// Handle incoming encrypted payload
+// Handle incoming plain JSON payload
 $input = file_get_contents('php://input');
+$request_data = json_decode($input, true);
 
-// --- PHP DEBUGGING START ---
-$log_file = __DIR__ . '/debug.log';
-$log_message = "Timestamp: " . date('Y-m-d H:i:s') . "\n";
-$log_message .= "Received Payload: " . $input . "\n";
-$decrypted_payload = decryptData($input);
-$log_message .= "Decryption Result: " . json_encode($decrypted_payload) . "\n---\n";
-file_put_contents($log_file, $log_message, FILE_APPEND);
-// --- PHP DEBUGGING END ---
-
-$decrypted_payload = decryptData($input);
-
-if (!$decrypted_payload || !isset($decrypted_payload['query'])) {
+if (!$request_data || !isset($request_data['query'])) {
     header('Content-Type: application/json');
-    echo encryptData(['error' => 'Invalid or unreadable encrypted payload.']);
+    echo json_encode(['error' => 'Invalid or unreadable JSON payload.']);
     exit();
 }
 
-$query = $decrypted_payload['query'];
-$params = $decrypted_payload['params'] ?? [];
+$query = $request_data['query'];
+$params = $request_data['params'] ?? [];
 
 $response_data = executeQuery($query, $params);
 
 header('Content-Type: application/json');
-echo encryptData($response_data);
+echo json_encode($response_data);
 ?>

@@ -42,7 +42,7 @@ export class App implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching DB data:', err);
-        this.dbError = typeof err === 'string' ? err : JSON.stringify(err);
+        this.dbError = err;
         this.dbLoading = false;
       }
     });
@@ -73,7 +73,7 @@ export class App implements OnInit {
       },
       error: (err) => {
         console.error('Error calling AI:', err);
-        this.aiError = typeof err === 'string' ? err : JSON.stringify(err);
+        this.aiError = err;
         this.aiLoading = false;
       }
     });
