@@ -6,18 +6,17 @@
     <img src="https://via.placeholder.com/1200x300?text=Inspiring+Banner" alt="Banner Image">
   </div>
 
-  <section class="courses-section">
-    <h2>Our Courses</h2>
+  <section class="categories-section" *ngFor="let category of categories">
+    <h2>{{ category.category_name }}</h2>
     <div class="course-cards">
       <!-- Course cards will be rendered here -->
-      <mat-card *ngFor="let course of courses" class="course-card">
+      <mat-card *ngFor="let course of category.courses" class="course-card">
         <img mat-card-image [src]="course.thumbnail" alt="Course Thumbnail">
         <mat-card-header>
           <mat-card-title>{{ course.title }}</mat-card-title>
           <mat-card-subtitle>{{ course.short_description }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <p>{{ course.description.substring(0, 100) }}...</p>
           <p><strong>Price:</strong> {{ course.price }}</p>
           <p><strong>Level:</strong> {{ course.level }}</p>
         </mat-card-content>
@@ -26,11 +25,11 @@
           <button mat-button>Add to Cart</button>
         </mat-card-actions>
       </mat-card>
-      <div *ngIf="courses.length === 0" class="no-courses">
-        <p>No courses available yet. Please check back later!</p>
+      <div *ngIf="category.courses.length === 0" class="no-courses">
+        <p>No courses available yet in this category.</p>
       </div>
     </div>
   </section>
 
-  <app-test></app-test>
+
 </main>

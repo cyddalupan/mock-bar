@@ -132,6 +132,16 @@ The Angular application's initial homepage will feature test functionalities for
     *   **Environment:** Development and local testing occur on your machine. However, integration and functional testing of the application (Angular frontend interacting with PHP backend) are performed on a remote server.
     *   **Build & Push:** After making any significant code changes in the Angular application, always run `npm run build` from the `/angular` directory. Subsequently, all changes, including the newly built files within the `/bar` directory, must be committed and pushed to the Git repository.
     *   **Deployment & Testing:** The remote server will then pull the latest changes (e.g., via `gitpull.php`) to update the application for testing. This ensures the deployed version always reflects the latest built and pushed code.
+    *   **Automating Build and Staging:** To streamline the build and staging process for Angular changes, a convenience script `build_and_stage.sh` has been created in the project root. This script automates running `npm run build` within the `/angular` directory and then stages the resulting files in the `/bar` directory for Git.
+        *   **Usage:** After making changes in the `/angular` directory, execute the script from the project root:
+            ```bash
+            ./build_and_stage.sh
+            ```
+        *   **Next Steps:** After the script completes, the `/bar` directory will be staged. You can then proceed to commit and push your changes:
+            ```bash
+            git commit -m "feat: Describe your Angular changes"
+            git push
+            ```
 *   **Strict Typing:** Implement strict typing throughout the Angular project, utilizing detailed interfaces and classes. This helps catch issues during `npm run build` and improves code quality.
 *   **Proactive Documentation:** Maintain `GEMINI.md` as a living document. Any significant setup steps, encountered challenges, or solutions (especially related to project configurations or library integrations) should be added to this file to serve as a knowledge base and prevent re-solving the same issues.
 
