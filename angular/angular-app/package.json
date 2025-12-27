@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "postbuild": "test -d ../../mock-bar/browser && mv ../../mock-bar/browser/* ../../mock-bar/ && rmdir ../../mock-bar/browser || true",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
