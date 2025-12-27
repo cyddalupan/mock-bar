@@ -55,6 +55,16 @@ function executeQuery($query, $params = []) {
 
 // Handle incoming encrypted payload
 $input = file_get_contents('php://input');
+
+// --- PHP DEBUGGING START ---
+$log_file = __DIR__ . '/debug.log';
+$log_message = "Timestamp: " . date('Y-m-d H:i:s') . "\n";
+$log_message .= "Received Payload: " . $input . "\n";
+$decrypted_payload = decryptData($input);
+$log_message .= "Decryption Result: " . json_encode($decrypted_payload) . "\n---\n";
+file_put_contents($log_file, $log_message, FILE_APPEND);
+// --- PHP DEBUGGING END ---
+
 $decrypted_payload = decryptData($input);
 
 if (!$decrypted_payload || !isset($decrypted_payload['query'])) {
