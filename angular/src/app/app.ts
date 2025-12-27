@@ -37,7 +37,7 @@ export class App implements OnInit {
           }));
           return category;
         });
-        console.log('Fetched Categories:', this.categories);
+        console.log('Processed Categories:', this.categories); // Add this for verification
       },
       error: (error) => {
         console.error('Error fetching categories:', error);
