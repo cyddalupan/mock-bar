@@ -37,8 +37,11 @@ The Angular application's initial homepage will feature test functionalities for
 
 ## Development Guidelines
 
+*   **Development Workflow:**
+    *   **Environment:** Development and local testing occur on your machine. However, integration and functional testing of the application (Angular frontend interacting with PHP backend) are performed on a remote server.
+    *   **Build & Push:** After making any significant code changes in the Angular application, always run `npm run build` from the `/angular` directory. Subsequently, all changes, including the newly built files within the `/mock-bar` directory, must be committed and pushed to the Git repository.
+    *   **Deployment & Testing:** The remote server will then pull the latest changes (e.g., via `gitpull.php`) to update the application for testing. This ensures the deployed version always reflects the latest built and pushed code.
 *   **Strict Typing:** Implement strict typing throughout the Angular project, utilizing detailed interfaces and classes. This helps catch issues during `npm run build` and improves code quality.
-*   **Build and Push:** After completing significant tasks, always run `npm run build` from the `/angular` directory and then push the updated code, including the compiled files in `/mock-bar`, to the Git repository. The `/mock-bar` directory should NOT be ignored.
 
 ## Development Plan
 
