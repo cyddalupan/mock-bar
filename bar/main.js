@@ -43074,6 +43074,7 @@ var App = class _App {
   fetchCategories() {
     this.apiService.getCategoriesWithCourses().subscribe({
       next: (data) => {
+        console.log("Raw data from API:", data);
         this.categories = data.map((category) => {
           category.courses = category.courses ? JSON.parse(`[${category.courses}]`) : [];
           category.courses = category.courses.map((course) => __spreadProps(__spreadValues({}, course), {

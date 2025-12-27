@@ -142,6 +142,11 @@ The Angular application's initial homepage will feature test functionalities for
             git commit -m "feat: Describe your Angular changes"
             git push
             ```
+    *   **Agent-Managed Build and Deployment:** The AI agent (Gemini) is responsible for automatically building the Angular application and pushing changes to the remote repository. After the agent completes any code modifications in the `/angular` directory, or when a build and deployment is required to verify changes or gather logs, it will perform the following steps:
+        1.  Execute `./build_and_stage.sh` from the project root to build the Angular application and stage the `/bar` directory.
+        2.  Automatically commit the changes with an appropriate commit message.
+        3.  Automatically push the committed changes to the `origin/main` branch.
+        This ensures that the remote repository always reflects the latest built code after agent-driven changes.
 *   **Strict Typing:** Implement strict typing throughout the Angular project, utilizing detailed interfaces and classes. This helps catch issues during `npm run build` and improves code quality.
 *   **Proactive Documentation:** Maintain `GEMINI.md` as a living document. Any significant setup steps, encountered challenges, or solutions (especially related to project configurations or library integrations) should be added to this file to serve as a knowledge base and prevent re-solving the same issues.
 

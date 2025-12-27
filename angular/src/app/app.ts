@@ -26,6 +26,7 @@ export class App implements OnInit {
   fetchCategories() {
     this.apiService.getCategoriesWithCourses().subscribe({
       next: (data) => {
+        console.log('Raw data from API:', data); // Add this line
         this.categories = data.map((category: any) => {
           // Parse the courses JSON string into an array of objects
           category.courses = category.courses ? JSON.parse(`[${category.courses}]`) : [];
