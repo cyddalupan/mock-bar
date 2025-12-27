@@ -8,7 +8,7 @@ This project consists of three main components: a PHP API, an Angular frontend, 
 
 *   `/api`: Contains the PHP backend files.
 *   `/angular`: Contains the Angular frontend source code.
-*   `/mock-bar`: Serves the built Angular application.
+*   `/bar`: Serves the built Angular application (formerly `mock-bar`).
 
 ## Backend API (`/api`)
 
@@ -33,13 +33,13 @@ The Angular application's initial homepage will feature test functionalities for
 
 **Build Process:**
 *   The `npm run build` command will compile the Angular application.
-*   The build process will move the compiled files directly into the `/mock-bar` directory for serving.
+*   The build process will move the compiled files directly into the `/bar` directory for serving (accessible at `/mock/bar/`).
 
 ## Development Guidelines
 
 *   **Development Workflow:**
     *   **Environment:** Development and local testing occur on your machine. However, integration and functional testing of the application (Angular frontend interacting with PHP backend) are performed on a remote server.
-    *   **Build & Push:** After making any significant code changes in the Angular application, always run `npm run build` from the `/angular` directory. Subsequently, all changes, including the newly built files within the `/mock-bar` directory, must be committed and pushed to the Git repository.
+    *   **Build & Push:** After making any significant code changes in the Angular application, always run `npm run build` from the `/angular` directory. Subsequently, all changes, including the newly built files within the `/bar` directory, must be committed and pushed to the Git repository.
     *   **Deployment & Testing:** The remote server will then pull the latest changes (e.g., via `gitpull.php`) to update the application for testing. This ensures the deployed version always reflects the latest built and pushed code.
 *   **Strict Typing:** Implement strict typing throughout the Angular project, utilizing detailed interfaces and classes. This helps catch issues during `npm run build` and improves code quality.
 
@@ -79,11 +79,11 @@ The Angular application's initial homepage will feature test functionalities for
 
     *   [ ] Implement the client-side encryption for payloads sent to the backend.
 
-4.  **Build & Deployment (`/angular` & `/mock-bar`):**
+4.  **Build & Deployment (`/angular` & `/bar`):**
 
-    *   [ ] Configure the Angular build process (`angular.json`) to output the built files to the `/mock-bar` directory.
+    *   [ ] Configure the Angular build process (`angular.json`) to output the built files to the `/bar` directory.
 
-    *   [ ] Verify the `npm run build` command successfully moves compiled files to `/mock-bar`.
+    *   [ ] Verify the `npm run build` command successfully moves compiled files to `/bar`.
 
 5.  **Refinement & Testing:**
 
