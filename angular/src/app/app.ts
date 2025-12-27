@@ -30,6 +30,11 @@ export class App implements OnInit {
         this.categories = data.map((category: any) => {
           // Parse the courses JSON string into an array of objects
           category.courses = category.courses ? JSON.parse(`[${category.courses}]`) : [];
+          // --- ADD CONSOLE.LOG HERE ---
+          category.courses.forEach((course: any) => {
+            console.log(`Course: ${course.title}, upcoming_image_thumbnail: ${course.upcoming_image_thumbnail}`);
+          });
+          // --- END CONSOLE.LOG ---
           // Use upcoming_image_thumbnail as thumbnail for display
           category.courses = category.courses.map((course: any) => ({
             ...course,
