@@ -24,13 +24,18 @@ if (file_exists(__DIR__ . '/../.env')) {
     }
 }
 
-$raw_key = $_ENV['ENCRYPTION_KEY'];
-if (empty($raw_key) || strlen($raw_key) !== 32) {
-    error_log("A 32-character ENCRYPTION_KEY is not set in .env file.");
+$raw_key_b64 = $_ENV['ENCRYPTION_KEY'];
+if (empty($raw_key_b64) || !is_string($raw_key_b64)) {
+    error_log("ENCRYPTION_KEY is not set or is not a string in .env file.");
     die("Encryption key is not configured properly.");
 }
+$raw_key = base64_decode($raw_key_b64);
+if (strlen($raw_key) !== 64) { // Expecting a 512-bit key (64 bytes)
+    error_log("ENCRYPTION_KEY (decoded) is not 64 characters long. Got: " . strlen($raw_key) . " bytes.");
+    die("Encryption key length is incorrect.");
+}
 
-// Create a JWK (JSON Web Key) from our raw 32-byte secret.
+// Create a JWK (JSON Web Key) from our raw 64-byte secret.
 $jwk = JWKFactory::createFromSecret($raw_key, ['alg' => 'dir', 'use' => 'enc']);
 
 // Function to encrypt data

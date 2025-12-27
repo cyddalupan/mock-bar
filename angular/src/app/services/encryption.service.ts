@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import * as jose from 'jose';
 import { from, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +11,26 @@ export class EncryptionService {
   private secretKey: Uint8Array;
 
   constructor() {
-    if (this.SECRET_KEY_STRING === 'your_encryption_key' || !this.SECRET_KEY_STRING || this.SECRET_KEY_STRING.length !== 32) {
-      console.error('EncryptionService: A 32-character (256-bit) ENCRYPTION_KEY is not set in environment.ts. Please update it.');
-      // Create a dummy key to avoid further errors, but encryption will not work.
-      this.secretKey = new TextEncoder().encode(''.padStart(32, '0'));
+    if (!this.SECRET_KEY_STRING || this.SECRET_KEY_STRING.length === 0) {
+      console.error('EncryptionService: ENCRYPTION_KEY is not set in environment.ts.');
+      this.secretKey = new Uint8Array(64).fill(0); // Create a dummy 64-byte key
     } else {
-      this.secretKey = new TextEncoder().encode(this.SECRET_KEY_STRING);
+      try {
+        // Use atob for standard Base64 decoding, then convert to Uint8Array
+        const binaryString = atob(this.SECRET_KEY_STRING);
+        this.secretKey = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          this.secretKey[i] = binaryString.charCodeAt(i);
+        }
+
+        if (this.secretKey.length !== 64) {
+          console.error(`EncryptionService: ENCRYPTION_KEY (decoded) is not 64 bytes long. Got: ${this.secretKey.length} bytes.`);
+          this.secretKey = new Uint8Array(64).fill(0); // Fallback to dummy key
+        }
+      } catch (e) {
+        console.error('EncryptionService: Failed to decode ENCRYPTION_KEY from Base64 using atob(). Please check format.', e);
+        this.secretKey = new Uint8Array(64).fill(0); // Fallback to dummy key
+      }
     }
   }
 

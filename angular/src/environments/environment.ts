@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  ENCRYPTION_KEY: '54h3128rxx06lsr3kd7e2290kqw9z10w', 
+  ENCRYPTION_KEY: '8z6AF0kL4bCd5Q+TN2PkQMQbeImqwwV1JSrFEOUWyN9hPeom9LnMQu9mBR5eQjYYkDajlWHdTHRY89toRhWYng==', 
   API_BASE_URL: '/mock/api' 
 };
