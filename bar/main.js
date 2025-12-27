@@ -42497,6 +42497,427 @@ var appConfig = {
   ]
 };
 
+// node_modules/@angular/material/fesm2022/card.mjs
+var _c04 = ["*"];
+var _c13 = [[["mat-card-title"], ["mat-card-subtitle"], ["", "mat-card-title", ""], ["", "mat-card-subtitle", ""], ["", "matCardTitle", ""], ["", "matCardSubtitle", ""]], [["", "mat-card-image", ""], ["", "matCardImage", ""], ["", "mat-card-sm-image", ""], ["", "matCardImageSmall", ""], ["", "mat-card-md-image", ""], ["", "matCardImageMedium", ""], ["", "mat-card-lg-image", ""], ["", "matCardImageLarge", ""], ["", "mat-card-xl-image", ""], ["", "matCardImageXLarge", ""]], "*"];
+var _c22 = ["mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]", "[mat-card-image], [matCardImage],\n                    [mat-card-sm-image], [matCardImageSmall],\n                    [mat-card-md-image], [matCardImageMedium],\n                    [mat-card-lg-image], [matCardImageLarge],\n                    [mat-card-xl-image], [matCardImageXLarge]", "*"];
+var _c32 = [[["", "mat-card-avatar", ""], ["", "matCardAvatar", ""]], [["mat-card-title"], ["mat-card-subtitle"], ["", "mat-card-title", ""], ["", "mat-card-subtitle", ""], ["", "matCardTitle", ""], ["", "matCardSubtitle", ""]], "*"];
+var _c42 = ["[mat-card-avatar], [matCardAvatar]", "mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]", "*"];
+var MAT_CARD_CONFIG = new InjectionToken("MAT_CARD_CONFIG");
+var MatCard = class _MatCard {
+  appearance;
+  constructor() {
+    const config2 = inject2(MAT_CARD_CONFIG, {
+      optional: true
+    });
+    this.appearance = config2?.appearance || "raised";
+  }
+  static \u0275fac = function MatCard_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCard)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatCard,
+    selectors: [["mat-card"]],
+    hostAttrs: [1, "mat-mdc-card", "mdc-card"],
+    hostVars: 8,
+    hostBindings: function MatCard_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275classProp("mat-mdc-card-outlined", ctx.appearance === "outlined")("mdc-card--outlined", ctx.appearance === "outlined")("mat-mdc-card-filled", ctx.appearance === "filled")("mdc-card--filled", ctx.appearance === "filled");
+      }
+    },
+    inputs: {
+      appearance: "appearance"
+    },
+    exportAs: ["matCard"],
+    ngContentSelectors: _c04,
+    decls: 1,
+    vars: 0,
+    template: function MatCard_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef();
+        \u0275\u0275projection(0);
+      }
+    },
+    styles: ['.mat-mdc-card{display:flex;flex-direction:column;box-sizing:border-box;position:relative;border-style:solid;border-width:0;background-color:var(--mat-card-elevated-container-color, var(--mat-sys-surface-container-low));border-color:var(--mat-card-elevated-container-color, var(--mat-sys-surface-container-low));border-radius:var(--mat-card-elevated-container-shape, var(--mat-sys-corner-medium));box-shadow:var(--mat-card-elevated-container-elevation, var(--mat-sys-level1))}.mat-mdc-card::after{position:absolute;top:0;left:0;width:100%;height:100%;border:solid 1px rgba(0,0,0,0);content:"";display:block;pointer-events:none;box-sizing:border-box;border-radius:var(--mat-card-elevated-container-shape, var(--mat-sys-corner-medium))}.mat-mdc-card-outlined{background-color:var(--mat-card-outlined-container-color, var(--mat-sys-surface));border-radius:var(--mat-card-outlined-container-shape, var(--mat-sys-corner-medium));border-width:var(--mat-card-outlined-outline-width, 1px);border-color:var(--mat-card-outlined-outline-color, var(--mat-sys-outline-variant));box-shadow:var(--mat-card-outlined-container-elevation, var(--mat-sys-level0))}.mat-mdc-card-outlined::after{border:none}.mat-mdc-card-filled{background-color:var(--mat-card-filled-container-color, var(--mat-sys-surface-container-highest));border-radius:var(--mat-card-filled-container-shape, var(--mat-sys-corner-medium));box-shadow:var(--mat-card-filled-container-elevation, var(--mat-sys-level0))}.mdc-card__media{position:relative;box-sizing:border-box;background-repeat:no-repeat;background-position:center;background-size:cover}.mdc-card__media::before{display:block;content:""}.mdc-card__media:first-child{border-top-left-radius:inherit;border-top-right-radius:inherit}.mdc-card__media:last-child{border-bottom-left-radius:inherit;border-bottom-right-radius:inherit}.mat-mdc-card-actions{display:flex;flex-direction:row;align-items:center;box-sizing:border-box;min-height:52px;padding:8px}.mat-mdc-card-title{font-family:var(--mat-card-title-text-font, var(--mat-sys-title-large-font));line-height:var(--mat-card-title-text-line-height, var(--mat-sys-title-large-line-height));font-size:var(--mat-card-title-text-size, var(--mat-sys-title-large-size));letter-spacing:var(--mat-card-title-text-tracking, var(--mat-sys-title-large-tracking));font-weight:var(--mat-card-title-text-weight, var(--mat-sys-title-large-weight))}.mat-mdc-card-subtitle{color:var(--mat-card-subtitle-text-color, var(--mat-sys-on-surface));font-family:var(--mat-card-subtitle-text-font, var(--mat-sys-title-medium-font));line-height:var(--mat-card-subtitle-text-line-height, var(--mat-sys-title-medium-line-height));font-size:var(--mat-card-subtitle-text-size, var(--mat-sys-title-medium-size));letter-spacing:var(--mat-card-subtitle-text-tracking, var(--mat-sys-title-medium-tracking));font-weight:var(--mat-card-subtitle-text-weight, var(--mat-sys-title-medium-weight))}.mat-mdc-card-title,.mat-mdc-card-subtitle{display:block;margin:0}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle{padding:16px 16px 0}.mat-mdc-card-header{display:flex;padding:16px 16px 0}.mat-mdc-card-content{display:block;padding:0 16px}.mat-mdc-card-content:first-child{padding-top:16px}.mat-mdc-card-content:last-child{padding-bottom:16px}.mat-mdc-card-title-group{display:flex;justify-content:space-between;width:100%}.mat-mdc-card-avatar{height:40px;width:40px;border-radius:50%;flex-shrink:0;margin-bottom:16px;object-fit:cover}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title{line-height:normal}.mat-mdc-card-sm-image{width:80px;height:80px}.mat-mdc-card-md-image{width:112px;height:112px}.mat-mdc-card-lg-image{width:152px;height:152px}.mat-mdc-card-xl-image{width:240px;height:240px}.mat-mdc-card-subtitle~.mat-mdc-card-title,.mat-mdc-card-title~.mat-mdc-card-subtitle,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-title-group .mat-mdc-card-title,.mat-mdc-card-title-group .mat-mdc-card-subtitle{padding-top:0}.mat-mdc-card-content>:last-child:not(.mat-mdc-card-footer){margin-bottom:0}.mat-mdc-card-actions-align-end{justify-content:flex-end}\n'],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCard, [{
+    type: Component,
+    args: [{
+      selector: "mat-card",
+      host: {
+        "class": "mat-mdc-card mdc-card",
+        "[class.mat-mdc-card-outlined]": 'appearance === "outlined"',
+        "[class.mdc-card--outlined]": 'appearance === "outlined"',
+        "[class.mat-mdc-card-filled]": 'appearance === "filled"',
+        "[class.mdc-card--filled]": 'appearance === "filled"'
+      },
+      exportAs: "matCard",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: "<ng-content></ng-content>\n",
+      styles: ['.mat-mdc-card{display:flex;flex-direction:column;box-sizing:border-box;position:relative;border-style:solid;border-width:0;background-color:var(--mat-card-elevated-container-color, var(--mat-sys-surface-container-low));border-color:var(--mat-card-elevated-container-color, var(--mat-sys-surface-container-low));border-radius:var(--mat-card-elevated-container-shape, var(--mat-sys-corner-medium));box-shadow:var(--mat-card-elevated-container-elevation, var(--mat-sys-level1))}.mat-mdc-card::after{position:absolute;top:0;left:0;width:100%;height:100%;border:solid 1px rgba(0,0,0,0);content:"";display:block;pointer-events:none;box-sizing:border-box;border-radius:var(--mat-card-elevated-container-shape, var(--mat-sys-corner-medium))}.mat-mdc-card-outlined{background-color:var(--mat-card-outlined-container-color, var(--mat-sys-surface));border-radius:var(--mat-card-outlined-container-shape, var(--mat-sys-corner-medium));border-width:var(--mat-card-outlined-outline-width, 1px);border-color:var(--mat-card-outlined-outline-color, var(--mat-sys-outline-variant));box-shadow:var(--mat-card-outlined-container-elevation, var(--mat-sys-level0))}.mat-mdc-card-outlined::after{border:none}.mat-mdc-card-filled{background-color:var(--mat-card-filled-container-color, var(--mat-sys-surface-container-highest));border-radius:var(--mat-card-filled-container-shape, var(--mat-sys-corner-medium));box-shadow:var(--mat-card-filled-container-elevation, var(--mat-sys-level0))}.mdc-card__media{position:relative;box-sizing:border-box;background-repeat:no-repeat;background-position:center;background-size:cover}.mdc-card__media::before{display:block;content:""}.mdc-card__media:first-child{border-top-left-radius:inherit;border-top-right-radius:inherit}.mdc-card__media:last-child{border-bottom-left-radius:inherit;border-bottom-right-radius:inherit}.mat-mdc-card-actions{display:flex;flex-direction:row;align-items:center;box-sizing:border-box;min-height:52px;padding:8px}.mat-mdc-card-title{font-family:var(--mat-card-title-text-font, var(--mat-sys-title-large-font));line-height:var(--mat-card-title-text-line-height, var(--mat-sys-title-large-line-height));font-size:var(--mat-card-title-text-size, var(--mat-sys-title-large-size));letter-spacing:var(--mat-card-title-text-tracking, var(--mat-sys-title-large-tracking));font-weight:var(--mat-card-title-text-weight, var(--mat-sys-title-large-weight))}.mat-mdc-card-subtitle{color:var(--mat-card-subtitle-text-color, var(--mat-sys-on-surface));font-family:var(--mat-card-subtitle-text-font, var(--mat-sys-title-medium-font));line-height:var(--mat-card-subtitle-text-line-height, var(--mat-sys-title-medium-line-height));font-size:var(--mat-card-subtitle-text-size, var(--mat-sys-title-medium-size));letter-spacing:var(--mat-card-subtitle-text-tracking, var(--mat-sys-title-medium-tracking));font-weight:var(--mat-card-subtitle-text-weight, var(--mat-sys-title-medium-weight))}.mat-mdc-card-title,.mat-mdc-card-subtitle{display:block;margin:0}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle{padding:16px 16px 0}.mat-mdc-card-header{display:flex;padding:16px 16px 0}.mat-mdc-card-content{display:block;padding:0 16px}.mat-mdc-card-content:first-child{padding-top:16px}.mat-mdc-card-content:last-child{padding-bottom:16px}.mat-mdc-card-title-group{display:flex;justify-content:space-between;width:100%}.mat-mdc-card-avatar{height:40px;width:40px;border-radius:50%;flex-shrink:0;margin-bottom:16px;object-fit:cover}.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-avatar~.mat-mdc-card-header-text .mat-mdc-card-title{line-height:normal}.mat-mdc-card-sm-image{width:80px;height:80px}.mat-mdc-card-md-image{width:112px;height:112px}.mat-mdc-card-lg-image{width:152px;height:152px}.mat-mdc-card-xl-image{width:240px;height:240px}.mat-mdc-card-subtitle~.mat-mdc-card-title,.mat-mdc-card-title~.mat-mdc-card-subtitle,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-title,.mat-mdc-card-header .mat-mdc-card-header-text .mat-mdc-card-subtitle,.mat-mdc-card-title-group .mat-mdc-card-title,.mat-mdc-card-title-group .mat-mdc-card-subtitle{padding-top:0}.mat-mdc-card-content>:last-child:not(.mat-mdc-card-footer){margin-bottom:0}.mat-mdc-card-actions-align-end{justify-content:flex-end}\n']
+    }]
+  }], () => [], {
+    appearance: [{
+      type: Input
+    }]
+  });
+})();
+var MatCardTitle = class _MatCardTitle {
+  static \u0275fac = function MatCardTitle_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardTitle)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardTitle,
+    selectors: [["mat-card-title"], ["", "mat-card-title", ""], ["", "matCardTitle", ""]],
+    hostAttrs: [1, "mat-mdc-card-title"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardTitle, [{
+    type: Directive,
+    args: [{
+      selector: `mat-card-title, [mat-card-title], [matCardTitle]`,
+      host: {
+        "class": "mat-mdc-card-title"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardTitleGroup = class _MatCardTitleGroup {
+  static \u0275fac = function MatCardTitleGroup_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardTitleGroup)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatCardTitleGroup,
+    selectors: [["mat-card-title-group"]],
+    hostAttrs: [1, "mat-mdc-card-title-group"],
+    ngContentSelectors: _c22,
+    decls: 4,
+    vars: 0,
+    template: function MatCardTitleGroup_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c13);
+        \u0275\u0275domElementStart(0, "div");
+        \u0275\u0275projection(1);
+        \u0275\u0275domElementEnd();
+        \u0275\u0275projection(2, 1);
+        \u0275\u0275projection(3, 2);
+      }
+    },
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardTitleGroup, [{
+    type: Component,
+    args: [{
+      selector: "mat-card-title-group",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      host: {
+        "class": "mat-mdc-card-title-group"
+      },
+      template: '<div>\n  <ng-content\n      select="mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]"></ng-content>\n</div>\n<ng-content select="[mat-card-image], [matCardImage],\n                    [mat-card-sm-image], [matCardImageSmall],\n                    [mat-card-md-image], [matCardImageMedium],\n                    [mat-card-lg-image], [matCardImageLarge],\n                    [mat-card-xl-image], [matCardImageXLarge]"></ng-content>\n<ng-content></ng-content>\n'
+    }]
+  }], null, null);
+})();
+var MatCardContent = class _MatCardContent {
+  static \u0275fac = function MatCardContent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardContent)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardContent,
+    selectors: [["mat-card-content"]],
+    hostAttrs: [1, "mat-mdc-card-content"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardContent, [{
+    type: Directive,
+    args: [{
+      selector: "mat-card-content",
+      host: {
+        "class": "mat-mdc-card-content"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardSubtitle = class _MatCardSubtitle {
+  static \u0275fac = function MatCardSubtitle_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardSubtitle)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardSubtitle,
+    selectors: [["mat-card-subtitle"], ["", "mat-card-subtitle", ""], ["", "matCardSubtitle", ""]],
+    hostAttrs: [1, "mat-mdc-card-subtitle"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardSubtitle, [{
+    type: Directive,
+    args: [{
+      selector: `mat-card-subtitle, [mat-card-subtitle], [matCardSubtitle]`,
+      host: {
+        "class": "mat-mdc-card-subtitle"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardActions = class _MatCardActions {
+  align = "start";
+  static \u0275fac = function MatCardActions_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardActions)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardActions,
+    selectors: [["mat-card-actions"]],
+    hostAttrs: [1, "mat-mdc-card-actions", "mdc-card__actions"],
+    hostVars: 2,
+    hostBindings: function MatCardActions_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275classProp("mat-mdc-card-actions-align-end", ctx.align === "end");
+      }
+    },
+    inputs: {
+      align: "align"
+    },
+    exportAs: ["matCardActions"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardActions, [{
+    type: Directive,
+    args: [{
+      selector: "mat-card-actions",
+      exportAs: "matCardActions",
+      host: {
+        "class": "mat-mdc-card-actions mdc-card__actions",
+        "[class.mat-mdc-card-actions-align-end]": 'align === "end"'
+      }
+    }]
+  }], null, {
+    align: [{
+      type: Input
+    }]
+  });
+})();
+var MatCardHeader = class _MatCardHeader {
+  static \u0275fac = function MatCardHeader_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardHeader)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatCardHeader,
+    selectors: [["mat-card-header"]],
+    hostAttrs: [1, "mat-mdc-card-header"],
+    ngContentSelectors: _c42,
+    decls: 4,
+    vars: 0,
+    consts: [[1, "mat-mdc-card-header-text"]],
+    template: function MatCardHeader_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef(_c32);
+        \u0275\u0275projection(0);
+        \u0275\u0275domElementStart(1, "div", 0);
+        \u0275\u0275projection(2, 1);
+        \u0275\u0275domElementEnd();
+        \u0275\u0275projection(3, 2);
+      }
+    },
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardHeader, [{
+    type: Component,
+    args: [{
+      selector: "mat-card-header",
+      encapsulation: ViewEncapsulation.None,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      host: {
+        "class": "mat-mdc-card-header"
+      },
+      template: '<ng-content select="[mat-card-avatar], [matCardAvatar]"></ng-content>\n<div class="mat-mdc-card-header-text">\n  <ng-content\n      select="mat-card-title, mat-card-subtitle,\n      [mat-card-title], [mat-card-subtitle],\n      [matCardTitle], [matCardSubtitle]"></ng-content>\n</div>\n<ng-content></ng-content>\n'
+    }]
+  }], null, null);
+})();
+var MatCardFooter = class _MatCardFooter {
+  static \u0275fac = function MatCardFooter_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardFooter)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardFooter,
+    selectors: [["mat-card-footer"]],
+    hostAttrs: [1, "mat-mdc-card-footer"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardFooter, [{
+    type: Directive,
+    args: [{
+      selector: "mat-card-footer",
+      host: {
+        "class": "mat-mdc-card-footer"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardImage = class _MatCardImage {
+  static \u0275fac = function MatCardImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardImage,
+    selectors: [["", "mat-card-image", ""], ["", "matCardImage", ""]],
+    hostAttrs: [1, "mat-mdc-card-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-image], [matCardImage]",
+      host: {
+        "class": "mat-mdc-card-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardSmImage = class _MatCardSmImage {
+  static \u0275fac = function MatCardSmImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardSmImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardSmImage,
+    selectors: [["", "mat-card-sm-image", ""], ["", "matCardImageSmall", ""]],
+    hostAttrs: [1, "mat-mdc-card-sm-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardSmImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-sm-image], [matCardImageSmall]",
+      host: {
+        "class": "mat-mdc-card-sm-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardMdImage = class _MatCardMdImage {
+  static \u0275fac = function MatCardMdImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardMdImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardMdImage,
+    selectors: [["", "mat-card-md-image", ""], ["", "matCardImageMedium", ""]],
+    hostAttrs: [1, "mat-mdc-card-md-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardMdImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-md-image], [matCardImageMedium]",
+      host: {
+        "class": "mat-mdc-card-md-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardLgImage = class _MatCardLgImage {
+  static \u0275fac = function MatCardLgImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardLgImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardLgImage,
+    selectors: [["", "mat-card-lg-image", ""], ["", "matCardImageLarge", ""]],
+    hostAttrs: [1, "mat-mdc-card-lg-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardLgImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-lg-image], [matCardImageLarge]",
+      host: {
+        "class": "mat-mdc-card-lg-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardXlImage = class _MatCardXlImage {
+  static \u0275fac = function MatCardXlImage_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardXlImage)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardXlImage,
+    selectors: [["", "mat-card-xl-image", ""], ["", "matCardImageXLarge", ""]],
+    hostAttrs: [1, "mat-mdc-card-xl-image", "mdc-card__media"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardXlImage, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-xl-image], [matCardImageXLarge]",
+      host: {
+        "class": "mat-mdc-card-xl-image mdc-card__media"
+      }
+    }]
+  }], null, null);
+})();
+var MatCardAvatar = class _MatCardAvatar {
+  static \u0275fac = function MatCardAvatar_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardAvatar)();
+  };
+  static \u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+    type: _MatCardAvatar,
+    selectors: [["", "mat-card-avatar", ""], ["", "matCardAvatar", ""]],
+    hostAttrs: [1, "mat-mdc-card-avatar"]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardAvatar, [{
+    type: Directive,
+    args: [{
+      selector: "[mat-card-avatar], [matCardAvatar]",
+      host: {
+        "class": "mat-mdc-card-avatar"
+      }
+    }]
+  }], null, null);
+})();
+var CARD_DIRECTIVES = [MatCard, MatCardActions, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader, MatCardImage, MatCardLgImage, MatCardMdImage, MatCardSmImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup, MatCardXlImage];
+var MatCardModule = class _MatCardModule {
+  static \u0275fac = function MatCardModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatCardModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _MatCardModule,
+    imports: [MatCard, MatCardActions, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader, MatCardImage, MatCardLgImage, MatCardMdImage, MatCardSmImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup, MatCardXlImage],
+    exports: [MatCard, MatCardActions, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader, MatCardImage, MatCardLgImage, MatCardMdImage, MatCardSmImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup, MatCardXlImage, BidiModule]
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [BidiModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatCardModule, [{
+    type: NgModule,
+    args: [{
+      imports: CARD_DIRECTIVES,
+      exports: [CARD_DIRECTIVES, BidiModule]
+    }]
+  }], null, null);
+})();
+
 // node_modules/@angular/forms/fesm2022/forms.mjs
 var BaseControlValueAccessor = class _BaseControlValueAccessor {
   _renderer;
@@ -47186,10 +47607,10 @@ var ApiService = class _ApiService {
   }], () => [{ type: HttpClient }], null);
 })();
 
-// src/app/app.ts
-function App_div_12_Template(rf, ctx) {
+// src/app/test/test.ts
+function Test_div_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 13);
+    \u0275\u0275elementStart(0, "div", 12);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -47199,7 +47620,7 @@ function App_div_12_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" Error: ", ctx_r0.dbError, " ");
   }
 }
-function App_div_13_tr_23_Template(rf, ctx) {
+function Test_div_6_tr_23_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "td");
     \u0275\u0275text(2);
@@ -47246,7 +47667,7 @@ function App_div_13_tr_23_Template(rf, ctx) {
     \u0275\u0275textInterpolate(row_r2.date_created);
   }
 }
-function App_div_13_Template(rf, ctx) {
+function Test_div_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "h3");
     \u0275\u0275text(2, "Last 10 diag_ans Records:");
@@ -47276,7 +47697,7 @@ function App_div_13_Template(rf, ctx) {
     \u0275\u0275text(21, "Date Created");
     \u0275\u0275elementEnd()()();
     \u0275\u0275elementStart(22, "tbody");
-    \u0275\u0275template(23, App_div_13_tr_23_Template, 17, 8, "tr", 14);
+    \u0275\u0275template(23, Test_div_6_tr_23_Template, 17, 8, "tr", 13);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -47285,16 +47706,16 @@ function App_div_13_Template(rf, ctx) {
     \u0275\u0275property("ngForOf", ctx_r0.dbData);
   }
 }
-function App_div_14_Template(rf, ctx) {
+function Test_div_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "p");
     \u0275\u0275text(2, "No data fetched yet. Click the button to fetch data.");
     \u0275\u0275elementEnd()();
   }
 }
-function App_div_25_Template(rf, ctx) {
+function Test_div_18_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 15)(1, "strong");
+    \u0275\u0275elementStart(0, "div", 14)(1, "strong");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3);
@@ -47309,16 +47730,16 @@ function App_div_25_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", message_r3.content, " ");
   }
 }
-function App_div_26_Template(rf, ctx) {
+function Test_div_19_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, "No chat history yet.");
     \u0275\u0275elementEnd();
   }
 }
-function App_div_33_Template(rf, ctx) {
+function Test_div_26_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 13);
+    \u0275\u0275elementStart(0, "div", 12);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -47328,7 +47749,7 @@ function App_div_33_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" Error: ", ctx_r0.aiError, " ");
   }
 }
-function App_div_34_Template(rf, ctx) {
+function Test_div_27_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "h3");
     \u0275\u0275text(2, "AI Raw Response:");
@@ -47344,9 +47765,8 @@ function App_div_34_Template(rf, ctx) {
     \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(5, 1, ctx_r0.aiResponse));
   }
 }
-var App = class _App {
+var Test = class _Test {
   apiService;
-  title = signal("Mock Bar App", ...ngDevMode ? [{ debugName: "title" }] : []);
   dbData = [];
   dbError = null;
   dbLoading = false;
@@ -47403,72 +47823,62 @@ var App = class _App {
       }
     });
   }
-  static \u0275fac = function App_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _App)(\u0275\u0275directiveInject(ApiService));
+  static \u0275fac = function Test_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _Test)(\u0275\u0275directiveInject(ApiService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 35, vars: 14, consts: [["mat-flat-button", "", "color", "primary"], [1, "db-test"], [3, "click", "disabled"], ["class", "error-message", 4, "ngIf"], [4, "ngIf"], [1, "ai-test"], [1, "ai-input"], ["for", "systemPrompt"], ["id", "systemPrompt", "rows", "3", 3, "ngModelChange", "ngModel"], [1, "ai-chat-history"], ["class", "chat-message", 3, "user", "assistant", 4, "ngFor", "ngForOf"], ["for", "userMessage"], ["id", "userMessage", "placeholder", "Type your message here...", 3, "ngModelChange", "keyup.enter", "ngModel"], [1, "error-message"], [4, "ngFor", "ngForOf"], [1, "chat-message"]], template: function App_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _Test, selectors: [["app-test"]], decls: 28, vars: 13, consts: [[1, "db-test"], [3, "click", "disabled"], ["class", "error-message", 4, "ngIf"], [4, "ngIf"], [1, "ai-test"], [1, "ai-input"], ["for", "systemPrompt"], ["id", "systemPrompt", "rows", "3", 3, "ngModelChange", "ngModel"], [1, "ai-chat-history"], ["class", "chat-message", 3, "user", "assistant", 4, "ngFor", "ngForOf"], ["for", "userMessage"], ["id", "userMessage", "placeholder", "Type your message here...", 3, "ngModelChange", "keyup.enter", "ngModel"], [1, "error-message"], [4, "ngFor", "ngForOf"], [1, "chat-message"]], template: function Test_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "main")(1, "h1");
-      \u0275\u0275text(2);
+      \u0275\u0275elementStart(0, "section", 0)(1, "h2");
+      \u0275\u0275text(2, "Database Test (db.php)");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(3, "button", 0)(4, "mat-icon");
-      \u0275\u0275text(5, "home");
-      \u0275\u0275elementEnd();
-      \u0275\u0275text(6, " Material Button ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(7, "section", 1)(8, "h2");
-      \u0275\u0275text(9, "Database Test (db.php)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(10, "button", 2);
-      \u0275\u0275listener("click", function App_Template_button_click_10_listener() {
+      \u0275\u0275elementStart(3, "button", 1);
+      \u0275\u0275listener("click", function Test_Template_button_click_3_listener() {
         return ctx.fetchDbData();
       });
-      \u0275\u0275text(11);
+      \u0275\u0275text(4);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(12, App_div_12_Template, 2, 1, "div", 3)(13, App_div_13_Template, 24, 1, "div", 4)(14, App_div_14_Template, 3, 0, "div", 4);
+      \u0275\u0275template(5, Test_div_5_Template, 2, 1, "div", 2)(6, Test_div_6_Template, 24, 1, "div", 3)(7, Test_div_7_Template, 3, 0, "div", 3);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(15, "section", 5)(16, "h2");
-      \u0275\u0275text(17, "AI Test (ai.php)");
+      \u0275\u0275elementStart(8, "section", 4)(9, "h2");
+      \u0275\u0275text(10, "AI Test (ai.php)");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(18, "div", 6)(19, "label", 7);
-      \u0275\u0275text(20, "System Prompt:");
+      \u0275\u0275elementStart(11, "div", 5)(12, "label", 6);
+      \u0275\u0275text(13, "System Prompt:");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(21, "textarea", 8);
-      \u0275\u0275twoWayListener("ngModelChange", function App_Template_textarea_ngModelChange_21_listener($event) {
+      \u0275\u0275elementStart(14, "textarea", 7);
+      \u0275\u0275twoWayListener("ngModelChange", function Test_Template_textarea_ngModelChange_14_listener($event) {
         \u0275\u0275twoWayBindingSet(ctx.aiSystemPrompt, $event) || (ctx.aiSystemPrompt = $event);
         return $event;
       });
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(22, "div", 9)(23, "h3");
-      \u0275\u0275text(24, "Chat History:");
+      \u0275\u0275elementStart(15, "div", 8)(16, "h3");
+      \u0275\u0275text(17, "Chat History:");
       \u0275\u0275elementEnd();
-      \u0275\u0275template(25, App_div_25_Template, 4, 6, "div", 10)(26, App_div_26_Template, 2, 0, "div", 4);
+      \u0275\u0275template(18, Test_div_18_Template, 4, 6, "div", 9)(19, Test_div_19_Template, 2, 0, "div", 3);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(27, "div", 6)(28, "label", 11);
-      \u0275\u0275text(29, "Your Message:");
+      \u0275\u0275elementStart(20, "div", 5)(21, "label", 10);
+      \u0275\u0275text(22, "Your Message:");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(30, "input", 12);
-      \u0275\u0275twoWayListener("ngModelChange", function App_Template_input_ngModelChange_30_listener($event) {
+      \u0275\u0275elementStart(23, "input", 11);
+      \u0275\u0275twoWayListener("ngModelChange", function Test_Template_input_ngModelChange_23_listener($event) {
         \u0275\u0275twoWayBindingSet(ctx.aiUserMessage, $event) || (ctx.aiUserMessage = $event);
         return $event;
       });
-      \u0275\u0275listener("keyup.enter", function App_Template_input_keyup_enter_30_listener() {
+      \u0275\u0275listener("keyup.enter", function Test_Template_input_keyup_enter_23_listener() {
         return ctx.sendAiMessage();
       });
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(31, "button", 2);
-      \u0275\u0275listener("click", function App_Template_button_click_31_listener() {
+      \u0275\u0275elementStart(24, "button", 1);
+      \u0275\u0275listener("click", function Test_Template_button_click_24_listener() {
         return ctx.sendAiMessage();
       });
-      \u0275\u0275text(32);
+      \u0275\u0275text(25);
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(33, App_div_33_Template, 2, 1, "div", 3)(34, App_div_34_Template, 6, 3, "div", 4);
-      \u0275\u0275elementEnd()();
+      \u0275\u0275template(26, Test_div_26_Template, 2, 1, "div", 2)(27, Test_div_27_Template, 6, 3, "div", 3);
+      \u0275\u0275elementEnd();
     }
     if (rf & 2) {
-      \u0275\u0275advance(2);
-      \u0275\u0275textInterpolate(ctx.title());
-      \u0275\u0275advance(8);
+      \u0275\u0275advance(3);
       \u0275\u0275property("disabled", ctx.dbLoading);
       \u0275\u0275advance();
       \u0275\u0275textInterpolate1(" ", ctx.dbLoading ? "Loading..." : "Fetch diag_ans Data", " ");
@@ -47495,97 +47905,227 @@ var App = class _App {
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.aiResponse);
     }
-  }, dependencies: [CommonModule, NgForOf, NgIf, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel, MatButtonModule, MatButton, MatIconModule, MatIcon, JsonPipe], encapsulation: 2 });
+  }, dependencies: [CommonModule, NgForOf, NgIf, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel, MatButtonModule, MatIconModule, JsonPipe], styles: ["\n\n.db-test[_ngcontent-%COMP%], \n.ai-test[_ngcontent-%COMP%] {\n  padding: 20px;\n  margin: 20px;\n  border: 1px solid #ccc;\n  border-radius: 8px;\n  background-color: #f9f9f9;\n}\n.db-test[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%], \n.ai-test[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  color: #3f51b5;\n  margin-bottom: 15px;\n}\n.db-test[_ngcontent-%COMP%]   button[_ngcontent-%COMP%], \n.ai-test[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  background-color: #007bff;\n  color: white;\n  border: none;\n  padding: 10px 15px;\n  border-radius: 5px;\n  cursor: pointer;\n  font-size: 1em;\n}\n.db-test[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]:disabled, \n.ai-test[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]:disabled {\n  background-color: #cccccc;\n  cursor: not-allowed;\n}\n.error-message[_ngcontent-%COMP%] {\n  color: #dc3545;\n  margin-top: 10px;\n  font-weight: bold;\n}\n.db-test[_ngcontent-%COMP%]   table[_ngcontent-%COMP%] {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n}\n.db-test[_ngcontent-%COMP%]   th[_ngcontent-%COMP%], \n.db-test[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n.db-test[_ngcontent-%COMP%]   th[_ngcontent-%COMP%] {\n  background-color: #f2f2f2;\n  font-weight: bold;\n}\n.ai-input[_ngcontent-%COMP%] {\n  margin-bottom: 15px;\n}\n.ai-input[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  display: block;\n  margin-bottom: 5px;\n  font-weight: bold;\n}\n.ai-input[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%], \n.ai-input[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 8px;\n  margin-bottom: 10px;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  box-sizing: border-box;\n}\n.ai-chat-history[_ngcontent-%COMP%] {\n  border: 1px solid #eee;\n  padding: 10px;\n  height: 200px;\n  overflow-y: auto;\n  background-color: white;\n  margin-bottom: 15px;\n  border-radius: 4px;\n}\n.chat-message[_ngcontent-%COMP%] {\n  margin-bottom: 8px;\n  padding: 5px;\n  border-radius: 5px;\n}\n.chat-message.user[_ngcontent-%COMP%] {\n  background-color: #e6f7ff;\n  text-align: right;\n}\n.chat-message.assistant[_ngcontent-%COMP%] {\n  background-color: #f0f0f0;\n  text-align: left;\n}\n.ai-raw-response[_ngcontent-%COMP%]   pre[_ngcontent-%COMP%] {\n  background-color: #e9ecef;\n  padding: 10px;\n  border-radius: 4px;\n  white-space: pre-wrap;\n  word-break: break-all;\n}\n/*# sourceMappingURL=test.css.map */"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Test, [{
+    type: Component,
+    args: [{ selector: "app-test", standalone: true, imports: [CommonModule, FormsModule, MatButtonModule, MatIconModule], template: `<section class="db-test">
+  <h2>Database Test (db.php)</h2>
+  <button (click)="fetchDbData()" [disabled]="dbLoading">
+    {{ dbLoading ? 'Loading...' : 'Fetch diag_ans Data' }}
+  </button>
+
+  <div *ngIf="dbError" class="error-message">
+    Error: {{ dbError }}
+  </div>
+
+  <div *ngIf="dbData.length > 0">
+    <h3>Last 10 diag_ans Records:</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User ID</th>
+          <th>Batch ID</th>
+          <th>Question ID</th>
+          <th>Answer</th>
+          <th>Score</th>
+          <th>Feedback</th>
+          <th>Date Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of dbData">
+          <td>{{ row.id }}</td>
+          <td>{{ row.user_id }}</td>
+          <td>{{ row.batch_id }}</td>
+          <td>{{ row.question_id }}</td>
+          <td>{{ row.answer }}</td>
+          <td>{{ row.score }}</td>
+          <td>{{ row.feedback }}</td>
+          <td>{{ row.date_created }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!dbLoading && dbData.length === 0 && !dbError">
+    <p>No data fetched yet. Click the button to fetch data.</p>
+  </div>
+</section>
+
+<section class="ai-test">
+  <h2>AI Test (ai.php)</h2>
+  <div class="ai-input">
+    <label for="systemPrompt">System Prompt:</label>
+    <textarea id="systemPrompt" [(ngModel)]="aiSystemPrompt" rows="3"></textarea>
+  </div>
+  
+  <div class="ai-chat-history">
+    <h3>Chat History:</h3>
+    <div *ngFor="let message of aiHistory" class="chat-message" [class.user]="message.role === 'user'" [class.assistant]="message.role === 'assistant'">
+      <strong>{{ message.role === 'user' ? 'You' : 'AI' }}:</strong> {{ message.content }}
+    </div>
+    <div *ngIf="aiHistory.length === 0">No chat history yet.</div>
+  </div>
+
+  <div class="ai-input">
+    <label for="userMessage">Your Message:</label>
+    <input id="userMessage" [(ngModel)]="aiUserMessage" (keyup.enter)="sendAiMessage()" placeholder="Type your message here...">
+    <button (click)="sendAiMessage()" [disabled]="aiLoading || !aiUserMessage.trim()">
+      {{ aiLoading ? 'Sending...' : 'Send to AI' }}
+    </button>
+  </div>
+
+  <div *ngIf="aiError" class="error-message">
+    Error: {{ aiError }}
+  </div>
+
+  <div *ngIf="aiResponse">
+    <h3>AI Raw Response:</h3>
+    <pre>{{ aiResponse | json }}</pre>
+  </div>
+</section>`, styles: ["/* src/app/test/test.css */\n.db-test,\n.ai-test {\n  padding: 20px;\n  margin: 20px;\n  border: 1px solid #ccc;\n  border-radius: 8px;\n  background-color: #f9f9f9;\n}\n.db-test h2,\n.ai-test h2 {\n  color: #3f51b5;\n  margin-bottom: 15px;\n}\n.db-test button,\n.ai-test button {\n  background-color: #007bff;\n  color: white;\n  border: none;\n  padding: 10px 15px;\n  border-radius: 5px;\n  cursor: pointer;\n  font-size: 1em;\n}\n.db-test button:disabled,\n.ai-test button:disabled {\n  background-color: #cccccc;\n  cursor: not-allowed;\n}\n.error-message {\n  color: #dc3545;\n  margin-top: 10px;\n  font-weight: bold;\n}\n.db-test table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n}\n.db-test th,\n.db-test td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n.db-test th {\n  background-color: #f2f2f2;\n  font-weight: bold;\n}\n.ai-input {\n  margin-bottom: 15px;\n}\n.ai-input label {\n  display: block;\n  margin-bottom: 5px;\n  font-weight: bold;\n}\n.ai-input textarea,\n.ai-input input {\n  width: 100%;\n  padding: 8px;\n  margin-bottom: 10px;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  box-sizing: border-box;\n}\n.ai-chat-history {\n  border: 1px solid #eee;\n  padding: 10px;\n  height: 200px;\n  overflow-y: auto;\n  background-color: white;\n  margin-bottom: 15px;\n  border-radius: 4px;\n}\n.chat-message {\n  margin-bottom: 8px;\n  padding: 5px;\n  border-radius: 5px;\n}\n.chat-message.user {\n  background-color: #e6f7ff;\n  text-align: right;\n}\n.chat-message.assistant {\n  background-color: #f0f0f0;\n  text-align: left;\n}\n.ai-raw-response pre {\n  background-color: #e9ecef;\n  padding: 10px;\n  border-radius: 4px;\n  white-space: pre-wrap;\n  word-break: break-all;\n}\n/*# sourceMappingURL=test.css.map */\n"] }]
+  }], () => [{ type: ApiService }], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Test, { className: "Test", filePath: "src/app/test/test.ts", lineNumber: 15 });
+})();
+
+// src/app/app.ts
+function App_mat_card_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "mat-card", 6);
+    \u0275\u0275element(1, "img", 7);
+    \u0275\u0275elementStart(2, "mat-card-header")(3, "mat-card-title");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "mat-card-subtitle");
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(7, "mat-card-content")(8, "p");
+    \u0275\u0275text(9);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(10, "p")(11, "strong");
+    \u0275\u0275text(12, "Price:");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(13);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(14, "p")(15, "strong");
+    \u0275\u0275text(16, "Level:");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(17);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(18, "mat-card-actions")(19, "button", 8);
+    \u0275\u0275text(20, "View Details");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(21, "button", 8);
+    \u0275\u0275text(22, "Add to Cart");
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const course_r1 = ctx.$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275property("src", course_r1.thumbnail, \u0275\u0275sanitizeUrl);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(course_r1.title);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(course_r1.short_description);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1("", course_r1.description.substring(0, 100), "...");
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1(" ", course_r1.price);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1(" ", course_r1.level);
+  }
+}
+function App_div_12_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 9)(1, "p");
+    \u0275\u0275text(2, "No courses available yet. Please check back later!");
+    \u0275\u0275elementEnd()();
+  }
+}
+var App = class _App {
+  title = signal("Mock Bar App", ...ngDevMode ? [{ debugName: "title" }] : []);
+  // Placeholder for courses
+  courses = [
+    {
+      id: 1,
+      title: "Introduction to Angular",
+      short_description: "Learn the basics of Angular framework.",
+      description: "This course covers the fundamental concepts of Angular development, including components, services, routing, and forms.",
+      thumbnail: "https://via.placeholder.com/300x200?text=Angular+Course",
+      price: "Free",
+      level: "Beginner"
+    },
+    {
+      id: 2,
+      title: "Advanced PHP API Development",
+      short_description: "Deep dive into building robust PHP APIs.",
+      description: "Explore advanced topics in PHP API development, including authentication, authorization, and database integration.",
+      thumbnail: "https://via.placeholder.com/300x200?text=PHP+API+Course",
+      price: "$49.99",
+      level: "Intermediate"
+    },
+    {
+      id: 3,
+      title: "Material Design with Angular",
+      short_description: "Build beautiful UIs with Angular Material.",
+      description: "Master the art of creating stunning user interfaces using Angular Material components and best practices.",
+      thumbnail: "https://via.placeholder.com/300x200?text=Material+Design",
+      price: "$29.99",
+      level: "Beginner"
+    },
+    {
+      id: 4,
+      title: "Database Design Fundamentals",
+      short_description: "Understand the principles of good database design.",
+      description: "Learn about relational database concepts, ER diagrams, normalization, and SQL optimization.",
+      thumbnail: "https://via.placeholder.com/300x200?text=Database+Design",
+      price: "$39.99",
+      level: "Beginner"
+    }
+  ];
+  constructor() {
+  }
+  static \u0275fac = function App_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _App)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 14, vars: 3, consts: [[1, "banner"], ["src", "https://via.placeholder.com/1200x300?text=Inspiring+Banner", "alt", "Banner Image"], [1, "courses-section"], [1, "course-cards"], ["class", "course-card", 4, "ngFor", "ngForOf"], ["class", "no-courses", 4, "ngIf"], [1, "course-card"], ["mat-card-image", "", "alt", "Course Thumbnail", 3, "src"], ["mat-button", ""], [1, "no-courses"]], template: function App_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "main")(1, "div", 0)(2, "h1");
+      \u0275\u0275text(3);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(4, "p");
+      \u0275\u0275text(5, "Your journey to knowledge starts here!");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(6, "img", 1);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(7, "section", 2)(8, "h2");
+      \u0275\u0275text(9, "Our Courses");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(10, "div", 3);
+      \u0275\u0275template(11, App_mat_card_11_Template, 23, 6, "mat-card", 4)(12, App_div_12_Template, 3, 0, "div", 5);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(13, "app-test");
+      \u0275\u0275elementEnd();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(3);
+      \u0275\u0275textInterpolate1("Welcome to ", ctx.title());
+      \u0275\u0275advance(8);
+      \u0275\u0275property("ngForOf", ctx.courses);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.courses.length === 0);
+    }
+  }, dependencies: [CommonModule, NgForOf, NgIf, MatButtonModule, MatButton, MatIconModule, MatCardModule, MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardImage, MatCardSubtitle, MatCardTitle, Test], styles: ["\n\n.banner[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n  background-color: #f0f0f0;\n  margin-bottom: 20px;\n}\n.banner[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 2.5em;\n  color: #3f51b5;\n}\n.banner[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 1.2em;\n  color: #666;\n}\n.banner[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  max-width: 100%;\n  height: auto;\n  margin-top: 20px;\n  border-radius: 8px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.courses-section[_ngcontent-%COMP%] {\n  padding: 20px;\n}\n.courses-section[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-bottom: 30px;\n  color: #3f51b5;\n}\n.course-cards[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n  gap: 20px;\n  justify-content: center;\n}\n.course-card[_ngcontent-%COMP%] {\n  max-width: 350px;\n  width: 100%;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-image[_ngcontent-%COMP%] {\n  height: 200px;\n  object-fit: cover;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-header[_ngcontent-%COMP%] {\n  padding-bottom: 0;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-title[_ngcontent-%COMP%] {\n  font-size: 1.2em;\n  font-weight: bold;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-subtitle[_ngcontent-%COMP%] {\n  color: #757575;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.no-courses[_ngcontent-%COMP%] {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\n/*# sourceMappingURL=app.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(App, [{
     type: Component,
-    args: [{ selector: "app-root", standalone: true, imports: [CommonModule, FormsModule, MatButtonModule, MatIconModule], template: `<main>
-  <h1>{{ title() }}</h1>
-
-  <button mat-flat-button color="primary">
-    <mat-icon>home</mat-icon>
-    Material Button
-  </button>
-
-  <section class="db-test">
-    <h2>Database Test (db.php)</h2>
-    <button (click)="fetchDbData()" [disabled]="dbLoading">
-      {{ dbLoading ? 'Loading...' : 'Fetch diag_ans Data' }}
-    </button>
-
-    <div *ngIf="dbError" class="error-message">
-      Error: {{ dbError }}
-    </div>
-
-    <div *ngIf="dbData.length > 0">
-      <h3>Last 10 diag_ans Records:</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>User ID</th>
-            <th>Batch ID</th>
-            <th>Question ID</th>
-            <th>Answer</th>
-            <th>Score</th>
-            <th>Feedback</th>
-            <th>Date Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of dbData">
-            <td>{{ row.id }}</td>
-            <td>{{ row.user_id }}</td>
-            <td>{{ row.batch_id }}</td>
-            <td>{{ row.question_id }}</td>
-            <td>{{ row.answer }}</td>
-            <td>{{ row.score }}</td>
-            <td>{{ row.feedback }}</td>
-            <td>{{ row.date_created }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div *ngIf="!dbLoading && dbData.length === 0 && !dbError">
-      <p>No data fetched yet. Click the button to fetch data.</p>
-    </div>
-  </section>
-
-  <section class="ai-test">
-    <h2>AI Test (ai.php)</h2>
-    <div class="ai-input">
-      <label for="systemPrompt">System Prompt:</label>
-      <textarea id="systemPrompt" [(ngModel)]="aiSystemPrompt" rows="3"></textarea>
-    </div>
-    
-    <div class="ai-chat-history">
-      <h3>Chat History:</h3>
-      <div *ngFor="let message of aiHistory" class="chat-message" [class.user]="message.role === 'user'" [class.assistant]="message.role === 'assistant'">
-        <strong>{{ message.role === 'user' ? 'You' : 'AI' }}:</strong> {{ message.content }}
-      </div>
-      <div *ngIf="aiHistory.length === 0">No chat history yet.</div>
-    </div>
-
-    <div class="ai-input">
-      <label for="userMessage">Your Message:</label>
-      <input id="userMessage" [(ngModel)]="aiUserMessage" (keyup.enter)="sendAiMessage()" placeholder="Type your message here...">
-      <button (click)="sendAiMessage()" [disabled]="aiLoading || !aiUserMessage.trim()">
-        {{ aiLoading ? 'Sending...' : 'Send to AI' }}
-      </button>
-    </div>
-
-    <div *ngIf="aiError" class="error-message">
-      Error: {{ aiError }}
-    </div>
-
-    <div *ngIf="aiResponse">
-      <h3>AI Raw Response:</h3>
-      <pre>{{ aiResponse | json }}</pre>
-    </div>
-  </section>
-</main>` }]
-  }], () => [{ type: ApiService }], null);
+    args: [{ selector: "app-root", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, Test], template: '<main>\n  <div class="banner">\n    <h1>Welcome to {{ title() }}</h1>\n    <p>Your journey to knowledge starts here!</p>\n    <!-- Placeholder for a banner image -->\n    <img src="https://via.placeholder.com/1200x300?text=Inspiring+Banner" alt="Banner Image">\n  </div>\n\n  <section class="courses-section">\n    <h2>Our Courses</h2>\n    <div class="course-cards">\n      <!-- Course cards will be rendered here -->\n      <mat-card *ngFor="let course of courses" class="course-card">\n        <img mat-card-image [src]="course.thumbnail" alt="Course Thumbnail">\n        <mat-card-header>\n          <mat-card-title>{{ course.title }}</mat-card-title>\n          <mat-card-subtitle>{{ course.short_description }}</mat-card-subtitle>\n        </mat-card-header>\n        <mat-card-content>\n          <p>{{ course.description.substring(0, 100) }}...</p>\n          <p><strong>Price:</strong> {{ course.price }}</p>\n          <p><strong>Level:</strong> {{ course.level }}</p>\n        </mat-card-content>\n        <mat-card-actions>\n          <button mat-button>View Details</button>\n          <button mat-button>Add to Cart</button>\n        </mat-card-actions>\n      </mat-card>\n      <div *ngIf="courses.length === 0" class="no-courses">\n        <p>No courses available yet. Please check back later!</p>\n      </div>\n    </div>\n  </section>\n\n  <app-test></app-test>\n</main>', styles: ["/* src/app/app.css */\n.banner {\n  text-align: center;\n  padding: 20px;\n  background-color: #f0f0f0;\n  margin-bottom: 20px;\n}\n.banner h1 {\n  font-size: 2.5em;\n  color: #3f51b5;\n}\n.banner p {\n  font-size: 1.2em;\n  color: #666;\n}\n.banner img {\n  max-width: 100%;\n  height: auto;\n  margin-top: 20px;\n  border-radius: 8px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.courses-section {\n  padding: 20px;\n}\n.courses-section h2 {\n  text-align: center;\n  margin-bottom: 30px;\n  color: #3f51b5;\n}\n.course-cards {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n  gap: 20px;\n  justify-content: center;\n}\n.course-card {\n  max-width: 350px;\n  width: 100%;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n}\n.course-card mat-card-image {\n  height: 200px;\n  object-fit: cover;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1.2em;\n  font-weight: bold;\n}\n.course-card mat-card-subtitle {\n  color: #757575;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\n/*# sourceMappingURL=app.css.map */\n"] }]
+  }], () => [], null);
 })();
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 15 });

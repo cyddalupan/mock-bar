@@ -30,7 +30,11 @@ The `db.php` and `ai.php` files are currently considered stable. Future developm
 
 ## Frontend Application (`/angular`)
 
-The frontend is an Angular application.
+The frontend is an Angular application. We will be heavily utilizing Angular Material for UI components and its icon library.
+
+## Database Schema (`SCHEMA.md`)
+
+The database schema is documented in `SCHEMA.md`.
 
 ### Angular Material Design and Fonts
 
