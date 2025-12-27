@@ -32,6 +32,87 @@ The `db.php` and `ai.php` files are currently considered stable. Future developm
 
 The frontend is an Angular application.
 
+### Angular Material Design and Fonts
+
+Angular Material has been successfully integrated for UI components and Material Icons are enabled.
+
+**Installation and Setup:**
+1.  **Install Angular Material:**
+    ```bash
+    cd angular
+    ng add @angular/material --skip-confirmation
+    ```
+    This command handles most of the setup, including adding a theme file and updating `angular.json` and `index.html`.
+
+2.  **Enable Animations:**
+    Ensure `provideAnimations()` is included in the `providers` array in `angular/src/app/app.config.ts`.
+    ```typescript
+    // angular/src/app/app.config.ts
+    import { provideAnimations } from '@angular/platform-browser/animations';
+    // ... other imports
+
+    export const appConfig: ApplicationConfig = {
+      providers: [
+        // ... other providers
+        provideAnimations(),
+      ]
+    };
+    ```
+
+3.  **Import Material Modules (Standalone Components):**
+    For standalone components, import specific Material modules into the `imports` array of the component where they are used. For global availability, use `importProvidersFrom` in `app.config.ts`.
+    Example for `app.config.ts` (for global availability of `MatButtonModule` and `MatIconModule`):
+    ```typescript
+    // angular/src/app/app.config.ts
+    import { importProvidersFrom } from '@angular/core';
+    import { MatButtonModule } from '@angular/material/button';
+    import { MatIconModule } from '@angular/material/icon';
+    // ... other imports
+
+    export const appConfig: ApplicationConfig = {
+      providers: [
+        // ... other providers
+        importProvidersFrom(MatButtonModule, MatIconModule)
+      ]
+    };
+    ```
+    Example for `app.ts` (standalone component):
+    ```typescript
+    // angular/src/app/app.ts
+    import { MatButtonModule } from '@angular/material/button';
+    import { MatIconModule } from '@angular/material/icon';
+    // ... other imports
+
+    @Component({
+      // ...
+      standalone: true,
+      imports: [
+        // ... other imports
+        MatButtonModule,
+        MatIconModule
+      ],
+      // ...
+    })
+    export class App { /* ... */ }
+    ```
+
+4.  **Material Icons and Fonts:**
+    The `ng add @angular/material` command typically adds the necessary links for Material Icons and Roboto font to `angular/src/index.html`. Verify the following lines are present in the `<head>` section:
+    ```html
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    ```
+    Material icons can be used in templates with the `mat-icon` component: `<mat-icon>home</mat-icon>`.
+
+**Usage Example:**
+```html
+<!-- angular/src/app/app.html -->
+<button mat-flat-button color="primary">
+  <mat-icon>home</mat-icon>
+  Material Button
+</button>
+```
+
 **Initial Homepage Functionality:**
 The Angular application's initial homepage will feature test functionalities for both the `db.php` and `ai.php` APIs.
 *   **Database Test:** Display results from a simple `SELECT` query on an existing table `diag_ans` with columns: `id`, `user_id`, `batch_id`, `question_id`, `answer`, `score`, `feedback`, `date_created`.
@@ -48,6 +129,7 @@ The Angular application's initial homepage will feature test functionalities for
     *   **Build & Push:** After making any significant code changes in the Angular application, always run `npm run build` from the `/angular` directory. Subsequently, all changes, including the newly built files within the `/bar` directory, must be committed and pushed to the Git repository.
     *   **Deployment & Testing:** The remote server will then pull the latest changes (e.g., via `gitpull.php`) to update the application for testing. This ensures the deployed version always reflects the latest built and pushed code.
 *   **Strict Typing:** Implement strict typing throughout the Angular project, utilizing detailed interfaces and classes. This helps catch issues during `npm run build` and improves code quality.
+*   **Proactive Documentation:** Maintain `GEMINI.md` as a living document. Any significant setup steps, encountered challenges, or solutions (especially related to project configurations or library integrations) should be added to this file to serve as a knowledge base and prevent re-solving the same issues.
 
 ## Development Plan
 

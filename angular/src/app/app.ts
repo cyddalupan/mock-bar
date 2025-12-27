@@ -2,11 +2,13 @@ import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { ApiService } from './services/api.service';
+import { MatButtonModule } from '@angular/material/button'; // Import MatButtonModule
+import { MatIconModule } from '@angular/material/icon';     // Import MatIconModule
 
 @Component({
   selector: 'app-root',
   standalone: true, // Mark as standalone
-  imports: [CommonModule, FormsModule], // Add CommonModule and FormsModule here
+  imports: [CommonModule, FormsModule, MatButtonModule, MatIconModule], // Add CommonModule, FormsModule, MatButtonModule, and MatIconModule here
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

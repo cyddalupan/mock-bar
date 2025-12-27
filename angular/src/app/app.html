@@ -1,6 +1,11 @@
 <main>
   <h1>{{ title() }}</h1>
 
+  <button mat-flat-button color="primary">
+    <mat-icon>home</mat-icon>
+    Material Button
+  </button>
+
   <section class="db-test">
     <h2>Database Test (db.php)</h2>
     <button (click)="fetchDbData()" [disabled]="dbLoading">
