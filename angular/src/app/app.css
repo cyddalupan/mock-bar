@@ -28,7 +28,6 @@
 }
 
 .course-card {
-  max-width: 100%; /* Ensure card does not exceed its grid column */
   display: flex;
   flex-direction: column;
   height: 100%; /* Ensures all cards in a row try to match height */
