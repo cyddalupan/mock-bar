@@ -53,6 +53,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-height: 2.8em; /* Approximate height for two lines of text */
+  line-height: 1.4em; /* Ensure consistent line height */
 }
 
 .course-card mat-card-content {

@@ -35,7 +35,7 @@ export class App implements OnInit {
           category.courses = category.courses.map((course: any) => ({
             ...course,
             category_name: category.category_name, // Add category name to each course
-            thumbnail: course.upcoming_image_thumbnail || 'https://via.placeholder.com/300x200?text=No+Image'
+            thumbnail: course.upcoming_image_thumbnail || 'https://premierebarreview.com/mock/img/placeholder.jpg'
           }));
           // Add processed courses to the temporary array
           tempAllCourses = tempAllCourses.concat(category.courses);
