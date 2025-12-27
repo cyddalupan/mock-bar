@@ -5,9 +5,9 @@
   # Handle API requests
   RewriteRule ^api/(.*)$ api/$1 [L]
 
-  # Serve Angular app from mock-bar subdirectory
+  # Serve Angular app from bar subdirectory under /mock/
   # If the request is for a file that exists, serve it directly
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^mock-bar/(.*)$ mock-bar/index.html [L]
+  RewriteRule ^mock/bar/(.*)$ bar/index.html [L]
 </IfModule>

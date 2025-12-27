@@ -44,15 +44,15 @@
                 }
               ],
               "outputHashing": "all",
-              "outputPath": "../../mock-bar",
-              "baseHref": "/mock-bar/"
+              "outputPath": "../../bar",
+              "baseHref": "/mock/bar/"
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "outputPath": "../../mock-bar",
-              "baseHref": "/mock-bar/"
+              "outputPath": "../../bar",
+              "baseHref": "/mock/bar/"
             }
           },
           "defaultConfiguration": "production"
