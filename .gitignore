@@ -11,8 +11,9 @@
 /.nyc_output
 
 # Production
-/dist
-/build
+# /dist (User explicitly requested not to ignore build output)
+# /build (User explicitly requested not to ignore build output)
+
 
 # Misc
 .DS_Store

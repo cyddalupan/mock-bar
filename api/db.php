@@ -1,31 +1,5 @@
 <?php
-// Function to parse the .env file and load variables
-function loadEnv($path)
-{
-    if (!file_exists($path)) {
-        return false;
-    }
-
-    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) {
-            continue;
-        }
-
-        list($name, $value) = explode('=', $line, 2);
-        $name = trim($name);
-        $value = trim($value);
-
-        if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
-            putenv(sprintf('%s=%s', $name, $value));
-            $_ENV[$name] = $value;
-            $_SERVER[$name] = $value;
-        }
-    }
-}
-
-// Load the .env file
-loadEnv(__DIR__ . '/../.env');
+require_once 'encryption.php'; // Includes encryption functions and loads .env
 
 // Get database credentials from .env
 $db_host = $_ENV['DB_HOST'];
@@ -38,31 +12,62 @@ $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name);
 
 // Check for connection errors
 if ($mysqli->connect_error) {
-    die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
+    // In a real application, you might want to log this error and return a generic message
+    die(encryptData(['error' => 'Database connection failed.']));
 }
 
 // Function to execute a query
-// This is a placeholder and will be expanded to handle encrypted queries
 function executeQuery($query, $params = []) {
     global $mysqli;
 
     $stmt = $mysqli->prepare($query);
 
     if ($stmt === false) {
-        die('Prepare failed: ' . htmlspecialchars($mysqli->error));
+        return ['error' => 'Prepare failed: ' . htmlspecialchars($mysqli->error)];
     }
 
     if (!empty($params)) {
-        $types = str_repeat('s', count($params));
+        // Dynamically determine types
+        $types = '';
+        foreach ($params as $param) {
+            if (is_int($param)) {
+                $types .= 'i';
+            } elseif (is_float($param)) {
+                $types .= 'd';
+            } else {
+                $types .= 's';
+            }
+        }
         $stmt->bind_param($types, ...$params);
     }
 
     $stmt->execute();
-
     $result = $stmt->get_result();
-
+    $data = [];
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
     $stmt->close();
-
-    return $result;
+    return $data;
 }
+
+// Handle incoming encrypted payload
+$input = file_get_contents('php://input');
+$decrypted_payload = decryptData($input);
+
+if (!$decrypted_payload || !isset($decrypted_payload['query'])) {
+    header('Content-Type: application/json');
+    echo encryptData(['error' => 'Invalid or unreadable encrypted payload.']);
+    exit();
+}
+
+$query = $decrypted_payload['query'];
+$params = $decrypted_payload['params'] ?? [];
+
+$response_data = executeQuery($query, $params);
+
+header('Content-Type: application/json');
+echo encryptData($response_data);
 ?>

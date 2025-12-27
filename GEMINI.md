@@ -12,10 +12,11 @@ This project consists of three main components: a PHP API, an Angular frontend, 
 
 ## Backend API (`/api`)
 
-The API consists of two main PHP files:
+The API consists of three main PHP files:
 
 *   `db.php`: Executes SQL queries (SELECT, INSERT, etc.).
 *   `ai.php`: Interacts with the OpenAI API, taking a system prompt and conversation history.
+*   `gitpull.php`: When accessed (`/api/gitpull.php`), pulls the latest updates from the Git repository for deployment.
 
 **Security:**
 *   All communication between the Angular frontend and the PHP backend will be encrypted. The specific encryption method needs to be defined and implemented.
@@ -34,7 +35,13 @@ The Angular application's initial homepage will feature test functionalities for
 *   The `npm run build` command will compile the Angular application.
 *   The build process will move the compiled files directly into the `/mock-bar` directory for serving.
 
+## Development Guidelines
+
+*   **Strict Typing:** Implement strict typing throughout the Angular project, utilizing detailed interfaces and classes. This helps catch issues during `npm run build` and improves code quality.
+*   **Build and Push:** After completing significant tasks, always run `npm run build` from the `/angular` directory and then push the updated code, including the compiled files in `/mock-bar`, to the Git repository. The `/mock-bar` directory should NOT be ignored.
+
 ## Development Plan
+
 
 
 
@@ -53,6 +60,7 @@ The Angular application's initial homepage will feature test functionalities for
     *   [x] Implement `ai.php` to handle requests to the OpenAI API, including `.env` loading and a basic `callOpenAI` function.
 
     *   [ ] Define and implement the encryption/decryption mechanism for payloads between the frontend and backend in both `db.php` and `ai.php`.
+    *   [ ] Implement `gitpull.php` to securely pull the latest changes from the Git repository.
 
 3.  **Frontend Development (`/angular`):**
 

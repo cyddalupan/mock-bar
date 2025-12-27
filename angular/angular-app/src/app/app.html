@@ -1,0 +1,80 @@
+<main>
+  <h1>{{ title() }}</h1>
+
+  <section class="db-test">
+    <h2>Database Test (db.php)</h2>
+    <button (click)="fetchDbData()" [disabled]="dbLoading">
+      {{ dbLoading ? 'Loading...' : 'Fetch diag_ans Data' }}
+    </button>
+
+    <div *ngIf="dbError" class="error-message">
+      Error: {{ dbError }}
+    </div>
+
+    <div *ngIf="dbData.length > 0">
+      <h3>Last 10 diag_ans Records:</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Batch ID</th>
+            <th>Question ID</th>
+            <th>Answer</th>
+            <th>Score</th>
+            <th>Feedback</th>
+            <th>Date Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of dbData">
+            <td>{{ row.id }}</td>
+            <td>{{ row.user_id }}</td>
+            <td>{{ row.batch_id }}</td>
+            <td>{{ row.question_id }}</td>
+            <td>{{ row.answer }}</td>
+            <td>{{ row.score }}</td>
+            <td>{{ row.feedback }}</td>
+            <td>{{ row.date_created }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="!dbLoading && dbData.length === 0 && !dbError">
+      <p>No data fetched yet. Click the button to fetch data.</p>
+    </div>
+  </section>
+
+  <section class="ai-test">
+    <h2>AI Test (ai.php)</h2>
+    <div class="ai-input">
+      <label for="systemPrompt">System Prompt:</label>
+      <textarea id="systemPrompt" [(ngModel)]="aiSystemPrompt" rows="3"></textarea>
+    </div>
+    
+    <div class="ai-chat-history">
+      <h3>Chat History:</h3>
+      <div *ngFor="let message of aiHistory" class="chat-message" [class.user]="message.role === 'user'" [class.assistant]="message.role === 'assistant'">
+        <strong>{{ message.role === 'user' ? 'You' : 'AI' }}:</strong> {{ message.content }}
+      </div>
+      <div *ngIf="aiHistory.length === 0">No chat history yet.</div>
+    </div>
+
+    <div class="ai-input">
+      <label for="userMessage">Your Message:</label>
+      <input id="userMessage" [(ngModel)]="aiUserMessage" (keyup.enter)="sendAiMessage()" placeholder="Type your message here...">
+      <button (click)="sendAiMessage()" [disabled]="aiLoading || !aiUserMessage.trim()">
+        {{ aiLoading ? 'Sending...' : 'Send to AI' }}
+      </button>
+    </div>
+
+    <div *ngIf="aiError" class="error-message">
+      Error: {{ aiError }}
+    </div>
+
+    <div *ngIf="aiResponse">
+      <h3>AI Raw Response:</h3>
+      <pre>{{ aiResponse | json }}</pre>
+    </div>
+  </section>
+</main>
