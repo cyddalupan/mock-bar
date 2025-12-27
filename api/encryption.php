@@ -1,78 +1,78 @@
 <?php
-// encryption.php - Handles encryption and decryption for API payloads
+// encryption.php - Handles JWE encryption and decryption using web-token/jwt-framework
 
-// Load the .env file if it hasn't been loaded already
-if (!function_exists('loadEnv')) {
-    function loadEnv($path)
-    {
-        if (!file_exists($path)) {
-            return false;
-        }
+require_once __DIR__ . '/../vendor/autoload.php';
 
-        $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        foreach ($lines as $line) {
-            if (strpos(trim($line), '#') === 0) {
-                continue;
-            }
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\JWK;
+use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
+use Jose\Component\Encryption\JWEBuilder;
+use Jose\Component\Encryption\JWEDecrypter;
+use Jose\Component\Encryption\Serializer\CompactSerializer;
+use Jose\Component\Encryption\Compression\CompressionMethodManager;
+use Jose\Component\Encryption\Compression\Deflate;
 
-            list($name, $value) = explode('=', $line, 2);
-            $name = trim($name);
-            $value = trim($value);
-
-            if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
-                putenv(sprintf('%s=%s', $name, $value));
-                $_ENV[$name] = $value;
-                $_SERVER[$name] = $value;
-            }
-        }
+// Load .env file
+if (file_exists(__DIR__ . '/../.env')) {
+    $lines = file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        list($name, $value) = explode('=', $line, 2);
+        $_ENV[trim($name)] = trim($value);
     }
-    loadEnv(__DIR__ . '/../.env');
 }
 
-
-$encryption_key = $_ENV['ENCRYPTION_KEY'];
-if (empty($encryption_key)) {
-    die("Encryption key not set in .env file.");
+$raw_key = $_ENV['ENCRYPTION_KEY'];
+if (empty($raw_key) || strlen($raw_key) !== 32) {
+    error_log("A 32-character ENCRYPTION_KEY is not set in .env file.");
+    die("Encryption key is not configured properly.");
 }
+
+// Create a JWK (JSON Web Key) from our raw 32-byte secret.
+$jwk = JWKFactory::createFromSecret($raw_key, ['alg' => 'dir', 'use' => 'enc']);
 
 // Function to encrypt data
 function encryptData($data) {
-    global $encryption_key;
-    $cipher = 'aes-256-cbc';
-    $ivlen = openssl_cipher_iv_length($cipher);
-    $iv = openssl_random_pseudo_bytes($ivlen);
-    $ciphertext = openssl_encrypt(json_encode($data), $cipher, $encryption_key, 0, $iv);
-    return base64_encode($iv . $ciphertext);
+    global $jwk;
+    $keyEncryptionAlgorithmManager = new AlgorithmManager([new Dir()]);
+    $contentEncryptionAlgorithmManager = new AlgorithmManager([new A256CBCHS512()]);
+    $compressionMethodManager = new CompressionMethodManager([new Deflate()]);
+
+    $jweBuilder = new JWEBuilder($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager);
+    $serializer = new CompactSerializer();
+    $payload = json_encode($data);
+
+    $jwe = $jweBuilder
+        ->create()
+        ->withPayload($payload)
+        ->withSharedProtectedHeader(['alg' => 'dir', 'enc' => 'A256CBC-HS512'])
+        ->addRecipient($jwk)
+        ->build();
+    
+    return $serializer->serialize($jwe, 0);
 }
 
 // Function to decrypt data
-function decryptData($encrypted_data) {
-    global $encryption_key;
-    $cipher = 'aes-256-cbc';
-    $ivlen = openssl_cipher_iv_length($cipher);
-    $decoded = base64_decode($encrypted_data);
-    $iv = substr($decoded, 0, $ivlen);
-    $ciphertext = substr($decoded, $ivlen);
-    
-    // Clear previous errors
-    while (openssl_error_string() !== false) {
-        // flush stack
-    }
-    
-    $plaintext = openssl_decrypt($ciphertext, $cipher, $encryption_key, 0, $iv);
+function decryptData($jweString) {
+    global $jwk;
+    $keyEncryptionAlgorithmManager = new AlgorithmManager([new Dir()]);
+    $contentEncryptionAlgorithmManager = new AlgorithmManager([new A256CBCHS512()]);
+    $compressionMethodManager = new CompressionMethodManager([new Deflate()]);
 
-    if ($plaintext === false) {
-        $openssl_errors = [];
-        while ($msg = openssl_error_string()) {
-            $openssl_errors[] = $msg;
+    $jweDecrypter = new JWEDecrypter($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager);
+    $serializer = new CompactSerializer();
+
+    try {
+        $jwe = $serializer->unserialize($jweString);
+        if (!$jweDecrypter->decryptUsingKey($jwe, $jwk, 0)) {
+            return null;
         }
-        // Log the errors to the debug file
-        $log_file = __DIR__ . '/debug.log';
-        $log_message = "Timestamp: " . date('Y-m-d H:i:s') . "\n";
-        $log_message .= "OpenSSL Decryption Failed. Errors: " . json_encode($openssl_errors) . "\n---\n";
-        file_put_contents($log_file, $log_message, FILE_APPEND);
+        return json_decode($jwe->getPayload(), true);
+    } catch (Exception $e) {
+        error_log("JWE Decryption Exception: " . $e->getMessage());
+        return null;
     }
-    
-    return json_decode($plaintext, true);
 }
 ?>
