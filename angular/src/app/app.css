@@ -24,6 +24,8 @@
   flex-direction: column;
   height: 100%; /* Ensures all cards in a row try to match height */
   overflow: hidden; /* Ensure content stays within card boundaries */
+  flex-basis: 300px; /* Base width for each card */
+  max-width: 350px; /* Maximum width for each card */
 }
 
 .course-card .course-thumbnail-img {
