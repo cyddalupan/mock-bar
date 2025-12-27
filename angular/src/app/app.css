@@ -21,21 +21,24 @@
 }
 
 .course-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Keep gap for spacing */
   justify-content: center;
+  align-items: stretch; /* Ensures cards in the same row have equal height */
 }
 
 .course-card {
   display: flex;
   flex-direction: column;
   height: 100%; /* Ensures all cards in a row try to match height */
+  overflow: hidden; /* Ensure content stays within card boundaries */
 }
 
-.course-card mat-card-image {
+.course-card .course-thumbnail-img {
   height: 200px; /* Fixed height for images */
   object-fit: cover; /* Ensure images cover the area without distortion */
+  width: 100%; /* Ensure image takes full width of the card */
 }
 
 .course-card mat-card-header {

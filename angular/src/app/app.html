@@ -8,7 +8,7 @@
     <div class="course-cards">
       <!-- Course cards will be rendered here -->
       <mat-card *ngFor="let course of category.courses" class="course-card">
-        <img mat-card-image [src]="course.thumbnail || 'https://via.placeholder.com/150'" alt="Course Thumbnail">
+        <img [src]="course.thumbnail" alt="Course Thumbnail" class="course-thumbnail-img">
         <mat-card-header>
           <mat-card-title>{{ course.category_name }}: {{ course.title }}</mat-card-title>
           <mat-card-subtitle>{{ course.short_description }}</mat-card-subtitle>
