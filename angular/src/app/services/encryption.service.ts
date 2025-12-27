@@ -16,25 +16,29 @@ export class EncryptionService {
 
   encrypt(data: any): string {
     const dataString = JSON.stringify(data);
+    const iv = CryptoJS.lib.WordArray.random(16); // 16 bytes = 128 bits for AES-256-CBC IV
     const encrypted = CryptoJS.AES.encrypt(dataString, this.SECRET_KEY, {
+      iv: iv,
       mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7,
-      // The IV is generated randomly and included in the ciphertext
-      // This is crucial for security
-      iv: CryptoJS.lib.WordArray.random(128 / 8) // 128-bit IV
+      padding: CryptoJS.pad.Pkcs7
     });
-    // Return IV + ciphertext as a single base64 string
-    return encrypted.toString();
+    // Concatenate IV and ciphertext as a Base64 string, matching PHP's format
+    return CryptoJS.enc.Base64.stringify(iv.concat(encrypted.ciphertext));
   }
 
-  decrypt(encryptedData: string): any {
+  decrypt(encryptedBase64: string): any {
     try {
-      const decrypted = CryptoJS.AES.decrypt(encryptedData, this.SECRET_KEY, {
+      const decoded = CryptoJS.enc.Base64.parse(encryptedBase64); // Parse the base64 string
+      const iv = CryptoJS.lib.WordArray.create(decoded.words.slice(0, 4)); // Extract first 16 bytes (4 words) as IV
+      const ciphertext = CryptoJS.lib.WordArray.create(decoded.words.slice(4)); // Remaining is ciphertext
+
+      const decrypted = CryptoJS.AES.decrypt({ ciphertext: ciphertext } as CryptoJS.lib.CipherParams, this.SECRET_KEY, {
+        iv: iv,
         mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7,
-        // The IV is derived from the encrypted data string by CryptoJS itself
+        padding: CryptoJS.pad.Pkcs7
       });
-      if (decrypted.sigBytes <= 0) {
+
+      if (decrypted.sigBytes <= 0) { // Check if decryption yielded any bytes
         throw new Error('Decryption failed or resulted in empty data.');
       }
       const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
