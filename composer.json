@@ -1,0 +1,5 @@
+{
+    "require": {
+        "spomky-labs/jose-framework": "^3.2"
+    }
+}

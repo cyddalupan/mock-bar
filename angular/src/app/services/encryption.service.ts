@@ -1,53 +1,43 @@
 import { Injectable } from '@angular/core';
-import * as CryptoJS from 'crypto-js';
-import { environment } from '../../environments/environment'; // Import environment
+import { environment } from '../../environments/environment';
+import * as jose from 'jose';
+import { from, Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EncryptionService {
-  private readonly SECRET_KEY = environment.ENCRYPTION_KEY;
+  private readonly SECRET_KEY_STRING = environment.ENCRYPTION_KEY;
+  private secretKey: Uint8Array;
 
   constructor() {
-    if (this.SECRET_KEY === 'your_encryption_key' || !this.SECRET_KEY) {
-      console.warn('EncryptionService: SECRET_KEY is not set or is using the default placeholder in environment.ts. Please update it.');
+    if (this.SECRET_KEY_STRING === 'your_encryption_key' || !this.SECRET_KEY_STRING || this.SECRET_KEY_STRING.length !== 32) {
+      console.error('EncryptionService: A 32-character (256-bit) ENCRYPTION_KEY is not set in environment.ts. Please update it.');
+      // Create a dummy key to avoid further errors, but encryption will not work.
+      this.secretKey = new TextEncoder().encode(''.padStart(32, '0'));
+    } else {
+      this.secretKey = new TextEncoder().encode(this.SECRET_KEY_STRING);
     }
   }
 
-  encrypt(data: any): string {
+  encrypt(data: any): Observable<string> {
     const dataString = JSON.stringify(data);
-    const iv = CryptoJS.lib.WordArray.random(16); // 16 bytes = 128 bits for AES-256-CBC IV
-    const key = CryptoJS.enc.Utf8.parse(this.SECRET_KEY); // Parse the raw string key as UTF-8
-    const encrypted = CryptoJS.AES.encrypt(dataString, key, {
-      iv: iv,
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7
-    });
-    // Concatenate IV and ciphertext as a Base64 string, matching PHP's format
-    return CryptoJS.enc.Base64.stringify(iv.concat(encrypted.ciphertext));
+    const plaintext = new TextEncoder().encode(dataString);
+
+    const jwePromise = new jose.CompactEncrypt(plaintext)
+      .setProtectedHeader({ alg: 'dir', enc: 'A256CBC-HS512' })
+      .encrypt(this.secretKey);
+    
+    return from(jwePromise);
   }
 
-  decrypt(encryptedBase64: string): any {
-    try {
-      const decoded = CryptoJS.enc.Base64.parse(encryptedBase64); // Parse the base64 string
-      const iv = CryptoJS.lib.WordArray.create(decoded.words.slice(0, 4)); // Extract first 16 bytes (4 words) as IV
-      const ciphertext = CryptoJS.lib.WordArray.create(decoded.words.slice(4)); // Remaining is ciphertext
-
-      const key = CryptoJS.enc.Utf8.parse(this.SECRET_KEY); // Parse the raw string key as UTF-8
-      const decrypted = CryptoJS.AES.decrypt({ ciphertext: ciphertext } as CryptoJS.lib.CipherParams, key, {
-        iv: iv,
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
-      });
-
-      if (decrypted.sigBytes <= 0) { // Check if decryption yielded any bytes
-        throw new Error('Decryption failed or resulted in empty data.');
-      }
-      const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+  decrypt(jweString: string): Observable<any> {
+    const decryptPromise = jose.compactDecrypt(jweString, this.secretKey).then(result => {
+      const decryptedString = new TextDecoder().decode(result.plaintext);
       return JSON.parse(decryptedString);
-    } catch (e) {
-      console.error('Decryption error:', e);
-      return null;
-    }
+    });
+
+    return from(decryptPromise);
   }
 }

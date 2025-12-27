@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { EncryptionService } from './encryption.service';
 import { environment } from '../../environments/environment';
 
@@ -17,24 +17,25 @@ export class ApiService {
   ) {}
 
   private postEncrypted(endpoint: string, payload: any): Observable<any> {
-    const encryptedPayload = this.encryptionService.encrypt(payload);
     const headers = new HttpHeaders({
-      'Content-Type': 'text/plain' // Send as plain text to avoid pre-flight CORS for application/json
+      'Content-Type': 'application/jose' // Use the standard content type for JWE
     });
 
-    return this.http.post(`${this.apiUrl}/${endpoint}`, encryptedPayload, { headers, responseType: 'text' }).pipe(
-      map(response => this.encryptionService.decrypt(response)),
+    return this.encryptionService.encrypt(payload).pipe(
+      switchMap(encryptedPayload => {
+        return this.http.post(`${this.apiUrl}/${endpoint}`, encryptedPayload, { headers, responseType: 'text' });
+      }),
+      switchMap(response => {
+        if (response) {
+          return this.encryptionService.decrypt(response);
+        }
+        return throwError(() => 'Empty response from server');
+      }),
       catchError(error => {
         console.error('API call error:', error);
-        let decryptedError = error.error;
-        try {
-          // Attempt to decrypt error response if it's encrypted
-          decryptedError = this.encryptionService.decrypt(error.error);
-        } catch (e) {
-          // If decryption fails, use the raw error
-          console.warn('Could not decrypt error response:', e);
-        }
-        return throwError(() => decryptedError || 'Server error');
+        // The error from the HTTP call or decryption will be passed through here.
+        // It's better to handle the error in the component that calls the service.
+        return throwError(() => error);
       })
     );
   }
