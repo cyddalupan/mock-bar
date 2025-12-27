@@ -18,7 +18,7 @@ export class ApiService {
 
   private postEncrypted(endpoint: string, payload: any): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/jose' // Use the standard content type for JWE
+      'Content-Type': 'application/json' // Use a universally accepted content type
     });
 
     return this.encryptionService.encrypt(payload).pipe(
