@@ -39,7 +39,7 @@
 }
 
 .course-card mat-card-title {
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: bold;
   white-space: nowrap; /* Prevent text from wrapping */
   overflow: hidden; /* Hide overflow content */
@@ -47,6 +47,7 @@
 }
 
 .course-card mat-card-subtitle {
+  font-size: 0.8em;
   color: #757575;
   display: -webkit-box;
   -webkit-line-clamp: 2; /* Limit to 2 lines */
