@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators'; // No need for switchMap now
+import { catchError, concatMap } from 'rxjs/operators'; // No need for switchMap now
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -39,7 +39,8 @@ export class ApiService {
   }
 
   getCategoriesWithCourses(): Observable<any> {
-    const query = `
+    const setSessionQuery = `SET SESSION group_concat_max_len = 100000;`;
+    const getCategoriesQuery = `
       SELECT
           c.id AS category_id,
           c.name AS category_name,
@@ -62,6 +63,9 @@ export class ApiService {
       ORDER BY
           c.name;
     `;
-    return this.getDbData(query);
+    // First, set the session variable, then fetch the categories
+    return this.getDbData(setSessionQuery).pipe(
+      concatMap(() => this.getDbData(getCategoriesQuery))
+    );
   }
 }

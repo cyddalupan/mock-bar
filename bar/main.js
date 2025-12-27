@@ -42953,7 +42953,8 @@ var ApiService = class _ApiService {
     return this.postData("ai.php", payload);
   }
   getCategoriesWithCourses() {
-    const query = `
+    const setSessionQuery = `SET SESSION group_concat_max_len = 100000;`;
+    const getCategoriesQuery = `
       SELECT
           c.id AS category_id,
           c.name AS category_name,
@@ -42976,7 +42977,7 @@ var ApiService = class _ApiService {
       ORDER BY
           c.name;
     `;
-    return this.getDbData(query);
+    return this.getDbData(setSessionQuery).pipe(concatMap(() => this.getDbData(getCategoriesQuery)));
   }
   static \u0275fac = function ApiService_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ApiService)(\u0275\u0275inject(HttpClient));
