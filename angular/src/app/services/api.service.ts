@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, concatMap } from 'rxjs/operators'; // No need for switchMap now
+import { catchError } from 'rxjs/operators'; // No need for switchMap now
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -38,34 +38,59 @@ export class ApiService {
     return this.postData('ai.php', payload);
   }
 
-  getCategoriesWithCourses(): Observable<any> {
-    const setSessionQuery = `SET SESSION group_concat_max_len = 100000;`;
-    const getCategoriesQuery = `
-      SELECT
-          c.id AS category_id,
-          c.name AS category_name,
-          GROUP_CONCAT(
-              JSON_OBJECT(
-                  'id', co.id,
-                  'title', co.title,
-                  'short_description', co.short_description,
-                  'upcoming_image_thumbnail', co.upcoming_image_thumbnail,
-                  'price', co.price,
-                  'level', co.level
-              )
-          ) AS courses
-      FROM
-          category c
-      LEFT JOIN
-          course co ON c.id = co.category_id
-      GROUP BY
-          c.id, c.name
-      ORDER BY
-          c.name;
-    `;
-    // First, set the session variable, then fetch the categories
-    return this.getDbData(setSessionQuery).pipe(
-      concatMap(() => this.getDbData(getCategoriesQuery))
-    );
-  }
+    getCategoriesWithCourses(): Observable<any> {
+
+      const query = `
+
+        SET SESSION group_concat_max_len = 100000;
+
+        SELECT
+
+            c.id AS category_id,
+
+            c.name AS category_name,
+
+            GROUP_CONCAT(
+
+                JSON_OBJECT(
+
+                    'id', co.id,
+
+                    'title', co.title,
+
+                    'short_description', co.short_description,
+
+                    'upcoming_image_thumbnail', co.upcoming_image_thumbnail,
+
+                    'price', co.price,
+
+                    'level', co.level
+
+                )
+
+            )
+
+            AS courses
+
+        FROM
+
+            category c
+
+        LEFT JOIN
+
+            course co ON c.id = co.category_id
+
+        GROUP BY
+
+            c.id, c.name
+
+        ORDER BY
+
+            c.name;
+
+      `;
+
+      return this.getDbData(query);
+
+    }
 }

@@ -27,39 +27,33 @@ if ($mysqli->connect_error) {
     exit();
 }
 
-// Function to execute a query
-function executeQuery($query, $params = []) {
+// Function to execute a query (now supports multiple statements)
+function executeQuery($query) {
     global $mysqli;
 
-    $stmt = $mysqli->prepare($query);
-
-    if ($stmt === false) {
-        return ['error' => 'Prepare failed: ' . htmlspecialchars($mysqli->error)];
-    }
-
-    if (!empty($params)) {
-        $types = ''; // This assumes all params are strings, adjust as needed
-        foreach ($params as $param) {
-            if (is_int($param)) {
-                $types .= 'i';
-            } elseif (is_float($param)) {
-                $types .= 'd';
-            } else {
-                $types .= 's';
-            }
-        }
-        $stmt->bind_param($types, ...$params);
-    }
-
-    $stmt->execute();
-    $result = $stmt->get_result();
     $data = [];
-    if ($result) {
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
+
+    if ($mysqli->multi_query($query)) {
+        do {
+            // Store first result set
+            if ($result = $mysqli->store_result()) {
+                if ($result->num_rows > 0) {
+                    // Only collect data from the last result set that is not empty
+                    $current_data = [];
+                    while ($row = $result->fetch_assoc()) {
+                        $current_data[] = $row;
+                    }
+                    $data = $current_data; // Overwrite with the latest non-empty result
+                }
+                $result->free();
+            }
+        } while ($mysqli->more_results() && $mysqli->next_result());
     }
-    $stmt->close();
+
+    if ($mysqli->error) {
+        return ['error' => 'Multi-query failed: ' . htmlspecialchars($mysqli->error)];
+    }
+
     return $data;
 }
 
@@ -74,9 +68,11 @@ if (!$request_data || !isset($request_data['query'])) {
 }
 
 $query = $request_data['query'];
-$params = $request_data['params'] ?? [];
+// Parameters are not supported with multi_query in this context,
+// so we ignore them. Security warning applies.
+// $params = $request_data['params'] ?? [];
 
-$response_data = executeQuery($query, $params);
+$response_data = executeQuery($query);
 
 header('Content-Type: application/json');
 echo json_encode($response_data);

@@ -42953,31 +42953,56 @@ var ApiService = class _ApiService {
     return this.postData("ai.php", payload);
   }
   getCategoriesWithCourses() {
-    const setSessionQuery = `SET SESSION group_concat_max_len = 100000;`;
-    const getCategoriesQuery = `
-      SELECT
-          c.id AS category_id,
-          c.name AS category_name,
-          GROUP_CONCAT(
-              JSON_OBJECT(
-                  'id', co.id,
-                  'title', co.title,
-                  'short_description', co.short_description,
-                  'upcoming_image_thumbnail', co.upcoming_image_thumbnail,
-                  'price', co.price,
-                  'level', co.level
-              )
-          ) AS courses
-      FROM
-          category c
-      LEFT JOIN
-          course co ON c.id = co.category_id
-      GROUP BY
-          c.id, c.name
-      ORDER BY
-          c.name;
-    `;
-    return this.getDbData(setSessionQuery).pipe(concatMap(() => this.getDbData(getCategoriesQuery)));
+    const query = `
+
+        SET SESSION group_concat_max_len = 100000;
+
+        SELECT
+
+            c.id AS category_id,
+
+            c.name AS category_name,
+
+            GROUP_CONCAT(
+
+                JSON_OBJECT(
+
+                    'id', co.id,
+
+                    'title', co.title,
+
+                    'short_description', co.short_description,
+
+                    'upcoming_image_thumbnail', co.upcoming_image_thumbnail,
+
+                    'price', co.price,
+
+                    'level', co.level
+
+                )
+
+            )
+
+            AS courses
+
+        FROM
+
+            category c
+
+        LEFT JOIN
+
+            course co ON c.id = co.category_id
+
+        GROUP BY
+
+            c.id, c.name
+
+        ORDER BY
+
+            c.name;
+
+      `;
+    return this.getDbData(query);
   }
   static \u0275fac = function ApiService_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ApiService)(\u0275\u0275inject(HttpClient));
