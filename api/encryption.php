@@ -53,7 +53,26 @@ function decryptData($encrypted_data) {
     $decoded = base64_decode($encrypted_data);
     $iv = substr($decoded, 0, $ivlen);
     $ciphertext = substr($decoded, $ivlen);
+    
+    // Clear previous errors
+    while (openssl_error_string() !== false) {
+        // flush stack
+    }
+    
     $plaintext = openssl_decrypt($ciphertext, $cipher, $encryption_key, 0, $iv);
+
+    if ($plaintext === false) {
+        $openssl_errors = [];
+        while ($msg = openssl_error_string()) {
+            $openssl_errors[] = $msg;
+        }
+        // Log the errors to the debug file
+        $log_file = __DIR__ . '/debug.log';
+        $log_message = "Timestamp: " . date('Y-m-d H:i:s') . "\n";
+        $log_message .= "OpenSSL Decryption Failed. Errors: " . json_encode($openssl_errors) . "\n---\n";
+        file_put_contents($log_file, $log_message, FILE_APPEND);
+    }
+    
     return json_decode($plaintext, true);
 }
 ?>
