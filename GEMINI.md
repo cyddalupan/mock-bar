@@ -28,6 +28,12 @@ The `db.php` and `ai.php` files are currently considered stable. Future developm
 *   Communication between the Angular frontend and the PHP backend will be via plain JSON over HTTPS.
 *   Sensitive data, such as API keys and database credentials, will be stored in a `.env` file at the project root. This file should not be committed to version control.
 
+### Database Interaction Notes
+
+*   **`GROUP_CONCAT` Data Truncation:** When using MySQL's `GROUP_CONCAT` function, especially with `JSON_OBJECT` to aggregate data, it's crucial to be aware of the `group_concat_max_len` server variable. The default value (often 1024 characters) can lead to data truncation, resulting in malformed JSON strings in the application.
+*   **Resolution:** To prevent truncation, increase the `group_concat_max_len` for the session executing the query. This can be done by sending `SET SESSION group_concat_max_len = <some_large_number>;` (e.g., `100000`) before the main `SELECT` query.
+*   **Frontend Handling (Angular):** When the backend (`db.php`) uses `mysqli::prepare` (which typically only processes the first statement if multiple are sent), executing `SET SESSION` and the `SELECT` query in a single API call might not work as expected. The recommended approach is to use sequential API calls from the Angular `ApiService` (e.g., using RxJS `concatMap`) to ensure the session variable is set *before* the data retrieval query is executed.
+
 ## Frontend Application (`/angular`)
 
 The frontend is an Angular application. We will be heavily utilizing Angular Material for UI components and its icon library.
