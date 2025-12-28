@@ -8,8 +8,13 @@ cd angular
 npm run build
 cd ..
 
-echo "--- Staging built files in 'bar' directory ---"
-git add bar
+echo "--- Staging all changes ---"
+git add --all
 
-echo "--- Build and staging complete. You can now commit your changes. ---"
-echo "Example: git commit -m \"feat: Update Angular application\" && git push"
+echo "--- Committing changes ---"
+git commit -m "feat: Automated build and stage for Angular application changes"
+
+echo "--- Pushing changes to remote ---"
+git push origin main
+
+echo "--- Build, staging, commit, and push complete. ---"

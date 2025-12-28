@@ -41,11 +41,38 @@ The `db.php` and `ai.php` files are currently considered stable. Future developm
 
 The frontend is an Angular application. We will be heavily utilizing Angular Material for UI components and its icon library.
 
-## Database Schema (`SCHEMA.md`)
+### Login Security (Authentication Flow)
 
-The database schema is documented in `SCHEMA.md`.
+To ensure secure access to the application, a login security mechanism has been implemented. This system checks if a user is authenticated before allowing access to protected routes.
 
-### Angular Material Design and Fonts
+**Flow:**
+1.  **Check for `user_id`:** Upon application load, or when navigating to a protected route, the system checks for the presence of a `user_id` in the browser's `LocalStorage`. This `user_id` is expected to be stored under the domain `https://premierebarreview.com`.
+2.  **Redirection:** If `user_id` is *not* found, the user is immediately redirected to the login page at `https://premierebarreview.com/bar-review/login`.
+3.  **Access Granted:** If `user_id` *is* found, the user is considered authenticated and can proceed to the requested protected route.
+
+**Implementation Details:**
+
+*   **`AuthService` (`angular/src/app/services/auth.service.ts`):**
+    *   This service is responsible for determining the user's authentication status.
+    *   It provides an `isLoggedIn()` method that checks `LocalStorage` for the `user_id` key.
+    *   It also contains the `redirectToLogin()` method, which performs the redirection to the designated login URL.
+    *   The `LOGIN_URL`, `LOCAL_STORAGE_USER_ID_KEY`, and `LOCAL_STORAGE_DOMAIN` are defined within this service for easy management.
+
+*   **`AuthGuard` (`angular/src/app/auth.guard.ts`):**
+    *   This is an Angular route guard that implements the `CanActivate` interface.
+    *   Before a protected route is activated, the `canActivate` method of `AuthGuard` is called.
+    *   It utilizes the `AuthService.isLoggedIn()` method. If the user is not logged in, it calls `AuthService.redirectToLogin()` and prevents access to the route. If the user is logged in, it allows navigation to the route.
+
+*   **Routing Configuration (`angular/src/app/app.config.ts`):**
+    *   The application's routes are defined in `app.config.ts`.
+    *   The root path (`''`) is configured to redirect to `'/home'`.
+    *   The `'/home'` route, which now loads the `HomeComponent`, is protected by the `AuthGuard` using the `canActivate` property. This ensures that the main content of the application (displayed by `HomeComponent`) is only accessible to authenticated users.
+
+*   **`App` Component (`angular/src/app/app.ts`) and `HomeComponent` (`angular/src/app/home/home.component.ts`):**
+    *   The original `App` component has been refactored to serve as a high-level shell, primarily containing a `<router-outlet>` to display routed components. It no longer holds the direct content or data-fetching logic.
+    *   A new `HomeComponent` has been created. All the initial homepage functionality, including fetching and displaying course data, has been moved into this component. This separation allows the `AuthGuard` to effectively protect the core application content.
+
+### Database Interaction Notes
 
 Angular Material has been successfully integrated for UI components and Material Icons are enabled.
 
