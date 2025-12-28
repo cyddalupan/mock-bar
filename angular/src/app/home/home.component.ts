@@ -30,7 +30,9 @@ export class HomeComponent implements OnInit {
 
         data.map((category: any) => {
           // Parse the courses JSON string into an array of objects
+          console.log('Raw category.courses string:', category.courses); // Log the raw string
           category.courses = category.courses ? JSON.parse(`[${category.courses}]`) : [];
+          console.log('Parsed category.courses array:', category.courses); // Log the parsed array
           // Use upcoming_image_thumbnail as thumbnail for display
           category.courses = category.courses.map((course: any) => ({
             ...course,

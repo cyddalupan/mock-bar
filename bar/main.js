@@ -48557,7 +48557,9 @@ var HomeComponent = class _HomeComponent {
       next: (data) => {
         let tempAllCourses = [];
         data.map((category) => {
+          console.log("Raw category.courses string:", category.courses);
           category.courses = category.courses ? JSON.parse(`[${category.courses}]`) : [];
+          console.log("Parsed category.courses array:", category.courses);
           category.courses = category.courses.map((course) => __spreadProps(__spreadValues({}, course), {
             category_name: category.category_name,
             // Add category name to each course
