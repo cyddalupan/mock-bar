@@ -15,7 +15,7 @@ This project consists of three main components: a PHP API, an Angular frontend, 
 The API consists of three main PHP files:
 
 *   `db.php`: Executes SQL queries (SELECT, INSERT, etc.).
-*   `ai.php`: Interacts with the OpenAI API, taking a system prompt and conversation history.
+*   `ai.php`: Interacts with the OpenAI API for grading mock exam questions.
 *   `gitpull.php`: When accessed (`/api/gitpull.php`), pulls the latest updates from the Git repository for deployment.
 
 **CRITICAL SECURITY WARNING: `db.php` allows arbitrary SQL execution.**
@@ -174,91 +174,7 @@ To ensure secure access to the application, a login security mechanism has been 
 
 Angular Material has been successfully integrated for UI components and Material Icons are enabled.
 
-**Installation and Setup:**
-1.  **Install Angular Material:**
-    ```bash
-    cd angular
-    ng add @angular/material --skip-confirmation
-    ```
-    This command handles most of the setup, including adding a theme file and updating `angular.json` and `index.html`.
 
-2.  **Enable Animations:**
-    Ensure `provideAnimations()` is included in the `providers` array in `angular/src/app/app.config.ts`.
-    ```typescript
-    // angular/src/app/app.config.ts
-    import { provideAnimations } from '@angular/platform-browser/animations';
-    // ... other imports
-
-    export const appConfig: ApplicationConfig = {
-      providers: [
-        // ... other providers
-        provideAnimations(),
-      ]
-    };
-    ```
-
-3.  **Import Material Modules (Standalone Components):**
-    For standalone components, import specific Material modules into the `imports` array of the component where they are used. For global availability, use `importProvidersFrom` in `app.config.ts`.
-    Example for `app.config.ts` (for global availability of `MatButtonModule` and `MatIconModule`):
-    ```typescript
-    // angular/src/app/app.config.ts
-    import { importProvidersFrom } from '@angular/core';
-    import { MatButtonModule } from '@angular/material/button';
-    import { MatIconModule } from '@angular/material/icon';
-    // ... other imports
-
-    export const appConfig: ApplicationConfig = {
-      providers: [
-        // ... other providers
-        importProvidersFrom(MatButtonModule, MatIconModule)
-      ]
-    };
-    ```
-    Example for `app.ts` (standalone component):
-    ```typescript
-    // angular/src/app/app.ts
-    import { MatButtonModule } from '@angular/material/button';
-    import { MatIconModule } from '@angular/material/icon';
-    // ... other imports
-
-    @Component({
-      // ...
-      standalone: true,
-      imports: [
-        // ... other imports
-        MatButtonModule,
-        MatIconModule
-      ],
-      // ...
-    })
-    export class App { /* ... */ }
-    ```
-
-4.  **Material Icons and Fonts:**
-    The `ng add @angular/material` command typically adds the necessary links for Material Icons and Roboto font to `angular/src/index.html`. Verify the following lines are present in the `<head>` section:
-    ```html
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    ```
-    Material icons can be used in templates with the `mat-icon` component: `<mat-icon>home</mat-icon>`.
-
-**Usage Example:**
-```html
-<!-- angular/src/app/app.html -->
-<button mat-flat-button color="primary">
-  <mat-icon>home</mat-icon>
-  Material Button
-</button>
-```
-
-**Initial Homepage Functionality:**
-The Angular application's initial homepage will feature test functionalities for both the `db.php` and `ai.php` APIs.
-*   **Database Test:** Display results from a simple `SELECT` query on an existing table `diag_ans` with columns: `id`, `user_id`, `batch_id`, `question_id`, `answer`, `score`, `feedback`, `date_created`.
-*   **AI Test:** Allow for a simple AI call using the `ai.php` endpoint.
-
-**Build Process:**
-*   The `npm run build` command will compile the Angular application.
-*   The build process will move the compiled files directly into the `/bar` directory for serving (accessible at `/mock/bar/`).
 
 ## Development Guidelines
 
@@ -286,48 +202,28 @@ The Angular application's initial homepage will feature test functionalities for
 
 ## Development Plan
 
-
-
-
 1.  **Project Setup:**
-
-    *   [ ] Initialize a Git repository and push to `git@github.com:cyddalupan/mock-bar.git`.
-
+    *   [x] Initialize a Git repository and push to `git@github.com:cyddalupan/mock-bar.git`.
     *   [x] Create `.env` file with dummy credentials.
 
 2.  **API Development (`/api`):**
-
     *   [x] Implement `db.php` to securely handle database connections and queries, including `.env` loading and a basic `executeQuery` function.
-
     *   [ ] Create a database and `diag_ans` table for testing.
-
-    *   [x] Implement `ai.php` to handle requests to the OpenAI API, including `.env` loading and a basic `callOpenAI` function.
-
-
+    *   [x] Implement `ai.php` to handle requests to the OpenAI API for grading.
     *   [ ] Implement `gitpull.php` to securely pull the latest changes from the Git repository.
 
 3.  **Frontend Development (`/angular`):**
-
-    *   [ ] Set up the basic Angular application structure.
-
-    *   [ ] Create Angular services to communicate with the `/api` backend, handling plain JSON payloads.
-
-    *   [ ] Implement the initial homepage UI:
-
-        *   Display results from a `SELECT` query to the `diag_ans` table via `db.php`.
-
-        *   Provide an interface to trigger an AI call via `ai.php` and display the response.
-
-
+    *   [x] Set up the basic Angular application structure.
+    *   [x] Create Angular services to communicate with the `/api` backend, handling plain JSON payloads.
+    *   [x] Implement the initial homepage UI with course cards, including conditional "Take Mock Exam" / "Completed" buttons.
+    *   [x] Create Exam Page with question display, answer input, and grading results.
 
 4.  **Build & Deployment (`/angular` & `/bar`):**
-
-    *   [ ] Configure the Angular build process (`angular.json`) to output the built files to the `/bar` directory.
-
-    *   [ ] Verify the `npm run build` command successfully moves compiled files to `/bar`.
+    *   [x] Configure the Angular build process (`angular.json`) to output the built files to the `/bar` directory.
+    *   [x] Verify the `npm run build` command successfully moves compiled files to `/bar`.
 
 5.  **Refinement & Testing (Angular Focus):**
-
     *   [x] Thoroughly test both API endpoints from the Angular frontend.
     *   [ ] Ensure robust error handling is implemented in the Angular frontend.
-    *   [ ] Document API endpoints and usage (with explicit security warnings for `db.php`).
+    *   [x] Document API endpoints and usage (with explicit security warnings for `db.php`).
+
