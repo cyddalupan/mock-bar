@@ -51,9 +51,7 @@ function executeQuery($query) {
     }
 
     if ($mysqli->error) {
-        header('Content-Type: application/json'); // Keep content type as JSON
-        echo json_encode(['error' => 'Multi-query failed: ' . htmlspecialchars($mysqli->error)]);
-        exit(); // Exit immediately after outputting error
+        return ['error' => 'Multi-query failed: ' . htmlspecialchars($mysqli->error)];
     }
 
     return $data;
