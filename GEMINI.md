@@ -22,7 +22,58 @@ The API consists of three main PHP files:
 The current implementation of `db.php` directly accepts SQL queries from the frontend. This means any SQL query (SELECT, INSERT, UPDATE, DELETE, etc.) can be executed through this endpoint. **This is a severe SQL Injection vulnerability and should never be exposed to untrusted user input in a production environment.** For any production usage, `db.php` *must* be refactored to use prepared statements with whitelisted queries or an ORM, and restrict allowed operations.
 
 **Backend Development Notes:**
-The `db.php` and `ai.php` files are currently considered stable. Future development efforts and code changes should primarily focus on the Angular frontend.
+The `db.php` is currently considered stable. `ai.php` has been updated to handle AI grading for mock exam questions. Future development efforts and code changes should primarily focus on the Angular frontend.
+
+### AI Grading System (`ai.php` Update)
+
+The `ai.php` endpoint has been refactored to serve specifically as an AI grading service for mock exam questions. It no longer accepts generic `system_prompt` and `history` arrays for conversational AI. Instead, it expects `user_answer` and `expected_answer` as inputs and returns a structured JSON response containing a score and detailed feedback.
+
+**Input Payload (JSON):**
+```json
+{
+  "user_answer": "string",
+  "expected_answer": "string"
+}
+```
+
+**Output Response (JSON):**
+```json
+{
+  "id": "chatcmpl-...",
+  "object": "chat.completion",
+  "created": ...,
+  "model": "gpt-4o",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"score\": 85,\n  \"feedback\": \"<table class=\\\"table table-bordered\\\">...\" \n}"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": ...,
+    "completion_tokens": ...,
+    "total_tokens": ...
+  },
+  "system_fingerprint": "fp_..."
+}
+```
+The `content` field within `choices[0].message` will contain a JSON string with `score` (integer 1-100) and `feedback` (Bootstrap-styled HTML table string with grading criteria and an "Additional Insights" section).
+
+**Grading Prompt Logic:**
+The `ai.php` script constructs a detailed system prompt for the OpenAI API (`gpt-4o` model) to compare the `user_answer` against the `expected_answer`. The prompt instructs the AI to:
+*   Output only a valid JSON object with `score` and `feedback`.
+*   The `feedback` should be a Bootstrap-styled HTML table evaluating criteria like Answer, Legal Basis, Application, Conclusion, and Legal Writing.
+*   Each criterion is graded individually (e.g., 5/5) with explanations for mistakes.
+*   An "Additional Insights" section follows the table, including:
+    *   The correct `expected_answer`.
+    *   A "🔎 Mistakes" section with a clear list of errors.
+    *   Suggestions for improvement.
+    *   A congratulatory message if the user scored perfectly.
 
 **Security:**
 *   Communication between the Angular frontend and the PHP backend will be via plain JSON over HTTPS.
@@ -61,6 +112,32 @@ The `db.php` and `ai.php` files are currently considered stable. Future developm
 ## Frontend Application (`/angular`)
 
 The frontend is an Angular application. We will be heavily utilizing Angular Material for UI components and its icon library.
+
+### Authentication and User ID
+
+The `AuthService` (`angular/src/app/services/auth.service.ts`) is responsible for managing user authentication and providing access to the `user_id`.
+
+**Accessing `user_id`:**
+To retrieve the current user's ID within any Angular component or service:
+1.  **Inject `AuthService`:** Ensure `AuthService` is injected into the constructor of your component or service.
+    ```typescript
+    import { AuthService } from '../services/auth.service'; // Adjust path as necessary
+
+    // ...
+
+    constructor(private authService: AuthService) { }
+    ```
+2.  **Call `getUserId()`:** Use the `getUserId()` method to obtain the ID.
+    ```typescript
+    const userId = this.authService.getUserId();
+    if (userId) {
+      // Use the userId
+      console.log('Current User ID:', userId);
+    } else {
+      console.warn('User ID not available or user not logged in.');
+    }
+    ```
+The `getUserId()` method reads the `user_id` from `localStorage` using the key `user_id`. It will return `null` if the `user_id` is not found or `localStorage` is unavailable.
 
 ### Login Security (Authentication Flow)
 

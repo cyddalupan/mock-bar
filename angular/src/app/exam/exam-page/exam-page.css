@@ -1,0 +1,72 @@
+.exam-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.exam-card {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.loading-spinner, .error-message {
+  text-align: center;
+  padding: 20px;
+}
+
+.full-width-textarea {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.exam-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.mat-mdc-card-content h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.mat-mdc-card-content p {
+  margin-bottom: 10px;
+}
+
+/* Style for the AI feedback HTML table */
+:host ::ng-deep table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+:host ::ng-deep th, :host ::ng-deep td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+:host ::ng-deep th {
+  background-color: #f2f2f2;
+}
+
+:host ::ng-deep .table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+:host ::ng-deep .table-bordered th,
+:host ::ng-deep .table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+:host ::ng-deep .table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}

@@ -1,0 +1,64 @@
+<div class="exam-container">
+  <mat-card class="exam-card">
+    <mat-card-header>
+      <mat-card-title>Mock Exam - Course: {{ courseId }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="isLoading" class="loading-spinner">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        <p>Loading...</p>
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        <p>{{ error }}</p>
+      </div>
+
+      <div *ngIf="!isLoading && !error">
+        <div *ngIf="!examCompleted && currentQuestion && !showResult">
+          <h3>Question:</h3>
+          <p>{{ currentQuestion.q_question }}</p>
+
+          <mat-form-field appearance="fill" class="full-width-textarea">
+            <mat-label>Your Answer</mat-label>
+            <textarea matInput
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="10"
+                      cdkAutosizeMaxRows="20"
+                      [(ngModel)]="userAnswer"></textarea>
+          </mat-form-field>
+
+          <div class="exam-actions">
+            <button mat-flat-button color="warn" (click)="goBackToHome()">Back to Home</button>
+            <button mat-flat-button color="primary" (click)="submitAnswer()" [disabled]="!userAnswer.trim()">Submit Answer</button>
+          </div>
+        </div>
+
+        <div *ngIf="examCompleted">
+          <h3>Exam Completed!</h3>
+          <p>You have answered all available questions for this course.</p>
+          <button mat-flat-button color="primary" (click)="goBackToHome()">Done with Course</button>
+        </div>
+
+        <div *ngIf="showResult && gradeResult">
+          <h3>Grading Result</h3>
+          <mat-card-subtitle>Your Score: {{ gradeResult.score }}%</mat-card-subtitle>
+          <div [innerHTML]="getSafeFeedbackHtml()"></div>
+
+          <div *ngIf="expectedAnswerFromAI">
+            <h4>Expected Answer:</h4>
+            <p>{{ expectedAnswerFromAI }}</p>
+          </div>
+
+          <div class="exam-actions">
+            <button mat-flat-button color="warn" (click)="goBackToHome()">Back to Home</button>
+            <button mat-flat-button color="primary" (click)="continueToNextQuestion()">
+              {{ examCompleted ? 'Done with Course' : 'Continue to Next Question' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
