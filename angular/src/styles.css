@@ -118,6 +118,7 @@ padding:8px 22px;
 border:none;
 border-radius:6px;
 font-weight:bold;
+cursor: pointer;
 }
 .btn-secondary{
 background:#fff;

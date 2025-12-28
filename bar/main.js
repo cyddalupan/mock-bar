@@ -57220,7 +57220,7 @@ var HeaderComponent = class _HeaderComponent {
   static \u0275fac = function HeaderComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _HeaderComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HeaderComponent, selectors: [["app-header"]], decls: 7, vars: 0, consts: [[1, "hero"], ["src", "http://premierebarreview.com/premier.png", 2, "width", "400px"], ["href", "ttp://premierebarreview.com/"], [1, "btn-primary"], [2, "clear", "both", "height", "1px"]], template: function HeaderComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HeaderComponent, selectors: [["app-header"]], decls: 7, vars: 0, consts: [[1, "hero"], ["src", "http://premierebarreview.com/premier.png", 2, "width", "400px"], ["href", "https://premierebarreview.com/"], [1, "btn-primary"], [2, "clear", "both", "height", "1px"]], template: function HeaderComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275domElementStart(0, "section", 0);
       \u0275\u0275domElement(1, "img", 1)(2, "br");
@@ -57234,7 +57234,7 @@ var HeaderComponent = class _HeaderComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HeaderComponent, [{
     type: Component,
-    args: [{ selector: "app-header", standalone: true, imports: [CommonModule], template: '<section class="hero">\n<img src="http://premierebarreview.com/premier.png" style="width:400px">\n<br>\n\n<a href="ttp://premierebarreview.com/"><button class="btn-primary">Back to Home</button> </a> \n\n</section>\n\n<div style="clear:both;height:1px"></div>\n', styles: ["/* src/app/header/header.component.css */\n/*# sourceMappingURL=header.component.css.map */\n"] }]
+    args: [{ selector: "app-header", standalone: true, imports: [CommonModule], template: '<section class="hero">\n<img src="http://premierebarreview.com/premier.png" style="width:400px">\n<br>\n\n<a href="https://premierebarreview.com/"><button class="btn-primary">Back to Home</button> </a> \n\n</section>\n\n<div style="clear:both;height:1px"></div>\n', styles: ["/* src/app/header/header.component.css */\n/*# sourceMappingURL=header.component.css.map */\n"] }]
   }], null, null);
 })();
 (() => {
