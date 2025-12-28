@@ -29,8 +29,7 @@ export class HomeComponent implements OnInit {
         let tempAllCourses: any[] = []; // Temporary array to hold all courses
 
         data.map((category: any) => {
-          // Parse the courses JSON string into an array of objects
-          category.courses = category.courses ? JSON.parse(category.courses) : [];
+          // The `courses` property is already a valid JavaScript array.
           // Use upcoming_image_thumbnail as thumbnail for display
           category.courses = category.courses.map((course: any) => ({
             ...course,
