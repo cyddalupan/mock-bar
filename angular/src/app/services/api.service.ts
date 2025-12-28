@@ -4,6 +4,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators'; // No need for switchMap now
 import { environment } from '../../environments/environment';
 
+import { AuthService } from './auth.service'; // Import AuthService
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +14,13 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
+    private authService: AuthService, // Inject AuthService
   ) {}
+
+  // Helper to get userId
+  getUserId(): string | null {
+    return this.authService.getUserId();
+  }
 
   private postData(endpoint: string, payload: any): Observable<any> {
     const headers = new HttpHeaders({
@@ -36,6 +44,32 @@ export class ApiService {
   callAI(systemPrompt: string, history: any[]): Observable<any> {
     const payload = { system_prompt: systemPrompt, history: history };
     return this.postData('ai.php', payload);
+  }
+
+  getDiagAnsForUser(): Observable<any> {
+    const userId = this.getUserId();
+    if (!userId) {
+      // Handle the case where user is not logged in or userId is not available
+      console.error('User ID not found. Cannot fetch diag_ans.');
+      return throwError(() => new Error('User not logged in.'));
+    }
+
+    const query = `
+      SELECT batch_id, question_id, score
+      FROM diag_ans
+      WHERE user_id = ?;
+    `;
+    const params = [userId];
+    return this.getDbData(query, params);
+  }
+
+  getQuizQuestionsCountPerCourse(): Observable<any> {
+    const query = `
+      SELECT q_course_id, COUNT(q_id) AS total_questions
+      FROM quiz_new
+      GROUP BY q_course_id;
+    `;
+    return this.getDbData(query);
   }
 
     getCategoriesWithCourses(): Observable<any> {

@@ -69,6 +69,37 @@
   padding: 16px;
 }
 
+.progress-bar-container {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px;
+  position: relative;
+  height: 20px; /* Fixed height for the progress bar */
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #4CAF50; /* Green color for progress */
+  width: 0%; /* Initial width, will be set by Angular */
+  text-align: center;
+  color: white;
+  line-height: 20px; /* Center text vertically */
+  border-radius: 5px;
+}
+
+.progress-percentage {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  line-height: 20px; /* Center text vertically over the bar */
+  color: #333; /* Darker color for percentage text */
+  font-size: 0.8em;
+  top: 0;
+  left: 0;
+}
+
 .no-courses {
   text-align: center;
   grid-column: 1 / -1; /* Center across all columns */

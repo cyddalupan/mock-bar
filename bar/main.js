@@ -47953,6 +47953,12 @@ var AuthService = class _AuthService {
   redirectToLogin() {
     window.location.href = this.LOGIN_URL;
   }
+  getUserId() {
+    if (typeof localStorage !== "undefined") {
+      return localStorage.getItem(this.LOCAL_STORAGE_USER_ID_KEY);
+    }
+    return null;
+  }
   static \u0275fac = function AuthService_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _AuthService)(\u0275\u0275inject(Router));
   };
@@ -48425,9 +48431,15 @@ var environment = {
 // src/app/services/api.service.ts
 var ApiService = class _ApiService {
   http;
+  authService;
   apiUrl = environment.API_BASE_URL;
-  constructor(http) {
+  constructor(http, authService) {
     this.http = http;
+    this.authService = authService;
+  }
+  // Helper to get userId
+  getUserId() {
+    return this.authService.getUserId();
   }
   postData(endpoint, payload) {
     const headers = new HttpHeaders({
@@ -48449,6 +48461,28 @@ var ApiService = class _ApiService {
   callAI(systemPrompt, history) {
     const payload = { system_prompt: systemPrompt, history };
     return this.postData("ai.php", payload);
+  }
+  getDiagAnsForUser() {
+    const userId = this.getUserId();
+    if (!userId) {
+      console.error("User ID not found. Cannot fetch diag_ans.");
+      return throwError(() => new Error("User not logged in."));
+    }
+    const query = `
+      SELECT batch_id, question_id, score
+      FROM diag_ans
+      WHERE user_id = ?;
+    `;
+    const params = [userId];
+    return this.getDbData(query, params);
+  }
+  getQuizQuestionsCountPerCourse() {
+    const query = `
+      SELECT q_course_id, COUNT(q_id) AS total_questions
+      FROM quiz_new
+      GROUP BY q_course_id;
+    `;
+    return this.getDbData(query);
   }
   getCategoriesWithCourses() {
     const query = `
@@ -48472,7 +48506,7 @@ var ApiService = class _ApiService {
     return this.getDbData(query);
   }
   static \u0275fac = function ApiService_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _ApiService)(\u0275\u0275inject(HttpClient));
+    return new (__ngFactoryType__ || _ApiService)(\u0275\u0275inject(HttpClient), \u0275\u0275inject(AuthService));
   };
   static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _ApiService, factory: _ApiService.\u0275fac, providedIn: "root" });
 };
@@ -48482,10 +48516,55 @@ var ApiService = class _ApiService {
     args: [{
       providedIn: "root"
     }]
-  }], () => [{ type: HttpClient }], null);
+  }], () => [{ type: HttpClient }, { type: AuthService }], null);
 })();
 
 // src/app/home/home.component.ts
+function HomeComponent_mat_card_4_p_12_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p")(1, "strong");
+    \u0275\u0275text(2, "Progress:");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const course_r1 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1(" ", course_r1.progressText);
+  }
+}
+function HomeComponent_mat_card_4_div_13_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 9);
+    \u0275\u0275element(1, "div", 10);
+    \u0275\u0275elementStart(2, "span", 11);
+    \u0275\u0275text(3);
+    \u0275\u0275pipe(4, "number");
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const course_r1 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275styleProp("width", course_r1.progressBarPercentage, "%");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind2(4, 3, course_r1.progressBarPercentage, "1.0-0"), "%");
+  }
+}
+function HomeComponent_mat_card_4_p_14_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p")(1, "strong");
+    \u0275\u0275text(2, "Average Score:");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const course_r1 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1(" ", course_r1.averageScore, "%");
+  }
+}
 function HomeComponent_mat_card_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "mat-card", 4);
@@ -48500,9 +48579,11 @@ function HomeComponent_mat_card_4_Template(rf, ctx) {
     \u0275\u0275text(10, "Level:");
     \u0275\u0275elementEnd();
     \u0275\u0275text(11);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "mat-card-actions")(13, "button", 6);
-    \u0275\u0275text(14, "View Details");
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(12, HomeComponent_mat_card_4_p_12_Template, 4, 1, "p", 6)(13, HomeComponent_mat_card_4_div_13_Template, 5, 6, "div", 7)(14, HomeComponent_mat_card_4_p_14_Template, 4, 1, "p", 6);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(15, "mat-card-actions")(16, "button", 8);
+    \u0275\u0275text(17, "View Details");
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -48515,6 +48596,12 @@ function HomeComponent_mat_card_4_Template(rf, ctx) {
     \u0275\u0275textInterpolate(course_r1.short_description);
     \u0275\u0275advance(5);
     \u0275\u0275textInterpolate1(" ", course_r1.level);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", course_r1.progressText);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", course_r1.progressBarPercentage !== void 0);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", course_r1.averageScore);
   }
 }
 var HomeComponent = class _HomeComponent {
@@ -48522,42 +48609,81 @@ var HomeComponent = class _HomeComponent {
   title = signal("Mock Bar App", ...ngDevMode ? [{ debugName: "title" }] : []);
   allCourses = [];
   // Array to hold all courses flattened from categories
+  userDiagAns = [];
+  // To store diag_ans for the logged-in user
+  quizQuestionsCount = {};
+  // To store total questions per course
   constructor(apiService) {
     this.apiService = apiService;
   }
   ngOnInit() {
-    this.fetchCategories();
+    this.fetchAllData();
   }
-  fetchCategories() {
-    this.apiService.getCategoriesWithCourses().subscribe({
-      next: (data) => {
+  fetchAllData() {
+    forkJoin({
+      categoriesWithCourses: this.apiService.getCategoriesWithCourses(),
+      diagAns: this.apiService.getDiagAnsForUser(),
+      quizCounts: this.apiService.getQuizQuestionsCountPerCourse()
+    }).subscribe({
+      next: (results) => {
         let tempAllCourses = [];
-        data.map((category) => {
+        results.categoriesWithCourses.map((category) => {
           category.courses = category.courses.map((course) => __spreadProps(__spreadValues({}, course), {
             category_name: category.category_name,
-            // Add category name to each course
             thumbnail: course.upcoming_image_thumbnail || "https://premierebarreview.com/mock/img/placeholder.jpg"
           }));
           tempAllCourses = tempAllCourses.concat(category.courses);
-          return category;
         });
         this.allCourses = tempAllCourses;
+        this.userDiagAns = results.diagAns;
+        this.quizQuestionsCount = results.quizCounts.reduce((acc, curr) => {
+          acc[curr.q_course_id] = curr.total_questions;
+          return acc;
+        }, {});
+        this.processCoursesForMetrics();
       },
       error: (error) => {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching all data:", error);
       }
+    });
+  }
+  processCoursesForMetrics() {
+    this.allCourses = this.allCourses.map((course) => {
+      const courseId = course.id;
+      const totalQuestions = this.quizQuestionsCount[courseId] || 0;
+      const userAnswersForCourse = this.userDiagAns.filter(
+        (ans) => ans.batch_id == courseId
+        // Using == for potential type coercion with string/number IDs
+      );
+      const answeredQuestions = userAnswersForCourse.length;
+      let progressText = `${answeredQuestions}/${totalQuestions} questions`;
+      let progressBarPercentage = 0;
+      if (totalQuestions > 0) {
+        progressBarPercentage = answeredQuestions / totalQuestions * 100;
+      }
+      let averageScore = 0;
+      if (answeredQuestions > 0) {
+        const sumScores = userAnswersForCourse.reduce((sum, ans) => sum + ans.score, 0);
+        averageScore = sumScores / answeredQuestions;
+      }
+      return __spreadProps(__spreadValues({}, course), {
+        progressText,
+        progressBarPercentage,
+        averageScore: averageScore.toFixed(2)
+        // Format to 2 decimal places
+      });
     });
   }
   static \u0275fac = function HomeComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _HomeComponent)(\u0275\u0275directiveInject(ApiService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomeComponent, selectors: [["app-home"]], decls: 8, vars: 1, consts: [[1, "banner"], ["src", "https://premierebarreview.com/mock/img/banner.jpg", "alt", "Banner Image"], [1, "all-course-cards-container"], ["class", "course-card", 4, "ngFor", "ngForOf"], [1, "course-card"], ["alt", "Course Thumbnail", 1, "course-thumbnail-img", 3, "src"], ["mat-button", ""]], template: function HomeComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomeComponent, selectors: [["app-home"]], decls: 8, vars: 1, consts: [[1, "banner"], ["src", "https://premierebarreview.com/mock/img/banner.jpg", "alt", "Banner Image"], [1, "all-course-cards-container"], ["class", "course-card", 4, "ngFor", "ngForOf"], [1, "course-card"], ["alt", "Course Thumbnail", 1, "course-thumbnail-img", 3, "src"], [4, "ngIf"], ["class", "progress-bar-container", 4, "ngIf"], ["mat-button", ""], [1, "progress-bar-container"], [1, "progress-bar"], [1, "progress-percentage"]], template: function HomeComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "main")(1, "div", 0);
       \u0275\u0275element(2, "img", 1);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(3, "div", 2);
-      \u0275\u0275template(4, HomeComponent_mat_card_4_Template, 15, 4, "mat-card", 3);
+      \u0275\u0275template(4, HomeComponent_mat_card_4_Template, 18, 7, "mat-card", 3);
       \u0275\u0275elementEnd()();
       \u0275\u0275elementStart(5, "footer")(6, "p");
       \u0275\u0275text(7, "\xA9 premierebarreview 2025");
@@ -48567,16 +48693,48 @@ var HomeComponent = class _HomeComponent {
       \u0275\u0275advance(4);
       \u0275\u0275property("ngForOf", ctx.allCourses);
     }
-  }, dependencies: [CommonModule, NgForOf, MatButtonModule, MatButton, MatIconModule, MatCardModule, MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle], styles: ["\n\n.banner[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.all-course-cards-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card[_ngcontent-%COMP%]   .course-thumbnail-img[_ngcontent-%COMP%] {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-header[_ngcontent-%COMP%] {\n  padding-bottom: 0;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-title[_ngcontent-%COMP%] {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-subtitle[_ngcontent-%COMP%] {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.no-courses[_ngcontent-%COMP%] {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */"] });
+  }, dependencies: [CommonModule, NgForOf, NgIf, MatButtonModule, MatButton, MatIconModule, MatCardModule, MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle, DecimalPipe], styles: ["\n\n.banner[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.all-course-cards-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card[_ngcontent-%COMP%]   .course-thumbnail-img[_ngcontent-%COMP%] {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-header[_ngcontent-%COMP%] {\n  padding-bottom: 0;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-title[_ngcontent-%COMP%] {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-subtitle[_ngcontent-%COMP%] {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.progress-bar-container[_ngcontent-%COMP%] {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar[_ngcontent-%COMP%] {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses[_ngcontent-%COMP%] {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HomeComponent, [{
     type: Component,
-    args: [{ selector: "app-home", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule], template: '<main>\n  <div class="banner">\n    <!-- Placeholder for a banner image -->\n    <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Banner Image">\n  </div>\n\n  <div class="all-course-cards-container">\n    <mat-card *ngFor="let course of allCourses" class="course-card">\n      <img [src]="course.thumbnail" alt="Course Thumbnail" class="course-thumbnail-img">\n      <mat-card-header>\n        <mat-card-title>{{ course.title }}</mat-card-title>\n        <mat-card-subtitle>{{ course.short_description }}</mat-card-subtitle>\n      </mat-card-header>\n      <mat-card-content>\n        <p><strong>Level:</strong> {{ course.level }}</p>\n      </mat-card-content>\n      <mat-card-actions>\n        <button mat-button>View Details</button>\n      </mat-card-actions>\n    </mat-card>\n    <!-- We might need a message if allCourses is empty, but for now, omitting the no-courses message -->\n  </div>\n</main>\n\n<footer>\n  <p>&copy; premierebarreview 2025</p>\n</footer>', styles: ["/* src/app/home/home.component.css */\n.banner {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.all-course-cards-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card .course-thumbnail-img {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-subtitle {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */\n"] }]
+    args: [{ selector: "app-home", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule], template: `<main>
+  <div class="banner">
+    <!-- Placeholder for a banner image -->
+    <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Banner Image">
+  </div>
+
+  <div class="all-course-cards-container">
+    <mat-card *ngFor="let course of allCourses" class="course-card">
+      <img [src]="course.thumbnail" alt="Course Thumbnail" class="course-thumbnail-img">
+      <mat-card-header>
+        <mat-card-title>{{ course.title }}</mat-card-title>
+        <mat-card-subtitle>{{ course.short_description }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Level:</strong> {{ course.level }}</p>
+        <p *ngIf="course.progressText"><strong>Progress:</strong> {{ course.progressText }}</p>
+        <div *ngIf="course.progressBarPercentage !== undefined" class="progress-bar-container">
+          <div class="progress-bar" [style.width.%]="course.progressBarPercentage"></div>
+          <span class="progress-percentage">{{ course.progressBarPercentage | number:'1.0-0' }}%</span>
+        </div>
+        <p *ngIf="course.averageScore"><strong>Average Score:</strong> {{ course.averageScore }}%</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>View Details</button>
+      </mat-card-actions>
+    </mat-card>
+    <!-- We might need a message if allCourses is empty, but for now, omitting the no-courses message -->
+  </div>
+</main>
+
+<footer>
+  <p>&copy; premierebarreview 2025</p>
+</footer>`, styles: ["/* src/app/home/home.component.css */\n.banner {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.all-course-cards-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card .course-thumbnail-img {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-subtitle {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: space-around;\n  padding: 16px;\n}\n.progress-bar-container {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */\n"] }]
   }], () => [{ type: ApiService }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HomeComponent, { className: "HomeComponent", filePath: "src/app/home/home.component.ts", lineNumber: 15 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HomeComponent, { className: "HomeComponent", filePath: "src/app/home/home.component.ts", lineNumber: 16 });
 })();
 
 // src/app/app.config.ts

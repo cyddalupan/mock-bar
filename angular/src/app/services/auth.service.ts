@@ -24,4 +24,11 @@ export class AuthService {
   redirectToLogin(): void {
     window.location.href = this.LOGIN_URL;
   }
+
+  getUserId(): string | null {
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem(this.LOCAL_STORAGE_USER_ID_KEY);
+    }
+    return null;
+  }
 }

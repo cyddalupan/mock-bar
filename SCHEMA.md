@@ -36,3 +36,37 @@
 *   **expiry_period**: Expiry period for the course
 *   **upcoming_image_thumbnail**: Thumbnail for upcoming course
 *   **publish_date**: Date of course publication
+
+## Table: diag_ans
+
+*   **id**: Primary Key
+*   **user_id**: User ID associated with the answer
+*   **batch_id**: Foreign Key to course table (representing course_id)
+*   **question_id**: ID of the question
+*   **answer**: User's answer
+*   **score**: Score for the answer
+*   **feedback**: Feedback for the answer
+*   **date_created**: Date the answer was created
+
+## Table: quiz_new
+
+*   **q_id**: Primary Key
+*   **q_course_id**: Foreign Key to course table
+*   **q_subject_id**: Subject ID
+*   **q_question**: Question text
+*   **q_answer**: Correct answer
+*   **q_level**: Difficulty level
+*   **q_type**: "STANDARD" or "PRO"
+*   **q_timer**: Timer in minutes (integer)
+*   **q_created**: Timestamp of creation
+
+## Table: diag_ans
+
+*   **id**: Primary Key
+*   **user_id**: User ID associated with the answer
+*   **batch_id**: Foreign Key to course table (representing course_id)
+*   **question_id**: ID of the question
+*   **answer**: User's answer
+*   **score**: Score for the answer
+*   **feedback**: Feedback for the answer
+*   **date_created**: Date the answer was created
