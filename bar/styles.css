@@ -219,6 +219,13 @@ footer {
   color: #666;
   border-top: 1px solid #e0e0e0;
 }
+@media (max-width: 550px) {
+  .app-banner {
+    height: auto;
+    object-fit: contain;
+    max-width: 100%;
+  }
+}
 
 /* angular:styles/global:styles */
 /*# sourceMappingURL=styles.css.map */
