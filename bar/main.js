@@ -48880,15 +48880,18 @@ var ApiService = class _ApiService {
         (SELECT COUNT(question_id) FROM diag_ans WHERE user_id = ? AND batch_id = ?) AS answered_questions;
     `;
     const params = [courseId, userId, courseId];
-    return this.getDbData(query).pipe(map((response) => {
-      const totalQuestions = response[0]?.total_questions || 0;
-      const answeredQuestions = response[0]?.answered_questions || 0;
-      return {
-        completed: totalQuestions > 0 && answeredQuestions >= totalQuestions,
-        answeredCount: answeredQuestions,
-        totalQuestions
-      };
-    }));
+    return this.getDbData(query, params).pipe(
+      // Corrected: pass params here
+      map((response) => {
+        const totalQuestions = response[0]?.total_questions || 0;
+        const answeredQuestions = response[0]?.answered_questions || 0;
+        return {
+          completed: totalQuestions > 0 && answeredQuestions >= totalQuestions,
+          answeredCount: answeredQuestions,
+          totalQuestions
+        };
+      })
+    );
   }
   // New method to get detailed diag_ans for a user, including the answer
   getDiagAnsDetailForUser(userId, courseId) {

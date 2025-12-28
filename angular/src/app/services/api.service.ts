@@ -79,7 +79,7 @@ export class ApiService {
         (SELECT COUNT(question_id) FROM diag_ans WHERE user_id = ? AND batch_id = ?) AS answered_questions;
     `;
     const params = [courseId, userId, courseId];
-    return this.getDbData(query).pipe(
+    return this.getDbData(query, params).pipe( // Corrected: pass params here
       map(response => {
         const totalQuestions = response[0]?.total_questions || 0;
         const answeredQuestions = response[0]?.answered_questions || 0;
