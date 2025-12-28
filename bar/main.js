@@ -57228,10 +57228,10 @@ var App = class _App {
   static \u0275fac = function App_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _App)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 3, vars: 0, consts: [["src", "https://premierebarreview.com/mock/img/banner.jpg", "alt", "Mock Bar Banner", 1, "app-banner"]], template: function App_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 3, vars: 0, consts: [[1, "banner-container"], ["src", "https://premierebarreview.com/mock/img/banner.jpg", "alt", "Mock Bar Banner", 1, "app-banner"]], template: function App_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div");
-      \u0275\u0275element(1, "img", 0)(2, "router-outlet");
+      \u0275\u0275elementStart(0, "div", 0);
+      \u0275\u0275element(1, "img", 1)(2, "router-outlet");
       \u0275\u0275elementEnd();
     }
   }, dependencies: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], encapsulation: 2 });
@@ -57240,7 +57240,7 @@ var App = class _App {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(App, [{
     type: Component,
     args: [{ selector: "app-root", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], template: `
-    <div>
+    <div class="banner-container">
       <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Mock Bar Banner" class="app-banner">
       <router-outlet></router-outlet>
     </div>
