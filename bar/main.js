@@ -48809,6 +48809,264 @@ var MatCardModule = class _MatCardModule {
   }], null, null);
 })();
 
+// node_modules/@angular/material/fesm2022/progress-spinner.mjs
+var _c05 = ["determinateSpinner"];
+function MatProgressSpinner_ng_template_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275namespaceSVG();
+    \u0275\u0275elementStart(0, "svg", 11);
+    \u0275\u0275element(1, "circle", 12);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275attribute("viewBox", ctx_r0._viewBox());
+    \u0275\u0275advance();
+    \u0275\u0275styleProp("stroke-dasharray", ctx_r0._strokeCircumference(), "px")("stroke-dashoffset", ctx_r0._strokeCircumference() / 2, "px")("stroke-width", ctx_r0._circleStrokeWidth(), "%");
+    \u0275\u0275attribute("r", ctx_r0._circleRadius());
+  }
+}
+var MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS = new InjectionToken("mat-progress-spinner-default-options", {
+  providedIn: "root",
+  factory: () => ({
+    diameter: BASE_SIZE
+  })
+});
+var BASE_SIZE = 100;
+var BASE_STROKE_WIDTH = 10;
+var MatProgressSpinner = class _MatProgressSpinner {
+  _elementRef = inject2(ElementRef);
+  _noopAnimations;
+  get color() {
+    return this._color || this._defaultColor;
+  }
+  set color(value) {
+    this._color = value;
+  }
+  _color;
+  _defaultColor = "primary";
+  _determinateCircle;
+  constructor() {
+    const defaults2 = inject2(MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS);
+    const animationsState = _getAnimationsState();
+    const element = this._elementRef.nativeElement;
+    this._noopAnimations = animationsState === "di-disabled" && !!defaults2 && !defaults2._forceAnimations;
+    this.mode = element.nodeName.toLowerCase() === "mat-spinner" ? "indeterminate" : "determinate";
+    if (!this._noopAnimations && animationsState === "reduced-motion") {
+      element.classList.add("mat-progress-spinner-reduced-motion");
+    }
+    if (defaults2) {
+      if (defaults2.color) {
+        this.color = this._defaultColor = defaults2.color;
+      }
+      if (defaults2.diameter) {
+        this.diameter = defaults2.diameter;
+      }
+      if (defaults2.strokeWidth) {
+        this.strokeWidth = defaults2.strokeWidth;
+      }
+    }
+  }
+  mode;
+  get value() {
+    return this.mode === "determinate" ? this._value : 0;
+  }
+  set value(v) {
+    this._value = Math.max(0, Math.min(100, v || 0));
+  }
+  _value = 0;
+  get diameter() {
+    return this._diameter;
+  }
+  set diameter(size) {
+    this._diameter = size || 0;
+  }
+  _diameter = BASE_SIZE;
+  get strokeWidth() {
+    return this._strokeWidth ?? this.diameter / 10;
+  }
+  set strokeWidth(value) {
+    this._strokeWidth = value || 0;
+  }
+  _strokeWidth;
+  _circleRadius() {
+    return (this.diameter - BASE_STROKE_WIDTH) / 2;
+  }
+  _viewBox() {
+    const viewBox = this._circleRadius() * 2 + this.strokeWidth;
+    return `0 0 ${viewBox} ${viewBox}`;
+  }
+  _strokeCircumference() {
+    return 2 * Math.PI * this._circleRadius();
+  }
+  _strokeDashOffset() {
+    if (this.mode === "determinate") {
+      return this._strokeCircumference() * (100 - this._value) / 100;
+    }
+    return null;
+  }
+  _circleStrokeWidth() {
+    return this.strokeWidth / this.diameter * 100;
+  }
+  static \u0275fac = function MatProgressSpinner_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatProgressSpinner)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _MatProgressSpinner,
+    selectors: [["mat-progress-spinner"], ["mat-spinner"]],
+    viewQuery: function MatProgressSpinner_Query(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275viewQuery(_c05, 5);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx._determinateCircle = _t.first);
+      }
+    },
+    hostAttrs: ["role", "progressbar", "tabindex", "-1", 1, "mat-mdc-progress-spinner", "mdc-circular-progress"],
+    hostVars: 18,
+    hostBindings: function MatProgressSpinner_HostBindings(rf, ctx) {
+      if (rf & 2) {
+        \u0275\u0275attribute("aria-valuemin", 0)("aria-valuemax", 100)("aria-valuenow", ctx.mode === "determinate" ? ctx.value : null)("mode", ctx.mode);
+        \u0275\u0275classMap("mat-" + ctx.color);
+        \u0275\u0275styleProp("width", ctx.diameter, "px")("height", ctx.diameter, "px")("--mat-progress-spinner-size", ctx.diameter + "px")("--mat-progress-spinner-active-indicator-width", ctx.diameter + "px");
+        \u0275\u0275classProp("_mat-animation-noopable", ctx._noopAnimations)("mdc-circular-progress--indeterminate", ctx.mode === "indeterminate");
+      }
+    },
+    inputs: {
+      color: "color",
+      mode: "mode",
+      value: [2, "value", "value", numberAttribute],
+      diameter: [2, "diameter", "diameter", numberAttribute],
+      strokeWidth: [2, "strokeWidth", "strokeWidth", numberAttribute]
+    },
+    exportAs: ["matProgressSpinner"],
+    decls: 14,
+    vars: 11,
+    consts: [["circle", ""], ["determinateSpinner", ""], ["aria-hidden", "true", 1, "mdc-circular-progress__determinate-container"], ["xmlns", "http://www.w3.org/2000/svg", "focusable", "false", 1, "mdc-circular-progress__determinate-circle-graphic"], ["cx", "50%", "cy", "50%", 1, "mdc-circular-progress__determinate-circle"], ["aria-hidden", "true", 1, "mdc-circular-progress__indeterminate-container"], [1, "mdc-circular-progress__spinner-layer"], [1, "mdc-circular-progress__circle-clipper", "mdc-circular-progress__circle-left"], [3, "ngTemplateOutlet"], [1, "mdc-circular-progress__gap-patch"], [1, "mdc-circular-progress__circle-clipper", "mdc-circular-progress__circle-right"], ["xmlns", "http://www.w3.org/2000/svg", "focusable", "false", 1, "mdc-circular-progress__indeterminate-circle-graphic"], ["cx", "50%", "cy", "50%"]],
+    template: function MatProgressSpinner_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275template(0, MatProgressSpinner_ng_template_0_Template, 2, 8, "ng-template", null, 0, \u0275\u0275templateRefExtractor);
+        \u0275\u0275elementStart(2, "div", 2, 1);
+        \u0275\u0275namespaceSVG();
+        \u0275\u0275elementStart(4, "svg", 3);
+        \u0275\u0275element(5, "circle", 4);
+        \u0275\u0275elementEnd()();
+        \u0275\u0275namespaceHTML();
+        \u0275\u0275elementStart(6, "div", 5)(7, "div", 6)(8, "div", 7);
+        \u0275\u0275elementContainer(9, 8);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(10, "div", 9);
+        \u0275\u0275elementContainer(11, 8);
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(12, "div", 10);
+        \u0275\u0275elementContainer(13, 8);
+        \u0275\u0275elementEnd()()();
+      }
+      if (rf & 2) {
+        const circle_r2 = \u0275\u0275reference(1);
+        \u0275\u0275advance(4);
+        \u0275\u0275attribute("viewBox", ctx._viewBox());
+        \u0275\u0275advance();
+        \u0275\u0275styleProp("stroke-dasharray", ctx._strokeCircumference(), "px")("stroke-dashoffset", ctx._strokeDashOffset(), "px")("stroke-width", ctx._circleStrokeWidth(), "%");
+        \u0275\u0275attribute("r", ctx._circleRadius());
+        \u0275\u0275advance(4);
+        \u0275\u0275property("ngTemplateOutlet", circle_r2);
+        \u0275\u0275advance(2);
+        \u0275\u0275property("ngTemplateOutlet", circle_r2);
+        \u0275\u0275advance(2);
+        \u0275\u0275property("ngTemplateOutlet", circle_r2);
+      }
+    },
+    dependencies: [NgTemplateOutlet],
+    styles: [".mat-mdc-progress-spinner{--mat-progress-spinner-animation-multiplier: 1;display:block;overflow:hidden;line-height:0;position:relative;direction:ltr;transition:opacity 250ms cubic-bezier(0.4, 0, 0.6, 1)}.mat-mdc-progress-spinner circle{stroke-width:var(--mat-progress-spinner-active-indicator-width, 4px)}.mat-mdc-progress-spinner._mat-animation-noopable,.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__determinate-circle{transition:none !important}.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__indeterminate-circle-graphic,.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__spinner-layer,.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__indeterminate-container{animation:none !important}.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__indeterminate-container circle{stroke-dasharray:0 !important}@media(forced-colors: active){.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic,.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle{stroke:currentColor;stroke:CanvasText}}.mat-progress-spinner-reduced-motion{--mat-progress-spinner-animation-multiplier: 1.25}.mdc-circular-progress__determinate-container,.mdc-circular-progress__indeterminate-circle-graphic,.mdc-circular-progress__indeterminate-container,.mdc-circular-progress__spinner-layer{position:absolute;width:100%;height:100%}.mdc-circular-progress__determinate-container{transform:rotate(-90deg)}.mdc-circular-progress--indeterminate .mdc-circular-progress__determinate-container{opacity:0}.mdc-circular-progress__indeterminate-container{font-size:0;letter-spacing:0;white-space:nowrap;opacity:0}.mdc-circular-progress--indeterminate .mdc-circular-progress__indeterminate-container{opacity:1;animation:mdc-circular-progress-container-rotate calc(1568.2352941176ms*var(--mat-progress-spinner-animation-multiplier)) linear infinite}.mdc-circular-progress__determinate-circle-graphic,.mdc-circular-progress__indeterminate-circle-graphic{fill:rgba(0,0,0,0)}.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic{stroke:var(--mat-progress-spinner-active-indicator-color, var(--mat-sys-primary))}@media(forced-colors: active){.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic{stroke:CanvasText}}.mdc-circular-progress__determinate-circle{transition:stroke-dashoffset 500ms cubic-bezier(0, 0, 0.2, 1)}.mdc-circular-progress__gap-patch{position:absolute;top:0;left:47.5%;box-sizing:border-box;width:5%;height:100%;overflow:hidden}.mdc-circular-progress__gap-patch .mdc-circular-progress__indeterminate-circle-graphic{left:-900%;width:2000%;transform:rotate(180deg)}.mdc-circular-progress__circle-clipper .mdc-circular-progress__indeterminate-circle-graphic{width:200%}.mdc-circular-progress__circle-right .mdc-circular-progress__indeterminate-circle-graphic{left:-100%}.mdc-circular-progress--indeterminate .mdc-circular-progress__circle-left .mdc-circular-progress__indeterminate-circle-graphic{animation:mdc-circular-progress-left-spin calc(1333ms*var(--mat-progress-spinner-animation-multiplier)) cubic-bezier(0.4, 0, 0.2, 1) infinite both}.mdc-circular-progress--indeterminate .mdc-circular-progress__circle-right .mdc-circular-progress__indeterminate-circle-graphic{animation:mdc-circular-progress-right-spin calc(1333ms*var(--mat-progress-spinner-animation-multiplier)) cubic-bezier(0.4, 0, 0.2, 1) infinite both}.mdc-circular-progress__circle-clipper{display:inline-flex;position:relative;width:50%;height:100%;overflow:hidden}.mdc-circular-progress--indeterminate .mdc-circular-progress__spinner-layer{animation:mdc-circular-progress-spinner-layer-rotate calc(5332ms*var(--mat-progress-spinner-animation-multiplier)) cubic-bezier(0.4, 0, 0.2, 1) infinite both}@keyframes mdc-circular-progress-container-rotate{to{transform:rotate(360deg)}}@keyframes mdc-circular-progress-spinner-layer-rotate{12.5%{transform:rotate(135deg)}25%{transform:rotate(270deg)}37.5%{transform:rotate(405deg)}50%{transform:rotate(540deg)}62.5%{transform:rotate(675deg)}75%{transform:rotate(810deg)}87.5%{transform:rotate(945deg)}100%{transform:rotate(1080deg)}}@keyframes mdc-circular-progress-left-spin{from{transform:rotate(265deg)}50%{transform:rotate(130deg)}to{transform:rotate(265deg)}}@keyframes mdc-circular-progress-right-spin{from{transform:rotate(-265deg)}50%{transform:rotate(-130deg)}to{transform:rotate(-265deg)}}\n"],
+    encapsulation: 2,
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatProgressSpinner, [{
+    type: Component,
+    args: [{
+      selector: "mat-progress-spinner, mat-spinner",
+      exportAs: "matProgressSpinner",
+      host: {
+        "role": "progressbar",
+        "class": "mat-mdc-progress-spinner mdc-circular-progress",
+        "tabindex": "-1",
+        "[class]": '"mat-" + color',
+        "[class._mat-animation-noopable]": `_noopAnimations`,
+        "[class.mdc-circular-progress--indeterminate]": 'mode === "indeterminate"',
+        "[style.width.px]": "diameter",
+        "[style.height.px]": "diameter",
+        "[style.--mat-progress-spinner-size]": 'diameter + "px"',
+        "[style.--mat-progress-spinner-active-indicator-width]": 'diameter + "px"',
+        "[attr.aria-valuemin]": "0",
+        "[attr.aria-valuemax]": "100",
+        "[attr.aria-valuenow]": 'mode === "determinate" ? value : null',
+        "[attr.mode]": "mode"
+      },
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      encapsulation: ViewEncapsulation.None,
+      imports: [NgTemplateOutlet],
+      template: '<ng-template #circle>\n  <svg [attr.viewBox]="_viewBox()" class="mdc-circular-progress__indeterminate-circle-graphic"\n       xmlns="http://www.w3.org/2000/svg" focusable="false">\n    <circle [attr.r]="_circleRadius()"\n            [style.stroke-dasharray.px]="_strokeCircumference()"\n            [style.stroke-dashoffset.px]="_strokeCircumference() / 2"\n            [style.stroke-width.%]="_circleStrokeWidth()"\n            cx="50%" cy="50%"/>\n  </svg>\n</ng-template>\n\n<!--\n  All children need to be hidden for screen readers in order to support ChromeVox.\n  More context in the issue: https://github.com/angular/components/issues/22165.\n-->\n<div class="mdc-circular-progress__determinate-container" aria-hidden="true" #determinateSpinner>\n  <svg [attr.viewBox]="_viewBox()" class="mdc-circular-progress__determinate-circle-graphic"\n       xmlns="http://www.w3.org/2000/svg" focusable="false">\n    <circle [attr.r]="_circleRadius()"\n            [style.stroke-dasharray.px]="_strokeCircumference()"\n            [style.stroke-dashoffset.px]="_strokeDashOffset()"\n            [style.stroke-width.%]="_circleStrokeWidth()"\n            class="mdc-circular-progress__determinate-circle"\n            cx="50%" cy="50%"/>\n  </svg>\n</div>\n<!--TODO: figure out why there are 3 separate svgs-->\n<div class="mdc-circular-progress__indeterminate-container" aria-hidden="true">\n  <div class="mdc-circular-progress__spinner-layer">\n    <div class="mdc-circular-progress__circle-clipper mdc-circular-progress__circle-left">\n      <ng-container [ngTemplateOutlet]="circle"></ng-container>\n    </div>\n    <div class="mdc-circular-progress__gap-patch">\n      <ng-container [ngTemplateOutlet]="circle"></ng-container>\n    </div>\n    <div class="mdc-circular-progress__circle-clipper mdc-circular-progress__circle-right">\n      <ng-container [ngTemplateOutlet]="circle"></ng-container>\n    </div>\n  </div>\n</div>\n',
+      styles: [".mat-mdc-progress-spinner{--mat-progress-spinner-animation-multiplier: 1;display:block;overflow:hidden;line-height:0;position:relative;direction:ltr;transition:opacity 250ms cubic-bezier(0.4, 0, 0.6, 1)}.mat-mdc-progress-spinner circle{stroke-width:var(--mat-progress-spinner-active-indicator-width, 4px)}.mat-mdc-progress-spinner._mat-animation-noopable,.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__determinate-circle{transition:none !important}.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__indeterminate-circle-graphic,.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__spinner-layer,.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__indeterminate-container{animation:none !important}.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__indeterminate-container circle{stroke-dasharray:0 !important}@media(forced-colors: active){.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic,.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle{stroke:currentColor;stroke:CanvasText}}.mat-progress-spinner-reduced-motion{--mat-progress-spinner-animation-multiplier: 1.25}.mdc-circular-progress__determinate-container,.mdc-circular-progress__indeterminate-circle-graphic,.mdc-circular-progress__indeterminate-container,.mdc-circular-progress__spinner-layer{position:absolute;width:100%;height:100%}.mdc-circular-progress__determinate-container{transform:rotate(-90deg)}.mdc-circular-progress--indeterminate .mdc-circular-progress__determinate-container{opacity:0}.mdc-circular-progress__indeterminate-container{font-size:0;letter-spacing:0;white-space:nowrap;opacity:0}.mdc-circular-progress--indeterminate .mdc-circular-progress__indeterminate-container{opacity:1;animation:mdc-circular-progress-container-rotate calc(1568.2352941176ms*var(--mat-progress-spinner-animation-multiplier)) linear infinite}.mdc-circular-progress__determinate-circle-graphic,.mdc-circular-progress__indeterminate-circle-graphic{fill:rgba(0,0,0,0)}.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic{stroke:var(--mat-progress-spinner-active-indicator-color, var(--mat-sys-primary))}@media(forced-colors: active){.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic{stroke:CanvasText}}.mdc-circular-progress__determinate-circle{transition:stroke-dashoffset 500ms cubic-bezier(0, 0, 0.2, 1)}.mdc-circular-progress__gap-patch{position:absolute;top:0;left:47.5%;box-sizing:border-box;width:5%;height:100%;overflow:hidden}.mdc-circular-progress__gap-patch .mdc-circular-progress__indeterminate-circle-graphic{left:-900%;width:2000%;transform:rotate(180deg)}.mdc-circular-progress__circle-clipper .mdc-circular-progress__indeterminate-circle-graphic{width:200%}.mdc-circular-progress__circle-right .mdc-circular-progress__indeterminate-circle-graphic{left:-100%}.mdc-circular-progress--indeterminate .mdc-circular-progress__circle-left .mdc-circular-progress__indeterminate-circle-graphic{animation:mdc-circular-progress-left-spin calc(1333ms*var(--mat-progress-spinner-animation-multiplier)) cubic-bezier(0.4, 0, 0.2, 1) infinite both}.mdc-circular-progress--indeterminate .mdc-circular-progress__circle-right .mdc-circular-progress__indeterminate-circle-graphic{animation:mdc-circular-progress-right-spin calc(1333ms*var(--mat-progress-spinner-animation-multiplier)) cubic-bezier(0.4, 0, 0.2, 1) infinite both}.mdc-circular-progress__circle-clipper{display:inline-flex;position:relative;width:50%;height:100%;overflow:hidden}.mdc-circular-progress--indeterminate .mdc-circular-progress__spinner-layer{animation:mdc-circular-progress-spinner-layer-rotate calc(5332ms*var(--mat-progress-spinner-animation-multiplier)) cubic-bezier(0.4, 0, 0.2, 1) infinite both}@keyframes mdc-circular-progress-container-rotate{to{transform:rotate(360deg)}}@keyframes mdc-circular-progress-spinner-layer-rotate{12.5%{transform:rotate(135deg)}25%{transform:rotate(270deg)}37.5%{transform:rotate(405deg)}50%{transform:rotate(540deg)}62.5%{transform:rotate(675deg)}75%{transform:rotate(810deg)}87.5%{transform:rotate(945deg)}100%{transform:rotate(1080deg)}}@keyframes mdc-circular-progress-left-spin{from{transform:rotate(265deg)}50%{transform:rotate(130deg)}to{transform:rotate(265deg)}}@keyframes mdc-circular-progress-right-spin{from{transform:rotate(-265deg)}50%{transform:rotate(-130deg)}to{transform:rotate(-265deg)}}\n"]
+    }]
+  }], () => [], {
+    color: [{
+      type: Input
+    }],
+    _determinateCircle: [{
+      type: ViewChild,
+      args: ["determinateSpinner"]
+    }],
+    mode: [{
+      type: Input
+    }],
+    value: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    diameter: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    strokeWidth: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }]
+  });
+})();
+var MatSpinner = MatProgressSpinner;
+var MatProgressSpinnerModule = class _MatProgressSpinnerModule {
+  static \u0275fac = function MatProgressSpinnerModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MatProgressSpinnerModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _MatProgressSpinnerModule,
+    imports: [MatProgressSpinner, MatSpinner],
+    exports: [MatProgressSpinner, MatSpinner, BidiModule]
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [BidiModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatProgressSpinnerModule, [{
+    type: NgModule,
+    args: [{
+      imports: [MatProgressSpinner, MatSpinner],
+      exports: [MatProgressSpinner, MatSpinner, BidiModule]
+    }]
+  }], null, null);
+})();
+
 // src/environments/environment.ts
 var environment = {
   production: false,
@@ -48961,7 +49219,16 @@ var ApiService = class _ApiService {
 })();
 
 // src/app/home/home.component.ts
-function HomeComponent_mat_card_4_p_12_Template(rf, ctx) {
+function HomeComponent_div_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 2);
+    \u0275\u0275element(1, "mat-spinner");
+    \u0275\u0275elementStart(2, "p");
+    \u0275\u0275text(3, "Loading courses...");
+    \u0275\u0275elementEnd()();
+  }
+}
+function HomeComponent_div_2_mat_card_1_p_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "p")(1, "strong");
     \u0275\u0275text(2, "Progress:");
@@ -48975,11 +49242,11 @@ function HomeComponent_mat_card_4_p_12_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", course_r2.progressText);
   }
 }
-function HomeComponent_mat_card_4_div_13_Template(rf, ctx) {
+function HomeComponent_div_2_mat_card_1_div_13_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 9);
-    \u0275\u0275element(1, "div", 10);
-    \u0275\u0275elementStart(2, "span", 11);
+    \u0275\u0275elementStart(0, "div", 10);
+    \u0275\u0275element(1, "div", 11);
+    \u0275\u0275elementStart(2, "span", 12);
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "number");
     \u0275\u0275elementEnd()();
@@ -48992,7 +49259,7 @@ function HomeComponent_mat_card_4_div_13_Template(rf, ctx) {
     \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind2(4, 3, course_r2.progressBarPercentage, "1.0-0"), "%");
   }
 }
-function HomeComponent_mat_card_4_p_14_Template(rf, ctx) {
+function HomeComponent_div_2_mat_card_1_p_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "p")(1, "strong");
     \u0275\u0275text(2, "Average Score:");
@@ -49006,11 +49273,11 @@ function HomeComponent_mat_card_4_p_14_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", course_r2.averageScore, "%");
   }
 }
-function HomeComponent_mat_card_4_Template(rf, ctx) {
+function HomeComponent_div_2_mat_card_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "mat-card", 4);
-    \u0275\u0275element(1, "img", 5);
+    \u0275\u0275elementStart(0, "mat-card", 5);
+    \u0275\u0275element(1, "img", 6);
     \u0275\u0275elementStart(2, "mat-card-header")(3, "mat-card-title");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
@@ -49022,12 +49289,12 @@ function HomeComponent_mat_card_4_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275text(11);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(12, HomeComponent_mat_card_4_p_12_Template, 4, 1, "p", 6)(13, HomeComponent_mat_card_4_div_13_Template, 5, 6, "div", 7)(14, HomeComponent_mat_card_4_p_14_Template, 4, 1, "p", 6);
+    \u0275\u0275template(12, HomeComponent_div_2_mat_card_1_p_12_Template, 4, 1, "p", 7)(13, HomeComponent_div_2_mat_card_1_div_13_Template, 5, 6, "div", 8)(14, HomeComponent_div_2_mat_card_1_p_14_Template, 4, 1, "p", 7);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "mat-card-actions")(16, "button", 8);
-    \u0275\u0275listener("click", function HomeComponent_mat_card_4_Template_button_click_16_listener() {
+    \u0275\u0275elementStart(15, "mat-card-actions")(16, "button", 9);
+    \u0275\u0275listener("click", function HomeComponent_div_2_mat_card_1_Template_button_click_16_listener() {
       const course_r2 = \u0275\u0275restoreView(_r1).$implicit;
-      const ctx_r2 = \u0275\u0275nextContext();
+      const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(!course_r2.isExamCompleted && ctx_r2.goToExam(course_r2.id));
     });
     \u0275\u0275text(17);
@@ -49055,11 +49322,25 @@ function HomeComponent_mat_card_4_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", course_r2.isExamCompleted ? "Completed" : "Take Mock Exam", " ");
   }
 }
+function HomeComponent_div_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 3);
+    \u0275\u0275template(1, HomeComponent_div_2_mat_card_1_Template, 18, 9, "mat-card", 4);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("ngForOf", ctx_r2.allCourses);
+  }
+}
 var HomeComponent = class _HomeComponent {
   apiService;
   router;
   authService;
   title = signal("Mock Bar App", ...ngDevMode ? [{ debugName: "title" }] : []);
+  loading = true;
+  // Add loading indicator
   allCourses = [];
   // Array to hold all courses flattened from categories
   userDiagAns = [];
@@ -49078,8 +49359,10 @@ var HomeComponent = class _HomeComponent {
     const userId = this.authService.getUserId();
     if (!userId) {
       console.error("User not logged in. Cannot fetch data for courses.");
+      this.loading = false;
       return;
     }
+    this.loading = true;
     forkJoin({
       categoriesWithCourses: this.apiService.getCategoriesWithCourses(),
       diagAns: this.apiService.getDiagAnsForUser(),
@@ -49116,9 +49399,11 @@ var HomeComponent = class _HomeComponent {
           });
         });
         this.processCoursesForMetrics();
+        this.loading = false;
       },
       error: (error) => {
         console.error("Error fetching all data:", error);
+        this.loading = false;
       }
     });
   }
@@ -49155,34 +49440,33 @@ var HomeComponent = class _HomeComponent {
   static \u0275fac = function HomeComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _HomeComponent)(\u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(AuthService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomeComponent, selectors: [["app-home"]], decls: 8, vars: 1, consts: [[1, "banner"], ["src", "https://premierebarreview.com/mock/img/banner.jpg", "alt", "Banner Image"], [1, "all-course-cards-container"], ["class", "course-card", 4, "ngFor", "ngForOf"], [1, "course-card"], ["alt", "Course Thumbnail", 1, "course-thumbnail-img", 3, "src"], [4, "ngIf"], ["class", "progress-bar-container", 4, "ngIf"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], [1, "progress-bar-container"], [1, "progress-bar"], [1, "progress-percentage"]], template: function HomeComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomeComponent, selectors: [["app-home"]], decls: 6, vars: 2, consts: [["class", "loading-indicator", 4, "ngIf"], ["class", "all-course-cards-container", 4, "ngIf"], [1, "loading-indicator"], [1, "all-course-cards-container"], ["class", "course-card", 4, "ngFor", "ngForOf"], [1, "course-card"], ["alt", "Course Thumbnail", 1, "course-thumbnail-img", 3, "src"], [4, "ngIf"], ["class", "progress-bar-container", 4, "ngIf"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], [1, "progress-bar-container"], [1, "progress-bar"], [1, "progress-percentage"]], template: function HomeComponent_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "main")(1, "div", 0);
-      \u0275\u0275element(2, "img", 1);
+      \u0275\u0275elementStart(0, "main");
+      \u0275\u0275template(1, HomeComponent_div_1_Template, 4, 0, "div", 0)(2, HomeComponent_div_2_Template, 2, 1, "div", 1);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(3, "div", 2);
-      \u0275\u0275template(4, HomeComponent_mat_card_4_Template, 18, 9, "mat-card", 3);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(5, "footer")(6, "p");
-      \u0275\u0275text(7, "\xA9 premierebarreview 2025");
+      \u0275\u0275elementStart(3, "footer")(4, "p");
+      \u0275\u0275text(5, "\xA9 premierebarreview 2025");
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
-      \u0275\u0275advance(4);
-      \u0275\u0275property("ngForOf", ctx.allCourses);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.loading);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", !ctx.loading);
     }
-  }, dependencies: [CommonModule, NgForOf, NgIf, MatButtonModule, MatButton, MatIconModule, MatCardModule, MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle, DecimalPipe], styles: ["\n\n.banner[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.all-course-cards-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card[_ngcontent-%COMP%]   .course-thumbnail-img[_ngcontent-%COMP%] {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-header[_ngcontent-%COMP%] {\n  padding-bottom: 0;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-title[_ngcontent-%COMP%] {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-subtitle[_ngcontent-%COMP%] {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.progress-bar-container[_ngcontent-%COMP%] {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar[_ngcontent-%COMP%] {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses[_ngcontent-%COMP%] {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */"] });
+  }, dependencies: [CommonModule, NgForOf, NgIf, MatButtonModule, MatButton, MatIconModule, MatCardModule, MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle, MatProgressSpinnerModule, MatProgressSpinner, DecimalPipe], styles: ["\n\n.loading-indicator[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 200px;\n  width: 100%;\n}\n.all-course-cards-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card[_ngcontent-%COMP%]   .course-thumbnail-img[_ngcontent-%COMP%] {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-header[_ngcontent-%COMP%] {\n  padding-bottom: 0;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-title[_ngcontent-%COMP%] {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-subtitle[_ngcontent-%COMP%] {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.progress-bar-container[_ngcontent-%COMP%] {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar[_ngcontent-%COMP%] {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses[_ngcontent-%COMP%] {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HomeComponent, [{
     type: Component,
-    args: [{ selector: "app-home", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule], template: `<main>
-  <div class="banner">
-    <!-- Placeholder for a banner image -->
-    <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Banner Image">
+    args: [{ selector: "app-home", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, MatProgressSpinnerModule], template: `<main>
+  <div *ngIf="loading" class="loading-indicator">
+    <mat-spinner></mat-spinner>
+    <p>Loading courses...</p>
   </div>
 
-  <div class="all-course-cards-container">
+  <div *ngIf="!loading" class="all-course-cards-container">
     <mat-card *ngFor="let course of allCourses" class="course-card">
       <img [src]="course.thumbnail" alt="Course Thumbnail" class="course-thumbnail-img">
       <mat-card-header>
@@ -49215,11 +49499,11 @@ var HomeComponent = class _HomeComponent {
 
 <footer>
   <p>&copy; premierebarreview 2025</p>
-</footer>`, styles: ["/* src/app/home/home.component.css */\n.banner {\n  width: 100%;\n  height: 300px;\n  overflow: hidden;\n}\n.banner img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.all-course-cards-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card .course-thumbnail-img {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-subtitle {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.progress-bar-container {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */\n"] }]
+</footer>`, styles: ["/* src/app/home/home.component.css */\n.loading-indicator {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 200px;\n  width: 100%;\n}\n.all-course-cards-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card .course-thumbnail-img {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-subtitle {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.progress-bar-container {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */\n"] }]
   }], () => [{ type: ApiService }, { type: Router }, { type: AuthService }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HomeComponent, { className: "HomeComponent", filePath: "src/app/home/home.component.ts", lineNumber: 25 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HomeComponent, { className: "HomeComponent", filePath: "src/app/home/home.component.ts", lineNumber: 26 });
 })();
 
 // node_modules/@angular/cdk/fesm2022/text-field.mjs
@@ -54408,7 +54692,7 @@ var SharedResizeObserver = class _SharedResizeObserver {
 })();
 
 // node_modules/@angular/material/fesm2022/_form-field-chunk.mjs
-var _c05 = ["notch"];
+var _c06 = ["notch"];
 var _c14 = ["matFormFieldNotchedOutline", ""];
 var _c23 = ["*"];
 var _c33 = ["iconPrefixContainer"];
@@ -54935,7 +55219,7 @@ var MatFormFieldNotchedOutline = class _MatFormFieldNotchedOutline {
     selectors: [["div", "matFormFieldNotchedOutline", ""]],
     viewQuery: function MatFormFieldNotchedOutline_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c05, 5);
+        \u0275\u0275viewQuery(_c06, 5);
       }
       if (rf & 2) {
         let _t;
@@ -56944,24 +57228,18 @@ var App = class _App {
   static \u0275fac = function App_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _App)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 1, vars: 0, template: function App_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 3, vars: 0, consts: [["src", "img/banner.jpg", "alt", "Mock Bar Banner", 1, "app-banner"]], template: function App_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275element(0, "router-outlet");
+      \u0275\u0275elementStart(0, "div");
+      \u0275\u0275element(1, "img", 0)(2, "router-outlet");
+      \u0275\u0275elementEnd();
     }
   }, dependencies: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], encapsulation: 2 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(App, [{
     type: Component,
-    args: [{
-      selector: "app-root",
-      standalone: true,
-      // Mark as standalone
-      imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet],
-      // Add RouterOutlet here
-      template: "<router-outlet></router-outlet>"
-      // Use router-outlet for routing content
-    }]
+    args: [{ selector: "app-root", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], template: '<div>\n  <img src="img/banner.jpg" alt="Mock Bar Banner" class="app-banner">\n  <router-outlet></router-outlet>\n</div>' }]
   }], null, null);
 })();
 (() => {

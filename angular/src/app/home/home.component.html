@@ -1,10 +1,10 @@
 <main>
-  <div class="banner">
-    <!-- Placeholder for a banner image -->
-    <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Banner Image">
+  <div *ngIf="loading" class="loading-indicator">
+    <mat-spinner></mat-spinner>
+    <p>Loading courses...</p>
   </div>
 
-  <div class="all-course-cards-container">
+  <div *ngIf="!loading" class="all-course-cards-container">
     <mat-card *ngFor="let course of allCourses" class="course-card">
       <img [src]="course.thumbnail" alt="Course Thumbnail" class="course-thumbnail-img">
       <mat-card-header>

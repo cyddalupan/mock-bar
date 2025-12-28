@@ -9,7 +9,7 @@ import { RouterOutlet } from '@angular/router'; // Import RouterOutlet
   selector: 'app-root',
   standalone: true, // Mark as standalone
   imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], // Add RouterOutlet here
-  template: '<router-outlet></router-outlet>' // Use router-outlet for routing content
+  templateUrl: './app.html' // Use router-outlet for routing content
 })
 export class App {
   protected readonly title = signal('Mock Bar App');

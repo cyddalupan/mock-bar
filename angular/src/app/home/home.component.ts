@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Import MatProgressSpinnerModule
 import { ApiService } from '../services/api.service';
 import { forkJoin, Observable } from 'rxjs'; // Import forkJoin, Observable
 import { Router } from '@angular/router'; // Import Router
@@ -18,12 +19,13 @@ interface CourseExamStatus {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, MatProgressSpinnerModule], // Add MatProgressSpinnerModule
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
   protected readonly title = signal('Mock Bar App');
+  loading = true; // Add loading indicator
 
   allCourses: any[] = []; // Array to hold all courses flattened from categories
   userDiagAns: any[] = []; // To store diag_ans for the logged-in user
@@ -43,8 +45,11 @@ export class HomeComponent implements OnInit {
     const userId = this.authService.getUserId();
     if (!userId) {
       console.error('User not logged in. Cannot fetch data for courses.');
+      this.loading = false; // Set loading to false if user not logged in
       return;
     }
+
+    this.loading = true; // Set loading to true at the start of data fetching
 
     forkJoin({
       categoriesWithCourses: this.apiService.getCategoriesWithCourses(),
@@ -92,9 +97,11 @@ export class HomeComponent implements OnInit {
         });
 
         this.processCoursesForMetrics();
+        this.loading = false; // Set loading to false after successful data fetching
       },
       error: (error) => {
         console.error('Error fetching all data:', error);
+        this.loading = false; // Set loading to false on error
       }
     });
   }
@@ -135,3 +142,4 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/exam', courseId]);
   }
 }
+
