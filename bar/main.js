@@ -48456,17 +48456,26 @@ var ApiService = class _ApiService {
         SELECT
             c.id AS category_id,
             c.name AS category_name,
-            COALESCE(JSON_ARRAYAGG(
-                JSON_OBJECT(
-                    'id', co.id,
-                    'title', co.title,
-                    'short_description', co.short_description,
-                    'upcoming_image_thumbnail', co.upcoming_image_thumbnail,
-                    'price', co.price,
-                    'level', co.level
-                ) ORDER BY co.id
-            ), '[]')
-            AS courses
+            COALESCE(
+                CONCAT(
+                    '[',
+                    GROUP_CONCAT(
+                        CASE WHEN co.id IS NOT NULL THEN
+                            JSON_OBJECT(
+                                'id', co.id,
+                                'title', co.title,
+                                'short_description', co.short_description,
+                                'upcoming_image_thumbnail', co.upcoming_image_thumbnail,
+                                'price', co.price,
+                                'level', co.level
+                            )
+                        ELSE NULL END
+                        ORDER BY co.id
+                    ),
+                    ']'
+                ),
+                '[]'
+            ) AS courses
         FROM
             category c
         LEFT JOIN
