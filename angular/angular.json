@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "angular-app": {
+    "mock-bar": {
       "projectType": "application",
       "schematics": {},
       "root": "",

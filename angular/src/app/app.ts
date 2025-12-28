@@ -4,18 +4,17 @@ import { MatButtonModule } from '@angular/material/button'; // Import MatButtonM
 import { MatIconModule } from '@angular/material/icon';     // Import MatIconModule
 import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
 import { RouterOutlet } from '@angular/router'; // Import RouterOutlet
+import { HeaderComponent } from './header/header.component'; // Import HeaderComponent
 
 @Component({
   selector: 'app-root',
   standalone: true, // Mark as standalone
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], // Add RouterOutlet here
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet, HeaderComponent], // Add RouterOutlet and HeaderComponent here
   template: `
     <div>
-      <div class="banner-container">
-        <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Mock Bar Banner" class="app-banner">
-      </div>
+      <app-header></app-header>
       <router-outlet></router-outlet>
-      <footer>
+      <footer style="background-color: #1e6328; color: white; padding: 20px; text-align: center;">
         <p>&copy; premierebarreview 2025</p>
       </footer>
     </div>

@@ -57215,34 +57215,56 @@ var appConfig = {
   ]
 };
 
+// src/app/header/header.component.ts
+var HeaderComponent = class _HeaderComponent {
+  static \u0275fac = function HeaderComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _HeaderComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HeaderComponent, selectors: [["app-header"]], decls: 7, vars: 0, consts: [[1, "hero"], ["src", "http://premierebarreview.com/premier.png", 2, "width", "400px"], ["href", "ttp://premierebarreview.com/"], [1, "btn-primary"], [2, "clear", "both", "height", "1px"]], template: function HeaderComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275domElementStart(0, "section", 0);
+      \u0275\u0275domElement(1, "img", 1)(2, "br");
+      \u0275\u0275domElementStart(3, "a", 2)(4, "button", 3);
+      \u0275\u0275text(5, "Back to Home");
+      \u0275\u0275domElementEnd()()();
+      \u0275\u0275domElement(6, "div", 4);
+    }
+  }, dependencies: [CommonModule], styles: ["\n\n/*# sourceMappingURL=header.component.css.map */"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HeaderComponent, [{
+    type: Component,
+    args: [{ selector: "app-header", standalone: true, imports: [CommonModule], template: '<section class="hero">\n<img src="http://premierebarreview.com/premier.png" style="width:400px">\n<br>\n\n<a href="ttp://premierebarreview.com/"><button class="btn-primary">Back to Home</button> </a> \n\n</section>\n\n<div style="clear:both;height:1px"></div>\n', styles: ["/* src/app/header/header.component.css */\n/*# sourceMappingURL=header.component.css.map */\n"] }]
+  }], null, null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HeaderComponent, { className: "HeaderComponent", filePath: "src/app/header/header.component.ts", lineNumber: 11 });
+})();
+
 // src/app/app.ts
 var App = class _App {
   title = signal("Mock Bar App", ...ngDevMode ? [{ debugName: "title" }] : []);
   static \u0275fac = function App_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _App)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 7, vars: 0, consts: [[1, "banner-container"], ["src", "https://premierebarreview.com/mock/img/banner.jpg", "alt", "Mock Bar Banner", 1, "app-banner"]], template: function App_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 6, vars: 0, consts: [[2, "background-color", "#1e6328", "color", "white", "padding", "20px", "text-align", "center"]], template: function App_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div")(1, "div", 0);
-      \u0275\u0275element(2, "img", 1);
-      \u0275\u0275elementEnd();
-      \u0275\u0275element(3, "router-outlet");
-      \u0275\u0275elementStart(4, "footer")(5, "p");
-      \u0275\u0275text(6, "\xA9 premierebarreview 2025");
+      \u0275\u0275elementStart(0, "div");
+      \u0275\u0275element(1, "app-header")(2, "router-outlet");
+      \u0275\u0275elementStart(3, "footer", 0)(4, "p");
+      \u0275\u0275text(5, "\xA9 premierebarreview 2025");
       \u0275\u0275elementEnd()()();
     }
-  }, dependencies: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], encapsulation: 2 });
+  }, dependencies: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet, HeaderComponent], encapsulation: 2 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(App, [{
     type: Component,
-    args: [{ selector: "app-root", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], template: `
+    args: [{ selector: "app-root", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet, HeaderComponent], template: `
     <div>
-      <div class="banner-container">
-        <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Mock Bar Banner" class="app-banner">
-      </div>
+      <app-header></app-header>
       <router-outlet></router-outlet>
-      <footer>
+      <footer style="background-color: #1e6328; color: white; padding: 20px; text-align: center;">
         <p>&copy; premierebarreview 2025</p>
       </footer>
     </div>
@@ -57250,7 +57272,7 @@ var App = class _App {
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 25 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 24 });
 })();
 
 // src/main.ts
