@@ -31,11 +31,25 @@ The `db.php` and `ai.php` files are currently considered stable. Future developm
 ### Database Interaction Notes
 
 *   **`GROUP_CONCAT` Data Truncation:** When using MySQL's `GROUP_CONCAT` function, especially with `JSON_OBJECT` to aggregate data, it's crucial to be aware of the `group_concat_max_len` server variable. The default value (often 1024 characters) can lead to data truncation, resulting in malformed JSON strings in the application.
+
 *   **Resolution - `db.php` Modification for Multiple Statements:**
-    *   **Problem:** The initial attempt to set `SET SESSION group_concat_max_len` via a separate API call from Angular did not work because `db.php` was creating a new `mysqli` connection for each request. This meant the `SET SESSION` command in one request did not persist to the subsequent request that executed the main `SELECT` query. Furthermore, `mysqli::prepare` (used previously in `db.php`'s `executeQuery`) does not inherently support executing multiple SQL statements sent as a single string.
-    *   **Solution:** `db.php`'s `executeQuery` function was modified to utilize `mysqli::multi_query`. This allows a single API call from Angular to send a query string containing both `SET SESSION group_concat_max_len = 100000;` and the main `SELECT` statement. This ensures both commands execute within the same database session, effectively resolving the data truncation issue.
-    *   **Security Implication:** This change significantly increases the security risk. `mysqli::multi_query` allows for the execution of arbitrary SQL statements separated by semicolons. Given that `db.php` already accepts arbitrary SQL from the frontend, enabling `multi_query` exacerbates the existing "CRITICAL SECURITY WARNING" regarding SQL Injection. For any production usage, `db.php` *must* be refactored to use prepared statements with whitelisted queries or an ORM, and restrict allowed operations, rather than relying on `multi_query` with client-provided SQL.
-*   **Frontend Handling (Angular):** With `db.php` now supporting multiple statements via `mysqli::multi_query`, the Angular `ApiService` no longer needs to use RxJS `concatMap` for sequential API calls to set the session variable. Instead, a single `getDbData` call with a combined query string is sufficient.
+    *   **Problem:** The initial attempt to set `SET SESSION group_concat_max_len` via a separate API call from Angular did not work because `db.php` was creating a new `mysqli` connection for each request. This meant the `SET SESSION` command in one request did not persist to the subsequent request that executed the main `SELECT` query.
+    *   **Solution (Deprecated):** `db.php`'s `executeQuery` function was temporarily modified to utilize `mysqli::multi_query`. This allowed a single API call from Angular to send a query string containing both `SET SESSION group_concat_max_len = 100000;` and the main `SELECT` statement. This is no longer the case as `multi_query` has been removed in favor of a more stable aggregation pattern.
+    *   **Security Implication:** The use of `mysqli::multi_query` significantly increases security risks by allowing arbitrary SQL statements. This approach has been deprecated and removed. The `db.php` file now uses the standard `mysqli::query` method.
+
+*   **Data Aggregation Strategy: From Complex SQL to Stable PHP**
+    *   **Problem:** Initial attempts to create a nested JSON structure (categories with their courses) directly within SQL proved to be brittle and error-prone.
+        1.  **`GROUP_CONCAT` with `JSON_OBJECT`:** While functional for simple cases after increasing `group_concat_max_len`, this approach can still be fragile.
+        2.  **`JSON_ARRAYAGG`:** A more modern approach, `JSON_ARRAYAGG`, was attempted. However, this resulted in a 500 Internal Server Error, indicating that the server's MySQL version was likely older than 5.7 and did not support this function. This highlighted the risk of using version-dependent SQL features.
+        3.  **Complex `GROUP_CONCAT` with `CONCAT`:** A third attempt using a complex `GROUP_CONCAT` query also failed silently, likely due to subtle syntax incompatibilities with the server's SQL parser.
+    *   **BEST PRACTICE & FINAL SOLUTION:** The most robust and compatible solution was to **offload the aggregation logic from the database to the application layer (PHP)**.
+        1.  **Simplified SQL:** The Angular `ApiService` now sends a simple `SELECT` query with a `LEFT JOIN` that returns flat data (one row per course, with its category info).
+        2.  **PHP-Side Aggregation:** The `db.php` script now contains logic that checks for a specific "magic comment" (`/* AGGREGATE_COURSES */`) in the query. If present, it iterates through the flat result set and programmatically builds the nested JSON structure (grouping courses into a `courses` array for each category).
+    *   **Key Takeaway:** For creating nested JSON structures from one-to-many relationships, **prefer a simple SQL query and perform the data aggregation in the server-side language (PHP)**. This approach is more portable across different database versions, easier to debug, and less prone to silent failures than complex SQL string and JSON manipulation.
+
+*   **Frontend Handling (Angular):**
+    *   **`JSON.parse` Pitfall:** The Angular `HttpClient` automatically parses the JSON response from the API into JavaScript objects. A common mistake is to try and `JSON.parse()` this data again in the component. This will fail with a `SyntaxError: "[object Object]" is not valid JSON` because the data is already an object, not a JSON string.
+    *   **Current Implementation:** With the PHP backend now providing a perfectly structured JSON response, the Angular `home.component.ts` simply receives the data and uses it directly, with no need for any client-side parsing.
 
 ## Frontend Application (`/angular`)
 
