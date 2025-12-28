@@ -200,30 +200,5 @@ Angular Material has been successfully integrated for UI components and Material
 *   **Strict Typing:** Implement strict typing throughout the Angular project, utilizing detailed interfaces and classes. This helps catch issues during `npm run build` and improves code quality.
 *   **Proactive Documentation:** Maintain `GEMINI.md` as a living document. Any significant setup steps, encountered challenges, or solutions (especially related to project configurations or library integrations) should be added to this file to serve as a knowledge base and prevent re-solving the same issues.
 
-## Development Plan
 
-1.  **Project Setup:**
-    *   [x] Initialize a Git repository and push to `git@github.com:cyddalupan/mock-bar.git`.
-    *   [x] Create `.env` file with dummy credentials.
-
-2.  **API Development (`/api`):**
-    *   [x] Implement `db.php` to securely handle database connections and queries, including `.env` loading and a basic `executeQuery` function.
-    *   [ ] Create a database and `diag_ans` table for testing.
-    *   [x] Implement `ai.php` to handle requests to the OpenAI API for grading.
-    *   [ ] Implement `gitpull.php` to securely pull the latest changes from the Git repository.
-
-3.  **Frontend Development (`/angular`):**
-    *   [x] Set up the basic Angular application structure.
-    *   [x] Create Angular services to communicate with the `/api` backend, handling plain JSON payloads.
-    *   [x] Implement the initial homepage UI with course cards, including conditional "Take Mock Exam" / "Completed" buttons.
-    *   [x] Create Exam Page with question display, answer input, and grading results.
-
-4.  **Build & Deployment (`/angular` & `/bar`):**
-    *   [x] Configure the Angular build process (`angular.json`) to output the built files to the `/bar` directory.
-    *   [x] Verify the `npm run build` command successfully moves compiled files to `/bar`.
-
-5.  **Refinement & Testing (Angular Focus):**
-    *   [x] Thoroughly test both API endpoints from the Angular frontend.
-    *   [ ] Ensure robust error handling is implemented in the Angular frontend.
-    *   [x] Document API endpoints and usage (with explicit security warnings for `db.php`).
 
