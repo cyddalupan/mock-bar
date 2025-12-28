@@ -49440,14 +49440,11 @@ var HomeComponent = class _HomeComponent {
   static \u0275fac = function HomeComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _HomeComponent)(\u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(AuthService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomeComponent, selectors: [["app-home"]], decls: 6, vars: 2, consts: [["class", "loading-indicator", 4, "ngIf"], ["class", "all-course-cards-container", 4, "ngIf"], [1, "loading-indicator"], [1, "all-course-cards-container"], ["class", "course-card", 4, "ngFor", "ngForOf"], [1, "course-card"], ["alt", "Course Thumbnail", 1, "course-thumbnail-img", 3, "src"], [4, "ngIf"], ["class", "progress-bar-container", 4, "ngIf"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], [1, "progress-bar-container"], [1, "progress-bar"], [1, "progress-percentage"]], template: function HomeComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomeComponent, selectors: [["app-home"]], decls: 3, vars: 2, consts: [["class", "loading-indicator", 4, "ngIf"], ["class", "all-course-cards-container", 4, "ngIf"], [1, "loading-indicator"], [1, "all-course-cards-container"], ["class", "course-card", 4, "ngFor", "ngForOf"], [1, "course-card"], ["alt", "Course Thumbnail", 1, "course-thumbnail-img", 3, "src"], [4, "ngIf"], ["class", "progress-bar-container", 4, "ngIf"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], [1, "progress-bar-container"], [1, "progress-bar"], [1, "progress-percentage"]], template: function HomeComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "main");
       \u0275\u0275template(1, HomeComponent_div_1_Template, 4, 0, "div", 0)(2, HomeComponent_div_2_Template, 2, 1, "div", 1);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(3, "footer")(4, "p");
-      \u0275\u0275text(5, "\xA9 premierebarreview 2025");
-      \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
       \u0275\u0275advance();
@@ -49495,11 +49492,7 @@ var HomeComponent = class _HomeComponent {
     </mat-card>
     <!-- We might need a message if allCourses is empty, but for now, omitting the no-courses message -->
   </div>
-</main>
-
-<footer>
-  <p>&copy; premierebarreview 2025</p>
-</footer>`, styles: ["/* src/app/home/home.component.css */\n.loading-indicator {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 200px;\n  width: 100%;\n}\n.all-course-cards-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card .course-thumbnail-img {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-subtitle {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.progress-bar-container {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */\n"] }]
+</main>`, styles: ["/* src/app/home/home.component.css */\n.loading-indicator {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 200px;\n  width: 100%;\n}\n.all-course-cards-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card .course-thumbnail-img {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-subtitle {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.progress-bar-container {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */\n"] }]
   }], () => [{ type: ApiService }, { type: Router }, { type: AuthService }], null);
 })();
 (() => {
@@ -57228,11 +57221,15 @@ var App = class _App {
   static \u0275fac = function App_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _App)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 3, vars: 0, consts: [[1, "banner-container"], ["src", "https://premierebarreview.com/mock/img/banner.jpg", "alt", "Mock Bar Banner", 1, "app-banner"]], template: function App_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 7, vars: 0, consts: [[1, "banner-container"], ["src", "https://premierebarreview.com/mock/img/banner.jpg", "alt", "Mock Bar Banner", 1, "app-banner"]], template: function App_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0);
-      \u0275\u0275element(1, "img", 1)(2, "router-outlet");
+      \u0275\u0275elementStart(0, "div")(1, "div", 0);
+      \u0275\u0275element(2, "img", 1);
       \u0275\u0275elementEnd();
+      \u0275\u0275element(3, "router-outlet");
+      \u0275\u0275elementStart(4, "footer")(5, "p");
+      \u0275\u0275text(6, "\xA9 premierebarreview 2025");
+      \u0275\u0275elementEnd()()();
     }
   }, dependencies: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], encapsulation: 2 });
 };
@@ -57240,15 +57237,20 @@ var App = class _App {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(App, [{
     type: Component,
     args: [{ selector: "app-root", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], template: `
-    <div class="banner-container">
-      <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Mock Bar Banner" class="app-banner">
+    <div>
+      <div class="banner-container">
+        <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Mock Bar Banner" class="app-banner">
+      </div>
       <router-outlet></router-outlet>
+      <footer>
+        <p>&copy; premierebarreview 2025</p>
+      </footer>
     </div>
   ` }]
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 20 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 25 });
 })();
 
 // src/main.ts

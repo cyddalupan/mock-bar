@@ -10,9 +10,14 @@ import { RouterOutlet } from '@angular/router'; // Import RouterOutlet
   standalone: true, // Mark as standalone
   imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet], // Add RouterOutlet here
   template: `
-    <div class="banner-container">
-      <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Mock Bar Banner" class="app-banner">
+    <div>
+      <div class="banner-container">
+        <img src="https://premierebarreview.com/mock/img/banner.jpg" alt="Mock Bar Banner" class="app-banner">
+      </div>
       <router-outlet></router-outlet>
+      <footer>
+        <p>&copy; premierebarreview 2025</p>
+      </footer>
     </div>
   `,
   styles: [] // Remove inline styles as they will go to styles.css
