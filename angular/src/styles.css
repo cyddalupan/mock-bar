@@ -34,4 +34,7 @@ footer {
     object-fit: contain;
     max-width: 100%;
   }
+  .banner-container {
+    height: auto;
+  }
 }
