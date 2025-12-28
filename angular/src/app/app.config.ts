@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { provideRouter, Routes, withComponentInputBinding } from '@angular/router'; // Import provideRouter, Routes, and withComponentInputBinding
+import { provideRouter, Routes, withComponentInputBinding, withHashLocation } from '@angular/router'; // Import provideRouter, Routes, and withComponentInputBinding
 import { AuthGuard } from './auth.guard'; // Import AuthGuard
 import { HomeComponent } from './home/home.component'; // Import HomeComponent
 
@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
     provideAnimations(),
-    provideRouter(routes, withComponentInputBinding()), // Add routing to providers, enable input binding for routes
+    provideRouter(routes, withComponentInputBinding(), withHashLocation()), // Add routing to providers, enable input binding for routes
     importProvidersFrom(MatButtonModule, MatIconModule)
   ]
 };

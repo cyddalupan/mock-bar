@@ -47785,6 +47785,13 @@ function withPreloading(preloadingStrategy) {
   }];
   return routerFeature(0, providers);
 }
+function withHashLocation() {
+  const providers = [{
+    provide: LocationStrategy,
+    useClass: HashLocationStrategy
+  }];
+  return routerFeature(6, providers);
+}
 function withComponentInputBinding() {
   const providers = [RoutedComponentInputBinder, {
     provide: INPUT_BINDER,
@@ -48598,7 +48605,7 @@ var appConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
     provideAnimations(),
-    provideRouter(routes, withComponentInputBinding()),
+    provideRouter(routes, withComponentInputBinding(), withHashLocation()),
     // Add routing to providers, enable input binding for routes
     importProvidersFrom(MatButtonModule, MatIconModule)
   ]
