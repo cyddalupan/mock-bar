@@ -27,22 +27,63 @@ if ($mysqli->connect_error) {
     exit();
 }
 
-// Function to execute a standard query
-function executeQuery($query) {
+// Function to execute a query, supporting prepared statements with parameters
+function executeQuery($query, $params = []) {
     global $mysqli;
 
     $data = [];
-    $result = $mysqli->query($query);
 
-    if ($result) {
-        if ($result->num_rows > 0) {
+    if (empty($params)) {
+        // Execute a simple query without prepared statements
+        $result = $mysqli->query($query);
+
+        if ($result) {
+            if ($result instanceof mysqli_result && $result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+            }
+            if ($result instanceof mysqli_result) {
+                $result->free();
+            }
+        } elseif ($mysqli->error) {
+            return ['error' => 'Query failed: ' . htmlspecialchars($mysqli->error)];
+        }
+    } else {
+        // Execute a prepared statement
+        $stmt = $mysqli->prepare($query);
+        if ($stmt === false) {
+            return ['error' => 'Prepare failed: ' . htmlspecialchars($mysqli->error)];
+        }
+
+        // Determine types for bind_param
+        $types = '';
+        foreach ($params as $param) {
+            if (is_int($param)) {
+                $types .= 'i';
+            } elseif (is_float($param)) {
+                $types .= 'd';
+            } else {
+                $types .= 's'; // Default to string
+            }
+        }
+
+        $stmt->bind_param($types, ...$params);
+
+        if (!$stmt->execute()) {
+            return ['error' => 'Execute failed: ' . htmlspecialchars($stmt->error)];
+        }
+
+        $result = $stmt->get_result();
+
+        if ($result) {
             while ($row = $result->fetch_assoc()) {
                 $data[] = $row;
             }
+            $result->free();
         }
-        $result->free();
-    } elseif ($mysqli->error) {
-        return ['error' => 'Query failed: ' . htmlspecialchars($mysqli->error)];
+
+        $stmt->close();
     }
 
     return $data;
@@ -59,7 +100,8 @@ if (!$request_data || !isset($request_data['query'])) {
 }
 
 $query = $request_data['query'];
-$response_data = executeQuery($query);
+$params = isset($request_data['params']) ? $request_data['params'] : [];
+$response_data = executeQuery($query, $params);
 
 // Check for aggregation flag
 if (strpos($query, '/* AGGREGATE_COURSES */') !== false) {
