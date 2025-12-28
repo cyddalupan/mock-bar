@@ -48452,38 +48452,22 @@ var ApiService = class _ApiService {
   }
   getCategoriesWithCourses() {
     const query = `
-        SET SESSION group_concat_max_len = 100000;
+        /* AGGREGATE_COURSES */
         SELECT
             c.id AS category_id,
             c.name AS category_name,
-            COALESCE(
-                CONCAT(
-                    '[',
-                    GROUP_CONCAT(
-                        CASE WHEN co.id IS NOT NULL THEN
-                            JSON_OBJECT(
-                                'id', co.id,
-                                'title', co.title,
-                                'short_description', co.short_description,
-                                'upcoming_image_thumbnail', co.upcoming_image_thumbnail,
-                                'price', co.price,
-                                'level', co.level
-                            )
-                        ELSE NULL END
-                        ORDER BY co.id
-                    ),
-                    ']'
-                ),
-                '[]'
-            ) AS courses
+            co.id,
+            co.title,
+            co.short_description,
+            co.upcoming_image_thumbnail,
+            co.price,
+            co.level
         FROM
             category c
         LEFT JOIN
             course co ON c.id = co.category_id
-        GROUP BY
-            c.id, c.name
         ORDER BY
-            c.name;
+            c.name, co.id;
       `;
     return this.getDbData(query);
   }
