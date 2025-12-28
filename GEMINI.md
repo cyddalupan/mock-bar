@@ -37,6 +37,13 @@ The `db.php` and `ai.php` files are currently considered stable. Future developm
     *   **Solution (Deprecated):** `db.php`'s `executeQuery` function was temporarily modified to utilize `mysqli::multi_query`. This allowed a single API call from Angular to send a query string containing both `SET SESSION group_concat_max_len = 100000;` and the main `SELECT` statement. This is no longer the case as `multi_query` has been removed in favor of a more stable aggregation pattern.
     *   **Security Implication:** The use of `mysqli::multi_query` significantly increases security risks by allowing arbitrary SQL statements. This approach has been deprecated and removed. The `db.php` file now uses the standard `mysqli::query` method.
 
+*   **`db.php` Now Supports Prepared Statements with Parameters:**
+    *   **Problem:** Initially, `db.php` directly executed SQL queries without handling parameters, leading to SQL errors when placeholders (`?`) were used from the Angular frontend.
+    *   **Solution:** The `executeQuery` function in `db.php` has been refactored to support prepared statements. It now accepts an optional `$params` array.
+        *   If `$params` is provided, `db.php` uses `mysqli::prepare`, `mysqli::bind_param`, and `mysqli::execute` to safely execute the query with the given parameters. This mitigates SQL injection risks for queries using parameters.
+        *   If `$params` is empty, `db.php` falls back to direct query execution using `$mysqli->query()`, similar to its previous behavior.
+    *   **CRITICAL SECURITY WARNING REITERATED:** While the addition of prepared statements improves security for parameterized queries, the fundamental design of `db.php` (accepting arbitrary SQL query strings from the client) remains a **severe SQL Injection vulnerability** if non-parameterized queries are sent, or if the client can manipulate the SQL string in any way. For any production usage, `db.php` *must* be refactored to use prepared statements with whitelisted queries or an ORM, and restrict allowed operations.
+
 *   **Data Aggregation Strategy: From Complex SQL to Stable PHP**
     *   **Problem:** Initial attempts to create a nested JSON structure (categories with their courses) directly within SQL proved to be brittle and error-prone.
         1.  **`GROUP_CONCAT` with `JSON_OBJECT`:** While functional for simple cases after increasing `group_concat_max_len`, this approach can still be fragile.
