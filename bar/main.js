@@ -57249,7 +57249,7 @@ function ExamPageComponent_div_8_div_1_Template(rf, ctx) {
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.goBackToHome());
     });
-    \u0275\u0275text(12, "Back to Home");
+    \u0275\u0275text(12, "Back to Course List");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(13, "button", 13);
     \u0275\u0275listener("click", function ExamPageComponent_div_8_div_1_Template_button_click_13_listener() {
@@ -57285,7 +57285,7 @@ function ExamPageComponent_div_8_div_2_Template(rf, ctx) {
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.goBackToHome());
     });
-    \u0275\u0275text(6, "Done with Course");
+    \u0275\u0275text(6, "Back to Course List");
     \u0275\u0275elementEnd()();
   }
 }
@@ -57321,7 +57321,7 @@ function ExamPageComponent_div_8_div_3_Template(rf, ctx) {
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.goBackToHome());
     });
-    \u0275\u0275text(9, "Back to Home");
+    \u0275\u0275text(9, "Back to Course List");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(10, "button", 14);
     \u0275\u0275listener("click", function ExamPageComponent_div_8_div_3_Template_button_click_10_listener() {
@@ -57488,7 +57488,7 @@ var ExamPageComponent = class _ExamPageComponent {
   static \u0275fac = function ExamPageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ExamPageComponent)(\u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(DomSanitizer));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamPageComponent, selectors: [["app-exam-page"]], decls: 9, vars: 4, consts: [["autosize", "cdkTextareaAutosize"], [1, "exam-container"], [1, "exam-card"], ["class", "loading-spinner", 4, "ngIf"], ["class", "error-message", 4, "ngIf"], [4, "ngIf"], [1, "loading-spinner"], ["mode", "indeterminate"], [1, "error-message"], ["appearance", "fill", 1, "full-width-textarea"], ["matInput", "", "cdkTextareaAutosize", "", "cdkAutosizeMinRows", "10", "cdkAutosizeMaxRows", "20", 3, "ngModelChange", "ngModel"], [1, "exam-actions"], ["mat-flat-button", "", "color", "warn", 3, "click"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], ["mat-flat-button", "", "color", "primary", 3, "click"], [3, "innerHTML"]], template: function ExamPageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamPageComponent, selectors: [["app-exam-page"]], decls: 9, vars: 4, consts: [["autosize", "cdkTextareaAutosize"], [1, "exam-container"], [1, "exam-card"], ["class", "loading-spinner", 4, "ngIf"], ["class", "error-message", 4, "ngIf"], [4, "ngIf"], [1, "loading-spinner"], ["mode", "indeterminate"], [1, "error-message"], ["appearance", "fill", 1, "full-width-textarea"], ["matInput", "", "cdkTextareaAutosize", "", "cdkAutosizeMinRows", "10", "cdkAutosizeMaxRows", "20", 3, "ngModelChange", "ngModel"], [1, "exam-actions"], ["mat-flat-button", "", "color", "accent", 3, "click"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], ["mat-flat-button", "", "color", "primary", 3, "click"], [3, "innerHTML"]], template: function ExamPageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 1)(1, "mat-card", 2)(2, "mat-card-header")(3, "mat-card-title");
       \u0275\u0275text(4);
@@ -57575,7 +57575,7 @@ var ExamPageComponent = class _ExamPageComponent {
           </mat-form-field>
 
           <div class="exam-actions">
-            <button mat-flat-button color="warn" (click)="goBackToHome()">Back to Home</button>
+            <button mat-flat-button color="accent" (click)="goBackToHome()">Back to Course List</button>
             <button mat-flat-button color="primary" (click)="submitAnswer()" [disabled]="!userAnswer.trim()">Submit Answer</button>
           </div>
         </div>
@@ -57583,7 +57583,7 @@ var ExamPageComponent = class _ExamPageComponent {
         <div *ngIf="examCompleted">
           <h3>Exam Completed!</h3>
           <p>You have answered all available questions for this course.</p>
-          <button mat-flat-button color="primary" (click)="goBackToHome()">Done with Course</button>
+          <button mat-flat-button color="primary" (click)="goBackToHome()">Back to Course List</button>
         </div>
 
         <div *ngIf="showResult && gradeResult">
@@ -57597,7 +57597,7 @@ var ExamPageComponent = class _ExamPageComponent {
           </div>
 
           <div class="exam-actions">
-            <button mat-flat-button color="warn" (click)="goBackToHome()">Back to Home</button>
+            <button mat-flat-button color="accent" (click)="goBackToHome()">Back to Course List</button>
             <button mat-flat-button color="primary" (click)="continueToNextQuestion()">
               {{ examCompleted ? 'Done with Course' : 'Continue to Next Question' }}
             </button>
