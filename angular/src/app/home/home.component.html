@@ -22,13 +22,12 @@
       </mat-card-content>
       <mat-card-actions class="course-actions">
         <button
-          *ngIf="!course.hasTakenExam"
           mat-flat-button
           color="primary"
           (click)="goToExam(course.id)"
           [disabled]="course.isExamCompleted"
         >
-          {{ course.isExamCompleted ? 'Completed' : 'Take Mock Exam' }}
+          {{ course.isExamCompleted ? 'Completed' : (course.hasTakenExam ? 'Continue Exam' : 'Take Mock Exam') }}
         </button>
         <button
           *ngIf="course.hasTakenExam"
@@ -38,7 +37,7 @@
           aria-label="View exam history"
           class="history-button"
         >
-          View History
+          History
         </button>
       </mat-card-actions>
     </mat-card>
