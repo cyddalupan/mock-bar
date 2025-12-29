@@ -22,22 +22,23 @@
       </mat-card-content>
       <mat-card-actions class="course-actions">
         <button
+          *ngIf="!course.hasTakenExam"
           mat-flat-button
           color="primary"
-          (click)="!course.isExamCompleted && goToExam(course.id)"
+          (click)="goToExam(course.id)"
           [disabled]="course.isExamCompleted"
         >
           {{ course.isExamCompleted ? 'Completed' : 'Take Mock Exam' }}
         </button>
         <button
           *ngIf="course.hasTakenExam"
-          mat-icon-button
+          mat-stroked-button
           color="accent"
           (click)="goToHistory(course.id)"
           aria-label="View exam history"
           class="history-button"
         >
-          <mat-icon>history</mat-icon>
+          View History
         </button>
       </mat-card-actions>
     </mat-card>
