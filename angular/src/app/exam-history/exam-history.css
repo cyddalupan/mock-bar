@@ -37,11 +37,17 @@
 
 .mat-expansion-panel-header {
   padding: 16px 24px;
+  display: flex; /* Ensure flex display for truncation */
+  overflow: hidden; /* Hide overflow to allow ellipsis */
 }
 
 .mat-panel-title {
   font-weight: 500;
   color: var(--mdc-typography-headline-small-color); /* Adjust to theme's primary text color */
+  flex-basis: 70%; /* Give title more space */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mat-panel-description {
