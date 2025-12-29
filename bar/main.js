@@ -49667,18 +49667,58 @@ function HomeComponent_div_2_mat_card_1_p_14_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", course_r2.averageScore, "%");
   }
 }
-function HomeComponent_div_2_mat_card_1_button_18_Template(rf, ctx) {
+function HomeComponent_div_2_mat_card_1_ng_container_17_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275elementStart(1, "mat-icon");
+    \u0275\u0275text(2, "check_circle");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span");
+    \u0275\u0275text(4, "Completed");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementContainerEnd();
+  }
+}
+function HomeComponent_div_2_mat_card_1_ng_container_18_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275elementStart(1, "mat-icon");
+    \u0275\u0275text(2, "play_arrow");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span");
+    \u0275\u0275text(4, "Continue Exam");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementContainerEnd();
+  }
+}
+function HomeComponent_div_2_mat_card_1_ng_container_19_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275elementStart(1, "mat-icon");
+    \u0275\u0275text(2, "edit_document");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span");
+    \u0275\u0275text(4, "Take Mock Exam");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementContainerEnd();
+  }
+}
+function HomeComponent_div_2_mat_card_1_button_20_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "button", 15);
-    \u0275\u0275listener("click", function HomeComponent_div_2_mat_card_1_button_18_Template_button_click_0_listener() {
+    \u0275\u0275listener("click", function HomeComponent_div_2_mat_card_1_button_20_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r4);
       const course_r2 = \u0275\u0275nextContext().$implicit;
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.goToHistory(course_r2.id));
     });
-    \u0275\u0275text(1, " History ");
+    \u0275\u0275elementStart(1, "mat-icon");
+    \u0275\u0275text(2, "history");
     \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span");
+    \u0275\u0275text(4, "History");
+    \u0275\u0275elementEnd()();
   }
 }
 function HomeComponent_div_2_mat_card_1_Template(rf, ctx) {
@@ -49705,9 +49745,9 @@ function HomeComponent_div_2_mat_card_1_Template(rf, ctx) {
       const ctx_r2 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r2.goToExam(course_r2.id));
     });
-    \u0275\u0275text(17);
+    \u0275\u0275template(17, HomeComponent_div_2_mat_card_1_ng_container_17_Template, 5, 0, "ng-container", 7)(18, HomeComponent_div_2_mat_card_1_ng_container_18_Template, 5, 0, "ng-container", 7)(19, HomeComponent_div_2_mat_card_1_ng_container_19_Template, 5, 0, "ng-container", 7);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(18, HomeComponent_div_2_mat_card_1_button_18_Template, 2, 0, "button", 11);
+    \u0275\u0275template(20, HomeComponent_div_2_mat_card_1_button_20_Template, 5, 0, "button", 11);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -49729,7 +49769,11 @@ function HomeComponent_div_2_mat_card_1_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275property("disabled", course_r2.isExamCompleted);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", course_r2.isExamCompleted ? "Completed" : course_r2.hasTakenExam ? "Continue Exam" : "Take Mock Exam", " ");
+    \u0275\u0275property("ngIf", course_r2.isExamCompleted);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !course_r2.isExamCompleted && course_r2.hasTakenExam);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", !course_r2.isExamCompleted && !course_r2.hasTakenExam);
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", course_r2.hasTakenExam);
   }
@@ -49737,7 +49781,7 @@ function HomeComponent_div_2_mat_card_1_Template(rf, ctx) {
 function HomeComponent_div_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 3);
-    \u0275\u0275template(1, HomeComponent_div_2_mat_card_1_Template, 19, 10, "mat-card", 4);
+    \u0275\u0275template(1, HomeComponent_div_2_mat_card_1_Template, 21, 12, "mat-card", 4);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49867,7 +49911,7 @@ var HomeComponent = class _HomeComponent {
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", !ctx.loading);
     }
-  }, dependencies: [CommonModule, NgForOf, NgIf, MatButtonModule, MatButton, MatIconModule, MatCardModule, MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle, MatProgressSpinnerModule, MatProgressSpinner, DecimalPipe], styles: ["\n\n.loading-indicator[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 200px;\n  width: 100%;\n}\n.all-course-cards-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card[_ngcontent-%COMP%]   .course-thumbnail-img[_ngcontent-%COMP%] {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-header[_ngcontent-%COMP%] {\n  padding-bottom: 0;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-title[_ngcontent-%COMP%] {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-subtitle[_ngcontent-%COMP%] {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.course-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  width: 100%;\n  gap: 8px;\n}\n.progress-bar-container[_ngcontent-%COMP%] {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar[_ngcontent-%COMP%] {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses[_ngcontent-%COMP%] {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */"] });
+  }, dependencies: [CommonModule, NgForOf, NgIf, MatButtonModule, MatButton, MatIconModule, MatIcon, MatCardModule, MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle, MatProgressSpinnerModule, MatProgressSpinner, DecimalPipe], styles: ["\n\n.loading-indicator[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 200px;\n  width: 100%;\n}\n.all-course-cards-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card[_ngcontent-%COMP%]   .course-thumbnail-img[_ngcontent-%COMP%] {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-header[_ngcontent-%COMP%] {\n  padding-bottom: 0;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-title[_ngcontent-%COMP%] {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-subtitle[_ngcontent-%COMP%] {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card[_ngcontent-%COMP%]   mat-card-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.course-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  width: 100%;\n  gap: 8px;\n}\n.course-actions[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n}\n.course-actions[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]   mat-icon[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.progress-bar-container[_ngcontent-%COMP%] {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar[_ngcontent-%COMP%] {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses[_ngcontent-%COMP%] {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HomeComponent, [{
@@ -49901,7 +49945,18 @@ var HomeComponent = class _HomeComponent {
           (click)="goToExam(course.id)"
           [disabled]="course.isExamCompleted"
         >
-          {{ course.isExamCompleted ? 'Completed' : (course.hasTakenExam ? 'Continue Exam' : 'Take Mock Exam') }}
+          <ng-container *ngIf="course.isExamCompleted">
+            <mat-icon>check_circle</mat-icon>
+            <span>Completed</span>
+          </ng-container>
+          <ng-container *ngIf="!course.isExamCompleted && course.hasTakenExam">
+            <mat-icon>play_arrow</mat-icon>
+            <span>Continue Exam</span>
+          </ng-container>
+          <ng-container *ngIf="!course.isExamCompleted && !course.hasTakenExam">
+            <mat-icon>edit_document</mat-icon>
+            <span>Take Mock Exam</span>
+          </ng-container>
         </button>
         <button
           *ngIf="course.hasTakenExam"
@@ -49911,13 +49966,14 @@ var HomeComponent = class _HomeComponent {
           aria-label="View exam history"
           class="history-button"
         >
-          History
+          <mat-icon>history</mat-icon>
+          <span>History</span>
         </button>
       </mat-card-actions>
     </mat-card>
     <!-- We might need a message if allCourses is empty, but for now, omitting the no-courses message -->
   </div>
-</main>`, styles: ["/* src/app/home/home.component.css */\n.loading-indicator {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 200px;\n  width: 100%;\n}\n.all-course-cards-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card .course-thumbnail-img {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-subtitle {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.course-actions {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  width: 100%;\n  gap: 8px;\n}\n.progress-bar-container {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */\n"] }]
+</main>`, styles: ["/* src/app/home/home.component.css */\n.loading-indicator {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 200px;\n  width: 100%;\n}\n.all-course-cards-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 20px;\n  justify-content: center;\n  align-items: stretch;\n  padding: 20px;\n}\n.course-card {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  flex-basis: 300px;\n  max-width: 350px;\n}\n.course-card .course-thumbnail-img {\n  height: 200px;\n  object-fit: cover;\n  width: 100%;\n}\n.course-card mat-card-header {\n  padding-bottom: 0;\n}\n.course-card mat-card-title {\n  font-size: 1em;\n  font-weight: bold;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.course-card mat-card-subtitle {\n  font-size: 0.8em;\n  color: #757575;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 2.8em;\n  line-height: 1.4em;\n}\n.course-card mat-card-content {\n  flex-grow: 1;\n  padding-top: 10px;\n}\n.course-card mat-card-actions {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  padding: 16px;\n  min-height: 60px;\n}\n.course-actions {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  width: 100%;\n  gap: 8px;\n}\n.course-actions button {\n  display: flex;\n  align-items: center;\n}\n.course-actions button mat-icon {\n  margin-right: 8px;\n}\n.progress-bar-container {\n  width: 100%;\n  background-color: #e0e0e0;\n  border-radius: 5px;\n  overflow: hidden;\n  margin-top: 5px;\n  position: relative;\n  height: 20px;\n}\n.progress-bar {\n  height: 100%;\n  background-color: #4CAF50;\n  width: 0%;\n  text-align: center;\n  color: white;\n  line-height: 20px;\n  border-radius: 5px;\n}\n.progress-percentage {\n  position: absolute;\n  width: 100%;\n  text-align: center;\n  line-height: 20px;\n  color: #333;\n  font-size: 0.8em;\n  top: 0;\n  left: 0;\n}\n.no-courses {\n  text-align: center;\n  grid-column: 1 / -1;\n  padding: 40px;\n  color: #999;\n  font-style: italic;\n}\nfooter {\n  text-align: center;\n  padding: 20px;\n  margin-top: 40px;\n  background-color: #f0f0f0;\n  color: #666;\n  border-top: 1px solid #e0e0e0;\n}\n/*# sourceMappingURL=home.component.css.map */\n"] }]
   }], () => [{ type: ApiService }, { type: Router }, { type: AuthService }], null);
 })();
 (() => {

@@ -76,6 +76,15 @@
   gap: 8px; /* Add a gap between buttons */
 }
 
+.course-actions button {
+  display: flex;
+  align-items: center;
+}
+
+.course-actions button mat-icon {
+  margin-right: 8px; /* Space between icon and text */
+}
+
 .progress-bar-container {
   width: 100%;
   background-color: #e0e0e0;

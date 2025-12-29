@@ -27,7 +27,18 @@
           (click)="goToExam(course.id)"
           [disabled]="course.isExamCompleted"
         >
-          {{ course.isExamCompleted ? 'Completed' : (course.hasTakenExam ? 'Continue Exam' : 'Take Mock Exam') }}
+          <ng-container *ngIf="course.isExamCompleted">
+            <mat-icon>check_circle</mat-icon>
+            <span>Completed</span>
+          </ng-container>
+          <ng-container *ngIf="!course.isExamCompleted && course.hasTakenExam">
+            <mat-icon>play_arrow</mat-icon>
+            <span>Continue Exam</span>
+          </ng-container>
+          <ng-container *ngIf="!course.isExamCompleted && !course.hasTakenExam">
+            <mat-icon>edit_document</mat-icon>
+            <span>Take Mock Exam</span>
+          </ng-container>
         </button>
         <button
           *ngIf="course.hasTakenExam"
@@ -37,7 +48,8 @@
           aria-label="View exam history"
           class="history-button"
         >
-          History
+          <mat-icon>history</mat-icon>
+          <span>History</span>
         </button>
       </mat-card-actions>
     </mat-card>
