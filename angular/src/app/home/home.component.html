@@ -27,18 +27,7 @@
           (click)="goToExam(course.id)"
           [disabled]="course.isExamCompleted"
         >
-          <ng-container *ngIf="course.isExamCompleted">
-            <mat-icon>check_circle</mat-icon>
-            <span>Completed</span>
-          </ng-container>
-          <ng-container *ngIf="!course.isExamCompleted && course.hasTakenExam">
-            <mat-icon>play_arrow</mat-icon>
-            <span>Continue Exam</span>
-          </ng-container>
-          <ng-container *ngIf="!course.isExamCompleted && !course.hasTakenExam">
-            <mat-icon>edit_document</mat-icon>
-            <span>Take Mock Exam</span>
-          </ng-container>
+          {{ course.isExamCompleted ? 'Completed' : (course.hasTakenExam ? 'Continue Exam' : 'Take Mock Exam') }}
         </button>
         <button
           *ngIf="course.hasTakenExam"
