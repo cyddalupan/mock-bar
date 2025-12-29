@@ -79,10 +79,15 @@
 .course-actions button {
   display: flex;
   align-items: center;
+  font-size: 0.85rem; /* Smaller font size for all buttons */
+  line-height: 1.2;
 }
 
 .course-actions button mat-icon {
-  margin-right: 8px; /* Space between icon and text */
+  margin-right: 5px; /* Reduced space between icon and text */
+  font-size: 18px; /* Smaller icon size */
+  height: 18px;
+  width: 18px;
 }
 
 .progress-bar-container {
