@@ -37,23 +37,24 @@
 
 .mat-expansion-panel-header {
   padding: 16px 24px;
-  display: flex; /* Ensure flex display for truncation */
-  overflow: hidden; /* Hide overflow to allow ellipsis */
+  display: flex; /* Ensure flex display */
+  align-items: center; /* Vertically center items */
 }
 
 .mat-panel-title {
   font-weight: 500;
   color: var(--mdc-typography-headline-small-color); /* Adjust to theme's primary text color */
-  flex-basis: 70%; /* Give title more space */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  flex-basis: 85%; /* Give question text more space */
+  white-space: normal; /* Allow text to wrap */
+  word-break: break-word; /* Break long words if necessary */
+  margin-right: 16px; /* Add some spacing between title and description */
 }
 
 .mat-panel-description {
-  justify-content: flex-end;
+  flex-basis: 15%; /* Reduce space for score */
+  justify-content: flex-end; /* Align score to the end */
   align-items: center;
-  gap: 10px;
+  flex-shrink: 0; /* Prevent description from shrinking */
 }
 
 .score-pass {
