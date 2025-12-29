@@ -61044,48 +61044,57 @@ function ExamHistoryComponent_mat_accordion_10_mat_expansion_panel_1_Template(rf
     \u0275\u0275elementStart(6, "span");
     \u0275\u0275text(7);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(8, "mat-card", 14)(9, "mat-card-content")(10, "h3");
-    \u0275\u0275text(11, "Your Answer:");
+    \u0275\u0275elementStart(8, "mat-card", 14)(9, "mat-card-content")(10, "div", 15)(11, "h3");
+    \u0275\u0275text(12, "Question:");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "p", 15);
-    \u0275\u0275text(13);
+    \u0275\u0275elementStart(13, "p");
+    \u0275\u0275text(14);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275element(15, "mat-divider");
+    \u0275\u0275elementStart(16, "h3");
+    \u0275\u0275text(17, "Your Answer:");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(14, "mat-divider");
-    \u0275\u0275elementStart(15, "h3");
-    \u0275\u0275text(16, "Expected Answer:");
+    \u0275\u0275elementStart(18, "p", 16);
+    \u0275\u0275text(19);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(17, "p", 16);
-    \u0275\u0275text(18);
+    \u0275\u0275element(20, "mat-divider");
+    \u0275\u0275elementStart(21, "h3");
+    \u0275\u0275text(22, "Expected Answer:");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(19, "mat-divider");
-    \u0275\u0275elementStart(20, "h3");
-    \u0275\u0275text(21, "Feedback:");
+    \u0275\u0275elementStart(23, "p", 17);
+    \u0275\u0275text(24);
     \u0275\u0275elementEnd();
-    \u0275\u0275element(22, "div", 17);
-    \u0275\u0275pipe(23, "safeHtml");
+    \u0275\u0275element(25, "mat-divider");
+    \u0275\u0275elementStart(26, "h3");
+    \u0275\u0275text(27, "Feedback:");
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(28, "div", 18);
+    \u0275\u0275pipe(29, "safeHtml");
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
     const entry_r3 = ctx.$implicit;
     const i_r4 = ctx.index;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate2(" Question ", i_r4 + 1, ": ", entry_r3.question_text, " ");
+    \u0275\u0275textInterpolate1(" Question ", i_r4 + 1, " ");
     \u0275\u0275advance(3);
     \u0275\u0275classProp("score-pass", entry_r3.score >= 75)("score-fail", entry_r3.score < 75);
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1("", entry_r3.score, "%");
-    \u0275\u0275advance(6);
+    \u0275\u0275advance(7);
+    \u0275\u0275textInterpolate(entry_r3.question_text);
+    \u0275\u0275advance(5);
     \u0275\u0275textInterpolate(entry_r3.user_answer);
     \u0275\u0275advance(5);
     \u0275\u0275textInterpolate(entry_r3.expected_answer);
     \u0275\u0275advance(4);
-    \u0275\u0275property("innerHTML", \u0275\u0275pipeBind1(23, 10, entry_r3.feedback), \u0275\u0275sanitizeHtml);
+    \u0275\u0275property("innerHTML", \u0275\u0275pipeBind1(29, 10, entry_r3.feedback), \u0275\u0275sanitizeHtml);
   }
 }
 function ExamHistoryComponent_mat_accordion_10_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "mat-accordion", 12);
-    \u0275\u0275template(1, ExamHistoryComponent_mat_accordion_10_mat_expansion_panel_1_Template, 24, 12, "mat-expansion-panel", 13);
+    \u0275\u0275template(1, ExamHistoryComponent_mat_accordion_10_mat_expansion_panel_1_Template, 30, 12, "mat-expansion-panel", 13);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -61151,7 +61160,7 @@ var ExamHistoryComponent = class _ExamHistoryComponent {
   static \u0275fac = function ExamHistoryComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ExamHistoryComponent)(\u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamHistoryComponent, selectors: [["app-exam-history"]], decls: 11, vars: 4, consts: [["color", "primary"], ["mat-icon-button", "", 3, "click"], [1, "exam-history-container"], ["class", "loading-indicator", 4, "ngIf"], ["class", "error-card", 4, "ngIf"], ["class", "no-history-message", 4, "ngIf"], ["class", "history-accordion", 4, "ngIf"], [1, "loading-indicator"], [1, "error-card"], ["color", "warn"], [1, "no-history-message"], ["mat-flat-button", "", "color", "primary", 3, "click"], [1, "history-accordion"], [4, "ngFor", "ngForOf"], [1, "history-detail-card"], [1, "user-answer-text"], [1, "expected-answer-text"], [1, "feedback-content", 3, "innerHTML"]], template: function ExamHistoryComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamHistoryComponent, selectors: [["app-exam-history"]], decls: 11, vars: 4, consts: [["color", "primary"], ["mat-icon-button", "", 3, "click"], [1, "exam-history-container"], ["class", "loading-indicator", 4, "ngIf"], ["class", "error-card", 4, "ngIf"], ["class", "no-history-message", 4, "ngIf"], ["class", "history-accordion", 4, "ngIf"], [1, "loading-indicator"], [1, "error-card"], ["color", "warn"], [1, "no-history-message"], ["mat-flat-button", "", "color", "primary", 3, "click"], [1, "history-accordion"], [4, "ngFor", "ngForOf"], [1, "history-detail-card"], [1, "question-text-container"], [1, "user-answer-text"], [1, "expected-answer-text"], [1, "feedback-content", 3, "innerHTML"]], template: function ExamHistoryComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "mat-toolbar", 0)(1, "button", 1);
       \u0275\u0275listener("click", function ExamHistoryComponent_Template_button_click_1_listener() {
@@ -61203,7 +61212,7 @@ var ExamHistoryComponent = class _ExamHistoryComponent {
     MatToolbarModule,
     MatToolbar,
     SafeHtmlPipe
-  ], styles: ["\n\n.exam-history-container[_ngcontent-%COMP%] {\n  padding: 20px;\n  max-width: 900px;\n  margin: 20px auto;\n}\n.loading-indicator[_ngcontent-%COMP%], \n.no-history-message[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 40px;\n  text-align: center;\n}\n.error-card[_ngcontent-%COMP%] {\n  margin: 20px 0;\n  color: #f44336;\n  border: 1px solid #f44336;\n}\n.error-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.error-card[_ngcontent-%COMP%]   mat-icon[_ngcontent-%COMP%] {\n  font-size: 30px;\n  width: 30px;\n  height: 30px;\n}\n.history-accordion[_ngcontent-%COMP%] {\n  margin-top: 20px;\n}\n.mat-expansion-panel-header[_ngcontent-%COMP%] {\n  padding: 16px 24px;\n  display: flex;\n  align-items: center;\n}\n.mat-panel-title[_ngcontent-%COMP%] {\n  font-weight: 500;\n  color: var(--mdc-typography-headline-small-color);\n  flex-basis: 85%;\n  white-space: normal;\n  word-break: break-word;\n  margin-right: 16px;\n}\n.mat-panel-description[_ngcontent-%COMP%] {\n  flex-basis: 15%;\n  justify-content: flex-end;\n  align-items: center;\n  flex-shrink: 0;\n}\n.score-pass[_ngcontent-%COMP%] {\n  color: #4CAF50;\n  font-weight: bold;\n}\n.score-fail[_ngcontent-%COMP%] {\n  color: #f44336;\n  font-weight: bold;\n}\n.history-detail-card[_ngcontent-%COMP%] {\n  margin: 10px 0;\n}\n.history-detail-card[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  color: var(--mdc-typography-body-large-color);\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.history-detail-card[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  white-space: pre-wrap;\n  word-wrap: break-word;\n  color: var(--mdc-typography-body-medium-color);\n  margin-bottom: 15px;\n}\n.feedback-content[_ngcontent-%COMP%] {\n  margin-top: 10px;\n}\n.feedback-content[_ngcontent-%COMP%]   table[_ngcontent-%COMP%] {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n}\n.feedback-content[_ngcontent-%COMP%]   th[_ngcontent-%COMP%], \n.feedback-content[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n.feedback-content[_ngcontent-%COMP%]   th[_ngcontent-%COMP%] {\n  background-color: #f2f2f2;\n  font-weight: bold;\n}\n.feedback-content[_ngcontent-%COMP%]   tr[_ngcontent-%COMP%]:nth-child(even) {\n  background-color: #f9f9f9;\n}\n.feedback-content[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  list-style-type: disc;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n.feedback-content[_ngcontent-%COMP%]   ol[_ngcontent-%COMP%] {\n  list-style-type: decimal;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n/*# sourceMappingURL=exam-history.css.map */"] });
+  ], styles: ["\n\n.exam-history-container[_ngcontent-%COMP%] {\n  padding: 20px;\n  max-width: 900px;\n  margin: 20px auto;\n}\n.loading-indicator[_ngcontent-%COMP%], \n.no-history-message[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 40px;\n  text-align: center;\n}\n.error-card[_ngcontent-%COMP%] {\n  margin: 20px 0;\n  color: #f44336;\n  border: 1px solid #f44336;\n}\n.error-card[_ngcontent-%COMP%]   mat-card-content[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.error-card[_ngcontent-%COMP%]   mat-icon[_ngcontent-%COMP%] {\n  font-size: 30px;\n  width: 30px;\n  height: 30px;\n}\n.history-accordion[_ngcontent-%COMP%] {\n  margin-top: 20px;\n}\n.mat-expansion-panel-header[_ngcontent-%COMP%] {\n  padding: 16px 24px;\n  display: flex;\n  align-items: center;\n}\n.mat-panel-title[_ngcontent-%COMP%] {\n  font-weight: 500;\n  color: var(--mdc-typography-headline-small-color);\n}\n.mat-panel-description[_ngcontent-%COMP%] {\n  justify-content: flex-end;\n  align-items: center;\n  gap: 10px;\n}\n.question-text-container[_ngcontent-%COMP%] {\n  background-color: #f5f5f5;\n  padding: 16px;\n  border-radius: 4px;\n  margin-bottom: 16px;\n}\n.question-text-container[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin-top: 0;\n}\n.score-pass[_ngcontent-%COMP%] {\n  color: #4CAF50;\n  font-weight: bold;\n}\n.score-fail[_ngcontent-%COMP%] {\n  color: #f44336;\n  font-weight: bold;\n}\n.history-detail-card[_ngcontent-%COMP%] {\n  margin: 10px 0;\n}\n.history-detail-card[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  color: var(--mdc-typography-body-large-color);\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.history-detail-card[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  white-space: pre-wrap;\n  word-wrap: break-word;\n  color: var(--mdc-typography-body-medium-color);\n  margin-bottom: 15px;\n}\n.feedback-content[_ngcontent-%COMP%] {\n  margin-top: 10px;\n}\n.feedback-content[_ngcontent-%COMP%]   table[_ngcontent-%COMP%] {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n}\n.feedback-content[_ngcontent-%COMP%]   th[_ngcontent-%COMP%], \n.feedback-content[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n.feedback-content[_ngcontent-%COMP%]   th[_ngcontent-%COMP%] {\n  background-color: #f2f2f2;\n  font-weight: bold;\n}\n.feedback-content[_ngcontent-%COMP%]   tr[_ngcontent-%COMP%]:nth-child(even) {\n  background-color: #f9f9f9;\n}\n.feedback-content[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  list-style-type: disc;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n.feedback-content[_ngcontent-%COMP%]   ol[_ngcontent-%COMP%] {\n  list-style-type: decimal;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n/*# sourceMappingURL=exam-history.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ExamHistoryComponent, [{
@@ -61219,7 +61228,7 @@ var ExamHistoryComponent = class _ExamHistoryComponent {
       MatListModule,
       MatToolbarModule,
       SafeHtmlPipe
-    ], template: '<mat-toolbar color="primary">\n  <button mat-icon-button (click)="goBack()">\n    <mat-icon>arrow_back</mat-icon>\n  </button>\n  <span>Exam History</span>\n</mat-toolbar>\n\n<div class="exam-history-container">\n  <div *ngIf="loading" class="loading-indicator">\n    <mat-spinner></mat-spinner>\n    <p>Loading exam history...</p>\n  </div>\n\n  <mat-card *ngIf="error" class="error-card">\n    <mat-card-content>\n      <mat-icon color="warn">error</mat-icon>\n      <p>{{ error }}</p>\n    </mat-card-content>\n  </mat-card>\n\n  <div *ngIf="!loading && !error && historyEntries.length === 0" class="no-history-message">\n    <mat-card>\n      <mat-card-content>\n        <p>No exam history found for this course.</p>\n        <button mat-flat-button color="primary" (click)="goBack()">Go Back</button>\n      </mat-card-content>\n    </mat-card>\n  </div>\n\n  <mat-accordion *ngIf="!loading && !error && historyEntries.length > 0" class="history-accordion">\n    <mat-expansion-panel *ngFor="let entry of historyEntries; let i = index">\n      <mat-expansion-panel-header>\n        <mat-panel-title>\n          Question {{ i + 1 }}: {{ entry.question_text }}\n        </mat-panel-title>\n        <mat-panel-description>\n          Score: <span [class.score-pass]="entry.score >= 75" [class.score-fail]="entry.score < 75">{{ entry.score }}%</span>\n        </mat-panel-description>\n      </mat-expansion-panel-header>\n\n      <mat-card class="history-detail-card">\n        <mat-card-content>\n          <h3>Your Answer:</h3>\n          <p class="user-answer-text">{{ entry.user_answer }}</p>\n          <mat-divider></mat-divider>\n\n          <h3>Expected Answer:</h3>\n          <p class="expected-answer-text">{{ entry.expected_answer }}</p>\n          <mat-divider></mat-divider>\n\n          <h3>Feedback:</h3>\n          <div class="feedback-content" [innerHTML]="entry.feedback | safeHtml"></div>\n        </mat-card-content>\n      </mat-card>\n    </mat-expansion-panel>\n  </mat-accordion>\n</div>\n', styles: ["/* src/app/exam-history/exam-history.css */\n.exam-history-container {\n  padding: 20px;\n  max-width: 900px;\n  margin: 20px auto;\n}\n.loading-indicator,\n.no-history-message {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 40px;\n  text-align: center;\n}\n.error-card {\n  margin: 20px 0;\n  color: #f44336;\n  border: 1px solid #f44336;\n}\n.error-card mat-card-content {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.error-card mat-icon {\n  font-size: 30px;\n  width: 30px;\n  height: 30px;\n}\n.history-accordion {\n  margin-top: 20px;\n}\n.mat-expansion-panel-header {\n  padding: 16px 24px;\n  display: flex;\n  align-items: center;\n}\n.mat-panel-title {\n  font-weight: 500;\n  color: var(--mdc-typography-headline-small-color);\n  flex-basis: 85%;\n  white-space: normal;\n  word-break: break-word;\n  margin-right: 16px;\n}\n.mat-panel-description {\n  flex-basis: 15%;\n  justify-content: flex-end;\n  align-items: center;\n  flex-shrink: 0;\n}\n.score-pass {\n  color: #4CAF50;\n  font-weight: bold;\n}\n.score-fail {\n  color: #f44336;\n  font-weight: bold;\n}\n.history-detail-card {\n  margin: 10px 0;\n}\n.history-detail-card h3 {\n  color: var(--mdc-typography-body-large-color);\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.history-detail-card p {\n  white-space: pre-wrap;\n  word-wrap: break-word;\n  color: var(--mdc-typography-body-medium-color);\n  margin-bottom: 15px;\n}\n.feedback-content {\n  margin-top: 10px;\n}\n.feedback-content table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n}\n.feedback-content th,\n.feedback-content td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n.feedback-content th {\n  background-color: #f2f2f2;\n  font-weight: bold;\n}\n.feedback-content tr:nth-child(even) {\n  background-color: #f9f9f9;\n}\n.feedback-content ul {\n  list-style-type: disc;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n.feedback-content ol {\n  list-style-type: decimal;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n/*# sourceMappingURL=exam-history.css.map */\n"] }]
+    ], template: '<mat-toolbar color="primary">\n  <button mat-icon-button (click)="goBack()">\n    <mat-icon>arrow_back</mat-icon>\n  </button>\n  <span>Exam History</span>\n</mat-toolbar>\n\n<div class="exam-history-container">\n  <div *ngIf="loading" class="loading-indicator">\n    <mat-spinner></mat-spinner>\n    <p>Loading exam history...</p>\n  </div>\n\n  <mat-card *ngIf="error" class="error-card">\n    <mat-card-content>\n      <mat-icon color="warn">error</mat-icon>\n      <p>{{ error }}</p>\n    </mat-card-content>\n  </mat-card>\n\n  <div *ngIf="!loading && !error && historyEntries.length === 0" class="no-history-message">\n    <mat-card>\n      <mat-card-content>\n        <p>No exam history found for this course.</p>\n        <button mat-flat-button color="primary" (click)="goBack()">Go Back</button>\n      </mat-card-content>\n    </mat-card>\n  </div>\n\n  <mat-accordion *ngIf="!loading && !error && historyEntries.length > 0" class="history-accordion">\n    <mat-expansion-panel *ngFor="let entry of historyEntries; let i = index">\n      <mat-expansion-panel-header>\n        <mat-panel-title>\n          Question {{ i + 1 }}\n        </mat-panel-title>\n        <mat-panel-description>\n          Score: <span [class.score-pass]="entry.score >= 75" [class.score-fail]="entry.score < 75">{{ entry.score }}%</span>\n        </mat-panel-description>\n      </mat-expansion-panel-header>\n\n      <mat-card class="history-detail-card">\n        <mat-card-content>\n          <div class="question-text-container">\n            <h3>Question:</h3>\n            <p>{{ entry.question_text }}</p>\n          </div>\n          <mat-divider></mat-divider>\n\n          <h3>Your Answer:</h3>\n          <p class="user-answer-text">{{ entry.user_answer }}</p>\n          <mat-divider></mat-divider>\n\n          <h3>Expected Answer:</h3>\n          <p class="expected-answer-text">{{ entry.expected_answer }}</p>\n          <mat-divider></mat-divider>\n\n          <h3>Feedback:</h3>\n          <div class="feedback-content" [innerHTML]="entry.feedback | safeHtml"></div>\n        </mat-card-content>\n      </mat-card>\n    </mat-expansion-panel>\n  </mat-accordion>\n</div>\n', styles: ["/* src/app/exam-history/exam-history.css */\n.exam-history-container {\n  padding: 20px;\n  max-width: 900px;\n  margin: 20px auto;\n}\n.loading-indicator,\n.no-history-message {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 40px;\n  text-align: center;\n}\n.error-card {\n  margin: 20px 0;\n  color: #f44336;\n  border: 1px solid #f44336;\n}\n.error-card mat-card-content {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.error-card mat-icon {\n  font-size: 30px;\n  width: 30px;\n  height: 30px;\n}\n.history-accordion {\n  margin-top: 20px;\n}\n.mat-expansion-panel-header {\n  padding: 16px 24px;\n  display: flex;\n  align-items: center;\n}\n.mat-panel-title {\n  font-weight: 500;\n  color: var(--mdc-typography-headline-small-color);\n}\n.mat-panel-description {\n  justify-content: flex-end;\n  align-items: center;\n  gap: 10px;\n}\n.question-text-container {\n  background-color: #f5f5f5;\n  padding: 16px;\n  border-radius: 4px;\n  margin-bottom: 16px;\n}\n.question-text-container h3 {\n  margin-top: 0;\n}\n.score-pass {\n  color: #4CAF50;\n  font-weight: bold;\n}\n.score-fail {\n  color: #f44336;\n  font-weight: bold;\n}\n.history-detail-card {\n  margin: 10px 0;\n}\n.history-detail-card h3 {\n  color: var(--mdc-typography-body-large-color);\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.history-detail-card p {\n  white-space: pre-wrap;\n  word-wrap: break-word;\n  color: var(--mdc-typography-body-medium-color);\n  margin-bottom: 15px;\n}\n.feedback-content {\n  margin-top: 10px;\n}\n.feedback-content table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n}\n.feedback-content th,\n.feedback-content td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n.feedback-content th {\n  background-color: #f2f2f2;\n  font-weight: bold;\n}\n.feedback-content tr:nth-child(even) {\n  background-color: #f9f9f9;\n}\n.feedback-content ul {\n  list-style-type: disc;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n.feedback-content ol {\n  list-style-type: decimal;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n/*# sourceMappingURL=exam-history.css.map */\n"] }]
   }], () => [{ type: ActivatedRoute }, { type: ApiService }, { type: AuthService }, { type: Router }], null);
 })();
 (() => {

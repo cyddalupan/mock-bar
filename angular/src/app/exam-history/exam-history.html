@@ -31,7 +31,7 @@
     <mat-expansion-panel *ngFor="let entry of historyEntries; let i = index">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Question {{ i + 1 }}: {{ entry.question_text }}
+          Question {{ i + 1 }}
         </mat-panel-title>
         <mat-panel-description>
           Score: <span [class.score-pass]="entry.score >= 75" [class.score-fail]="entry.score < 75">{{ entry.score }}%</span>
@@ -40,6 +40,12 @@
 
       <mat-card class="history-detail-card">
         <mat-card-content>
+          <div class="question-text-container">
+            <h3>Question:</h3>
+            <p>{{ entry.question_text }}</p>
+          </div>
+          <mat-divider></mat-divider>
+
           <h3>Your Answer:</h3>
           <p class="user-answer-text">{{ entry.user_answer }}</p>
           <mat-divider></mat-divider>

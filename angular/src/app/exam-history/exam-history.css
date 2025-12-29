@@ -44,17 +44,23 @@
 .mat-panel-title {
   font-weight: 500;
   color: var(--mdc-typography-headline-small-color); /* Adjust to theme's primary text color */
-  flex-basis: 85%; /* Give question text more space */
-  white-space: normal; /* Allow text to wrap */
-  word-break: break-word; /* Break long words if necessary */
-  margin-right: 16px; /* Add some spacing between title and description */
 }
 
 .mat-panel-description {
-  flex-basis: 15%; /* Reduce space for score */
   justify-content: flex-end; /* Align score to the end */
   align-items: center;
-  flex-shrink: 0; /* Prevent description from shrinking */
+  gap: 10px;
+}
+
+.question-text-container {
+  background-color: #f5f5f5; /* Light grey background */
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.question-text-container h3 {
+  margin-top: 0;
 }
 
 .score-pass {
