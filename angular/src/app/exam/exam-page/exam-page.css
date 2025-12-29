@@ -70,3 +70,9 @@
 :host ::ng-deep .table-hover tbody tr:hover {
   background-color: rgba(0, 0, 0, 0.075);
 }
+
+/* Custom style for the 'Back to Course List' button */
+.back-to-course-list-btn {
+  background-color: #28a745; /* A distinct green */
+  color: white;
+}

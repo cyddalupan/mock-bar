@@ -30,7 +30,7 @@
           </mat-form-field>
 
           <div class="exam-actions">
-            <button mat-flat-button color="accent" (click)="goBackToHome()">Back to Course List</button>
+            <button mat-flat-button class="back-to-course-list-btn" (click)="goBackToHome()">Back to Course List</button>
             <button mat-flat-button color="primary" (click)="submitAnswer()" [disabled]="!userAnswer.trim()">Submit Answer</button>
           </div>
         </div>
@@ -38,7 +38,7 @@
         <div *ngIf="examCompleted">
           <h3>Exam Completed!</h3>
           <p>You have answered all available questions for this course.</p>
-          <button mat-flat-button color="accent" (click)="goBackToHome()">Back to Course List</button>
+          <button mat-flat-button class="back-to-course-list-btn" (click)="goBackToHome()">Back to Course List</button>
         </div>
 
         <div *ngIf="showResult && gradeResult">
@@ -52,7 +52,7 @@
           </div>
 
           <div class="exam-actions">
-            <button mat-flat-button color="accent" (click)="goBackToHome()">Back to Course List</button>
+            <button mat-flat-button class="back-to-course-list-btn" (click)="goBackToHome()">Back to Course List</button>
             <button mat-flat-button color="primary" (click)="continueToNextQuestion()">
               {{ examCompleted ? 'Done with Course' : 'Continue to Next Question' }}
             </button>

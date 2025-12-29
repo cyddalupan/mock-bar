@@ -57488,7 +57488,7 @@ var ExamPageComponent = class _ExamPageComponent {
   static \u0275fac = function ExamPageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ExamPageComponent)(\u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(DomSanitizer));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamPageComponent, selectors: [["app-exam-page"]], decls: 9, vars: 4, consts: [["autosize", "cdkTextareaAutosize"], [1, "exam-container"], [1, "exam-card"], ["class", "loading-spinner", 4, "ngIf"], ["class", "error-message", 4, "ngIf"], [4, "ngIf"], [1, "loading-spinner"], ["mode", "indeterminate"], [1, "error-message"], ["appearance", "fill", 1, "full-width-textarea"], ["matInput", "", "cdkTextareaAutosize", "", "cdkAutosizeMinRows", "10", "cdkAutosizeMaxRows", "20", 3, "ngModelChange", "ngModel"], [1, "exam-actions"], ["mat-flat-button", "", "color", "accent", 3, "click"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], [3, "innerHTML"], ["mat-flat-button", "", "color", "primary", 3, "click"]], template: function ExamPageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamPageComponent, selectors: [["app-exam-page"]], decls: 9, vars: 4, consts: [["autosize", "cdkTextareaAutosize"], [1, "exam-container"], [1, "exam-card"], ["class", "loading-spinner", 4, "ngIf"], ["class", "error-message", 4, "ngIf"], [4, "ngIf"], [1, "loading-spinner"], ["mode", "indeterminate"], [1, "error-message"], ["appearance", "fill", 1, "full-width-textarea"], ["matInput", "", "cdkTextareaAutosize", "", "cdkAutosizeMinRows", "10", "cdkAutosizeMaxRows", "20", 3, "ngModelChange", "ngModel"], [1, "exam-actions"], ["mat-flat-button", "", 1, "back-to-course-list-btn", 3, "click"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], [3, "innerHTML"], ["mat-flat-button", "", "color", "primary", 3, "click"]], template: function ExamPageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 1)(1, "mat-card", 2)(2, "mat-card-header")(3, "mat-card-title");
       \u0275\u0275text(4);
@@ -57530,7 +57530,7 @@ var ExamPageComponent = class _ExamPageComponent {
     NgModel,
     MatProgressBarModule,
     MatProgressBar
-  ], styles: ["\n\n.exam-container[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  padding: 20px;\n}\n.exam-card[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 800px;\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.loading-spinner[_ngcontent-%COMP%], \n.error-message[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n}\n.full-width-textarea[_ngcontent-%COMP%] {\n  width: 100%;\n  margin-top: 20px;\n}\n.exam-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 20px;\n}\n.mat-mdc-card-content[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.mat-mdc-card-content[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin-bottom: 10px;\n}\n[_nghost-%COMP%]     table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n[_nghost-%COMP%]     th, \n[_nghost-%COMP%]     td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n[_nghost-%COMP%]     th {\n  background-color: #f2f2f2;\n}\n[_nghost-%COMP%]     .table-bordered {\n  border: 1px solid #dee2e6;\n}\n[_nghost-%COMP%]     .table-bordered th, \n[_nghost-%COMP%]     .table-bordered td {\n  border: 1px solid #dee2e6;\n}\n[_nghost-%COMP%]     .table-striped tbody tr:nth-of-type(odd) {\n  background-color: rgba(0, 0, 0, 0.05);\n}\n[_nghost-%COMP%]     .table-hover tbody tr:hover {\n  background-color: rgba(0, 0, 0, 0.075);\n}\n/*# sourceMappingURL=exam-page.css.map */"] });
+  ], styles: ["\n\n.exam-container[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  padding: 20px;\n}\n.exam-card[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 800px;\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.loading-spinner[_ngcontent-%COMP%], \n.error-message[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n}\n.full-width-textarea[_ngcontent-%COMP%] {\n  width: 100%;\n  margin-top: 20px;\n}\n.exam-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 20px;\n}\n.mat-mdc-card-content[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.mat-mdc-card-content[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin-bottom: 10px;\n}\n[_nghost-%COMP%]     table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n[_nghost-%COMP%]     th, \n[_nghost-%COMP%]     td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n[_nghost-%COMP%]     th {\n  background-color: #f2f2f2;\n}\n[_nghost-%COMP%]     .table-bordered {\n  border: 1px solid #dee2e6;\n}\n[_nghost-%COMP%]     .table-bordered th, \n[_nghost-%COMP%]     .table-bordered td {\n  border: 1px solid #dee2e6;\n}\n[_nghost-%COMP%]     .table-striped tbody tr:nth-of-type(odd) {\n  background-color: rgba(0, 0, 0, 0.05);\n}\n[_nghost-%COMP%]     .table-hover tbody tr:hover {\n  background-color: rgba(0, 0, 0, 0.075);\n}\n.back-to-course-list-btn[_ngcontent-%COMP%] {\n  background-color: #28a745;\n  color: white;\n}\n/*# sourceMappingURL=exam-page.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ExamPageComponent, [{
@@ -57575,7 +57575,7 @@ var ExamPageComponent = class _ExamPageComponent {
           </mat-form-field>
 
           <div class="exam-actions">
-            <button mat-flat-button color="accent" (click)="goBackToHome()">Back to Course List</button>
+            <button mat-flat-button class="back-to-course-list-btn" (click)="goBackToHome()">Back to Course List</button>
             <button mat-flat-button color="primary" (click)="submitAnswer()" [disabled]="!userAnswer.trim()">Submit Answer</button>
           </div>
         </div>
@@ -57583,7 +57583,7 @@ var ExamPageComponent = class _ExamPageComponent {
         <div *ngIf="examCompleted">
           <h3>Exam Completed!</h3>
           <p>You have answered all available questions for this course.</p>
-          <button mat-flat-button color="accent" (click)="goBackToHome()">Back to Course List</button>
+          <button mat-flat-button class="back-to-course-list-btn" (click)="goBackToHome()">Back to Course List</button>
         </div>
 
         <div *ngIf="showResult && gradeResult">
@@ -57597,7 +57597,7 @@ var ExamPageComponent = class _ExamPageComponent {
           </div>
 
           <div class="exam-actions">
-            <button mat-flat-button color="accent" (click)="goBackToHome()">Back to Course List</button>
+            <button mat-flat-button class="back-to-course-list-btn" (click)="goBackToHome()">Back to Course List</button>
             <button mat-flat-button color="primary" (click)="continueToNextQuestion()">
               {{ examCompleted ? 'Done with Course' : 'Continue to Next Question' }}
             </button>
@@ -57607,7 +57607,7 @@ var ExamPageComponent = class _ExamPageComponent {
     </mat-card-content>
   </mat-card>
 </div>
-`, styles: ["/* src/app/exam/exam-page/exam-page.css */\n.exam-container {\n  display: flex;\n  justify-content: center;\n  padding: 20px;\n}\n.exam-card {\n  width: 100%;\n  max-width: 800px;\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.loading-spinner,\n.error-message {\n  text-align: center;\n  padding: 20px;\n}\n.full-width-textarea {\n  width: 100%;\n  margin-top: 20px;\n}\n.exam-actions {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 20px;\n}\n.mat-mdc-card-content h3 {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.mat-mdc-card-content p {\n  margin-bottom: 10px;\n}\n:host ::ng-deep table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n:host ::ng-deep th,\n:host ::ng-deep td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n:host ::ng-deep th {\n  background-color: #f2f2f2;\n}\n:host ::ng-deep .table-bordered {\n  border: 1px solid #dee2e6;\n}\n:host ::ng-deep .table-bordered th,\n:host ::ng-deep .table-bordered td {\n  border: 1px solid #dee2e6;\n}\n:host ::ng-deep .table-striped tbody tr:nth-of-type(odd) {\n  background-color: rgba(0, 0, 0, 0.05);\n}\n:host ::ng-deep .table-hover tbody tr:hover {\n  background-color: rgba(0, 0, 0, 0.075);\n}\n/*# sourceMappingURL=exam-page.css.map */\n"] }]
+`, styles: ["/* src/app/exam/exam-page/exam-page.css */\n.exam-container {\n  display: flex;\n  justify-content: center;\n  padding: 20px;\n}\n.exam-card {\n  width: 100%;\n  max-width: 800px;\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.loading-spinner,\n.error-message {\n  text-align: center;\n  padding: 20px;\n}\n.full-width-textarea {\n  width: 100%;\n  margin-top: 20px;\n}\n.exam-actions {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 20px;\n}\n.mat-mdc-card-content h3 {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.mat-mdc-card-content p {\n  margin-bottom: 10px;\n}\n:host ::ng-deep table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n:host ::ng-deep th,\n:host ::ng-deep td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n:host ::ng-deep th {\n  background-color: #f2f2f2;\n}\n:host ::ng-deep .table-bordered {\n  border: 1px solid #dee2e6;\n}\n:host ::ng-deep .table-bordered th,\n:host ::ng-deep .table-bordered td {\n  border: 1px solid #dee2e6;\n}\n:host ::ng-deep .table-striped tbody tr:nth-of-type(odd) {\n  background-color: rgba(0, 0, 0, 0.05);\n}\n:host ::ng-deep .table-hover tbody tr:hover {\n  background-color: rgba(0, 0, 0, 0.075);\n}\n.back-to-course-list-btn {\n  background-color: #28a745;\n  color: white;\n}\n/*# sourceMappingURL=exam-page.css.map */\n"] }]
   }], () => [{ type: ActivatedRoute }, { type: Router }, { type: ApiService }, { type: AuthService }, { type: DomSanitizer }], null);
 })();
 (() => {
