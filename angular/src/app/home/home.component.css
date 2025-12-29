@@ -62,10 +62,25 @@
 
 .course-card mat-card-actions {
   display: flex;
-  justify-content: center; /* Center the button */
+  justify-content: space-between; /* Distributes items evenly */
   align-items: center; /* Vertically align the button */
   padding: 16px;
   min-height: 60px; /* Fixed height for consistency */
+}
+
+.course-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.course-actions button {
+  margin-right: 8px; /* Add some space between buttons */
+}
+
+.course-actions .history-button {
+  margin-right: 0; /* No right margin for the last button */
 }
 
 .progress-bar-container {

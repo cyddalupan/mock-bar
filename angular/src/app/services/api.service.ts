@@ -1,10 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'; // Import HttpParams
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators'; // No need for switchMap now
+import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
-import { AuthService } from './auth.service'; // Import AuthService
+import { AuthService } from './auth.service';
+
+// Interface for the exam history entry
+export interface ExamHistoryEntry {
+  diag_ans_id: string;
+  question_id: string;
+  user_answer: string;
+  score: number;
+  feedback: string;
+  date_created: string;
+  question_text: string;
+  expected_answer: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +26,7 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService, // Inject AuthService
+    private authService: AuthService,
   ) {}
 
   // Helper to get userId
@@ -24,17 +36,58 @@ export class ApiService {
 
   private postData(endpoint: string, payload: any): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json' // Send plain JSON
+      'Content-Type': 'application/json'
     });
 
-    return this.http.post(`${this.apiUrl}/${endpoint}`, payload, { headers }).pipe( // Expect plain JSON response
+    return this.http.post(`${this.apiUrl}/${endpoint}`, payload, { headers }).pipe(
       catchError(error => {
         console.error('API call error:', error);
-        // Direct error from HTTP call, no decryption needed
         return throwError(() => error.error || 'Server error');
       })
     );
   }
+
+  // New method to fetch exam history
+  getExamHistory(userId: string, courseId: string): Observable<ExamHistoryEntry[]> {
+    const query = `
+      SELECT
+          da.id AS diag_ans_id,
+          da.question_id,
+          da.answer AS user_answer,
+          da.score,
+          da.feedback,
+          da.date_created,
+          qn.q_question AS question_text,
+          qn.q_answer AS expected_answer
+      FROM
+          diag_ans da
+      JOIN
+          quiz_new qn ON da.question_id = qn.q_id
+      WHERE
+          da.user_id = ? AND da.batch_id = ?
+      ORDER BY
+          da.date_created DESC;
+    `;
+    const params = [userId, courseId];
+
+    return this.getDbData(query, params).pipe(
+      map(response => {
+        // db.php returns an array of results directly if successful, or an object with an 'error' key
+        if (Array.isArray(response)) {
+          return response as ExamHistoryEntry[];
+        } else if (response && response.error) {
+          throw new Error(response.error);
+        } else {
+          throw new Error('Unknown error fetching exam history');
+        }
+      }),
+      catchError(error => {
+        console.error('Error fetching exam history:', error);
+        return throwError(() => new Error('Could not fetch exam history.'));
+      })
+    );
+  }
+
 
   getDbData(query: string, params: any[] = []): Observable<any> {
     const payload = { query, params };

@@ -20,7 +20,7 @@
         </div>
         <p *ngIf="course.averageScore"><strong>Average Score:</strong> {{ course.averageScore }}%</p>
       </mat-card-content>
-      <mat-card-actions>
+      <mat-card-actions class="course-actions">
         <button
           mat-flat-button
           color="primary"
@@ -28,6 +28,16 @@
           [disabled]="course.isExamCompleted"
         >
           {{ course.isExamCompleted ? 'Completed' : 'Take Mock Exam' }}
+        </button>
+        <button
+          *ngIf="course.hasTakenExam"
+          mat-icon-button
+          color="accent"
+          (click)="goToHistory(course.id)"
+          aria-label="View exam history"
+          class="history-button"
+        >
+          <mat-icon>history</mat-icon>
         </button>
       </mat-card-actions>
     </mat-card>

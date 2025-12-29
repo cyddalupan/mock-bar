@@ -178,6 +178,8 @@ Angular Material has been successfully integrated for UI components and Material
 
 ## Development Guidelines
 
+*   **Code Stability:** Existing code is generally considered stable and should not be modified unless a specific task explicitly requires it, or there's an identified bug to fix. Focus on adding new features or components rather than refactoring existing, functional code.
+
 *   **Development Workflow:**
     *   **Environment:** Development and local testing occur on your machine. However, integration and functional testing of the application (Angular frontend interacting with PHP backend) are performed on a remote server.
     *   **Build & Push:** After making any significant code changes in the Angular application, always run `npm run build` from the `/angular` directory. Subsequently, all changes, including the newly built files within the `/bar` directory, must be committed and pushed to the Git repository.

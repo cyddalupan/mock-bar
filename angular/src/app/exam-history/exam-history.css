@@ -1,0 +1,117 @@
+.exam-history-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.loading-indicator, .no-history-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.error-card {
+  margin: 20px 0;
+  color: #f44336; /* Material Design Red */
+  border: 1px solid #f44336;
+}
+
+.error-card mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.error-card mat-icon {
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+}
+
+.history-accordion {
+  margin-top: 20px;
+}
+
+.mat-expansion-panel-header {
+  padding: 16px 24px;
+}
+
+.mat-panel-title {
+  font-weight: 500;
+  color: var(--mdc-typography-headline-small-color); /* Adjust to theme's primary text color */
+}
+
+.mat-panel-description {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.score-pass {
+  color: #4CAF50; /* Material Design Green */
+  font-weight: bold;
+}
+
+.score-fail {
+  color: #f44336; /* Material Design Red */
+  font-weight: bold;
+}
+
+.history-detail-card {
+  margin: 10px 0;
+}
+
+.history-detail-card h3 {
+  color: var(--mdc-typography-body-large-color); /* Adjust to theme's secondary text color */
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.history-detail-card p {
+  white-space: pre-wrap; /* Preserves whitespace and wraps text */
+  word-wrap: break-word; /* Breaks long words */
+  color: var(--mdc-typography-body-medium-color);
+  margin-bottom: 15px;
+}
+
+.feedback-content {
+  margin-top: 10px;
+}
+
+/* Styling for tables within feedback content */
+.feedback-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.feedback-content th,
+.feedback-content td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.feedback-content th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.feedback-content tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.feedback-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.feedback-content ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+    margin-top: 10px;
+}

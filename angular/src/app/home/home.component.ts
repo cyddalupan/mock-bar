@@ -141,5 +141,9 @@ export class HomeComponent implements OnInit {
   goToExam(courseId: string) {
     this.router.navigate(['/exam', courseId]);
   }
+
+  goToHistory(courseId: string) {
+    this.router.navigate(['/history', courseId]);
+  }
 }
 

@@ -1,0 +1,57 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>Exam History</span>
+</mat-toolbar>
+
+<div class="exam-history-container">
+  <div *ngIf="loading" class="loading-indicator">
+    <mat-spinner></mat-spinner>
+    <p>Loading exam history...</p>
+  </div>
+
+  <mat-card *ngIf="error" class="error-card">
+    <mat-card-content>
+      <mat-icon color="warn">error</mat-icon>
+      <p>{{ error }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <div *ngIf="!loading && !error && historyEntries.length === 0" class="no-history-message">
+    <mat-card>
+      <mat-card-content>
+        <p>No exam history found for this course.</p>
+        <button mat-flat-button color="primary" (click)="goBack()">Go Back</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-accordion *ngIf="!loading && !error && historyEntries.length > 0" class="history-accordion">
+    <mat-expansion-panel *ngFor="let entry of historyEntries; let i = index">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Question {{ i + 1 }}: {{ entry.question_text }}
+        </mat-panel-title>
+        <mat-panel-description>
+          Score: <span [class.score-pass]="entry.score >= 75" [class.score-fail]="entry.score < 75">{{ entry.score }}%</span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-card class="history-detail-card">
+        <mat-card-content>
+          <h3>Your Answer:</h3>
+          <p class="user-answer-text">{{ entry.user_answer }}</p>
+          <mat-divider></mat-divider>
+
+          <h3>Expected Answer:</h3>
+          <p class="expected-answer-text">{{ entry.expected_answer }}</p>
+          <mat-divider></mat-divider>
+
+          <h3>Feedback:</h3>
+          <div class="feedback-content" [innerHTML]="entry.feedback | safeHtml"></div>
+        </mat-card-content>
+      </mat-card>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
