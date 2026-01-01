@@ -57,7 +57,9 @@
           <h3>Feedback:</h3>
           <div class="feedback-content" [innerHTML]="entry.feedback | safeHtml"></div>
           <mat-divider></mat-divider>
-          <button mat-flat-button color="accent" (click)="retakeQuestion(entry)" class="retake-button">Re-take</button>
+          <button mat-flat-button color="accent" (click)="retakeQuestion(entry)" class="retake-button">
+            <mat-icon>refresh</mat-icon> Re-take
+          </button>
         </mat-card-content>
       </mat-card>
     </mat-expansion-panel>

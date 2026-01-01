@@ -128,3 +128,7 @@
     padding-left: 20px;
     margin-top: 10px;
 }
+
+.retake-button {
+  margin-top: 16px; /* Add some space above the button */
+}
