@@ -70,3 +70,14 @@
 *   **score**: Score for the answer
 *   **feedback**: Feedback for the answer
 *   **date_created**: Date the answer was created
+
+## Table: diag_ans_retake
+
+*   **id**: Primary Key
+*   **user_id**: User ID associated with the retake
+*   **batch_id**: Foreign Key to course table (representing course_id)
+*   **question_id**: ID of the question being retaken
+*   **answer**: User's retake answer
+*   **score**: Score for the retake answer
+*   **feedback**: Feedback for the retake answer
+*   **date_created**: Date the retake answer was created

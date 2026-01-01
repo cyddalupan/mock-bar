@@ -8,6 +8,7 @@ import { AuthGuard } from './auth.guard';
 import { HomeComponent } from './home/home.component';
 import { ExamPageComponent } from './exam/exam-page/exam-page';
 import { ExamHistoryComponent } from './exam-history/exam-history.component'; // Import ExamHistoryComponent
+import { RetakePageComponent } from '../../angular/exam/retake-page/retake-page'; // Import RetakePageComponent
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -25,8 +26,13 @@ const routes: Routes = [
     path: 'history/:courseId', // New route for exam history page with courseId parameter
     component: ExamHistoryComponent,
     canActivate: [AuthGuard] // Protect the history route
+  },
+  {
+    path: 'history/retake/:courseId/:questionId',
+    component: RetakePageComponent,
+    canActivate: [AuthGuard]
   }
-];
+]; // Corrected: closing bracket for routes array
 
 export const appConfig: ApplicationConfig = {
   providers: [

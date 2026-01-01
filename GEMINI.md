@@ -39,7 +39,7 @@ The `ai.php` endpoint has been refactored to serve specifically as an AI grading
 **Output Response (JSON):**
 ```json
 {
-  "id": "chatcmpl-...",
+  "id": "chatcmpl-வுகளை",
   "object": "chat.completion",
   "created": ...,
   "model": "gpt-4o",
@@ -48,7 +48,7 @@ The `ai.php` endpoint has been refactored to serve specifically as an AI grading
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "{\n  \"score\": 85,\n  \"feedback\": \"<table class=\\\"table table-bordered\\\">...\" \n}"
+        "content": "{\n  \"score\": 85,\n  \"feedback\": \"<table class=\"table table-bordered\">...\" \n}"
       },
       "logprobs": null,
       "finish_reason": "stop"
@@ -125,7 +125,7 @@ To retrieve the current user's ID within any Angular component or service:
 
     // ...
 
-    constructor(private authService: AuthService) { }
+    constructor(private authService: AuthService) { } 
     ```
 2.  **Call `getUserId()`:** Use the `getUserId()` method to obtain the ID.
     ```typescript
@@ -202,5 +202,16 @@ Angular Material has been successfully integrated for UI components and Material
 *   **Strict Typing:** Implement strict typing throughout the Angular project, utilizing detailed interfaces and classes. This helps catch issues during `npm run build` and improves code quality.
 *   **Proactive Documentation:** Maintain `GEMINI.md` as a living document. Any significant setup steps, encountered challenges, or solutions (especially related to project configurations or library integrations) should be added to this file to serve as a knowledge base and prevent re-solving the same issues.
 
+---
 
+### Retake Exam Feature
 
+A "Retake Exam" functionality has been implemented to allow users to re-attempt specific questions from their exam history.
+
+**Database:**
+A new table, `diag_ans_retake`, has been introduced to store retake attempts, preserving the original attempt's data. The `getExamHistory` query now prioritizes results from `diag_ans_retake` if a retake exists. A new API endpoint has been added to save retake attempts.
+
+**Frontend (Angular):**
+*   **`ApiService`**: Updated `ExamHistoryEntry` interface, and added new methods `getQuestionById` and `saveRetakeAnswer`.
+*   **`ExamHistoryComponent`**: A "Re-take" button has been added to each exam history entry, which navigates to the new retake page.
+*   **`RetakePageComponent`**: A new standalone component, accessible via `/history/retake/:courseId/:questionId`, allows users to re-answer a specific question. It uses the AI grading system and saves the retake result, then redirects the user back to the history page.

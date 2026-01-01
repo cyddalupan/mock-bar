@@ -89,4 +89,8 @@ export class ExamHistoryComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/home']);
   }
+
+  retakeQuestion(entry: ExamHistoryEntry): void {
+    this.router.navigate(['/history/retake', entry.course_id, entry.question_id]);
+  }
 }

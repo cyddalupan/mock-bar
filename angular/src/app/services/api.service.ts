@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 export interface ExamHistoryEntry {
   diag_ans_id: string;
   question_id: string;
+  course_id: string; // Added course_id
   user_answer: string;
   score: number;
   feedback: string;
@@ -47,26 +48,28 @@ export class ApiService {
     );
   }
 
-  // New method to fetch exam history
   getExamHistory(userId: string, courseId: string): Observable<ExamHistoryEntry[]> {
     const query = `
       SELECT
           da.id AS diag_ans_id,
           da.question_id,
-          da.answer AS user_answer,
-          da.score,
-          da.feedback,
-          da.date_created,
+          da.batch_id AS course_id,
+          COALESCE(dar.answer, da.answer) AS user_answer,
+          COALESCE(dar.score, da.score) AS score,
+          COALESCE(dar.feedback, da.feedback) AS feedback,
+          COALESCE(dar.date_created, da.date_created) AS date_created,
           qn.q_question AS question_text,
           qn.q_answer AS expected_answer
       FROM
           diag_ans da
       JOIN
           quiz_new qn ON da.question_id = qn.q_id
+      LEFT JOIN
+          diag_ans_retake dar ON da.user_id = dar.user_id AND da.question_id = dar.question_id
       WHERE
           da.user_id = ? AND da.batch_id = ?
       ORDER BY
-          da.date_created DESC;
+          date_created DESC;
     `;
     const params = [userId, courseId];
 
@@ -114,10 +117,31 @@ export class ApiService {
     return this.getDbData(query, params);
   }
 
+  // New method to get a specific question by ID
+  getQuestionById(questionId: string): Observable<any> {
+    const query = `
+      SELECT q_id, q_question, q_answer
+      FROM quiz_new
+      WHERE q_id = ?;
+    `;
+    const params = [questionId];
+    return this.getDbData(query, params);
+  }
+
   // New method to save graded answer to diag_ans
   saveDiagAns(userId: string, courseId: string, questionId: string, answer: string, score: number, feedback: string): Observable<any> {
     const query = `
       INSERT INTO diag_ans (user_id, batch_id, question_id, answer, score, feedback, date_created)
+      VALUES (?, ?, ?, ?, ?, ?, NOW());
+    `;
+    const params = [userId, courseId, questionId, answer, score, feedback];
+    return this.getDbData(query, params);
+  }
+
+  // New method to save graded retake answer to diag_ans_retake
+  saveRetakeAnswer(userId: string, courseId: string, questionId: string, answer: string, score: number, feedback: string): Observable<any> {
+    const query = `
+      INSERT INTO diag_ans_retake (user_id, batch_id, question_id, answer, score, feedback, date_created)
       VALUES (?, ?, ?, ?, ?, ?, NOW());
     `;
     const params = [userId, courseId, questionId, answer, score, feedback];

@@ -49458,26 +49458,28 @@ var ApiService = class _ApiService {
       return throwError(() => error.error || "Server error");
     }));
   }
-  // New method to fetch exam history
   getExamHistory(userId, courseId) {
     const query = `
       SELECT
           da.id AS diag_ans_id,
           da.question_id,
-          da.answer AS user_answer,
-          da.score,
-          da.feedback,
-          da.date_created,
+          da.batch_id AS course_id,
+          COALESCE(dar.answer, da.answer) AS user_answer,
+          COALESCE(dar.score, da.score) AS score,
+          COALESCE(dar.feedback, da.feedback) AS feedback,
+          COALESCE(dar.date_created, da.date_created) AS date_created,
           qn.q_question AS question_text,
           qn.q_answer AS expected_answer
       FROM
           diag_ans da
       JOIN
           quiz_new qn ON da.question_id = qn.q_id
+      LEFT JOIN
+          diag_ans_retake dar ON da.user_id = dar.user_id AND da.question_id = dar.question_id
       WHERE
           da.user_id = ? AND da.batch_id = ?
       ORDER BY
-          da.date_created DESC;
+          date_created DESC;
     `;
     const params = [userId, courseId];
     return this.getDbData(query, params).pipe(map((response) => {
@@ -49515,10 +49517,29 @@ var ApiService = class _ApiService {
     const params = [courseId, userId, courseId];
     return this.getDbData(query, params);
   }
+  // New method to get a specific question by ID
+  getQuestionById(questionId) {
+    const query = `
+      SELECT q_id, q_question, q_answer
+      FROM quiz_new
+      WHERE q_id = ?;
+    `;
+    const params = [questionId];
+    return this.getDbData(query, params);
+  }
   // New method to save graded answer to diag_ans
   saveDiagAns(userId, courseId, questionId, answer, score, feedback) {
     const query = `
       INSERT INTO diag_ans (user_id, batch_id, question_id, answer, score, feedback, date_created)
+      VALUES (?, ?, ?, ?, ?, ?, NOW());
+    `;
+    const params = [userId, courseId, questionId, answer, score, feedback];
+    return this.getDbData(query, params);
+  }
+  // New method to save graded retake answer to diag_ans_retake
+  saveRetakeAnswer(userId, courseId, questionId, answer, score, feedback) {
+    const query = `
+      INSERT INTO diag_ans_retake (user_id, batch_id, question_id, answer, score, feedback, date_created)
       VALUES (?, ?, ?, ?, ?, ?, NOW());
     `;
     const params = [userId, courseId, questionId, answer, score, feedback];
@@ -61040,6 +61061,7 @@ function ExamHistoryComponent_div_9_Template(rf, ctx) {
 }
 function ExamHistoryComponent_mat_accordion_10_mat_expansion_panel_1_Template(rf, ctx) {
   if (rf & 1) {
+    const _r3 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "mat-expansion-panel")(1, "mat-expansion-panel-header")(2, "mat-panel-title");
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
@@ -61074,31 +61096,39 @@ function ExamHistoryComponent_mat_accordion_10_mat_expansion_panel_1_Template(rf
     \u0275\u0275elementEnd();
     \u0275\u0275element(28, "div", 18);
     \u0275\u0275pipe(29, "safeHtml");
-    \u0275\u0275elementEnd()()();
+    \u0275\u0275element(30, "mat-divider");
+    \u0275\u0275elementStart(31, "button", 19);
+    \u0275\u0275listener("click", function ExamHistoryComponent_mat_accordion_10_mat_expansion_panel_1_Template_button_click_31_listener() {
+      const entry_r4 = \u0275\u0275restoreView(_r3).$implicit;
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.retakeQuestion(entry_r4));
+    });
+    \u0275\u0275text(32, "Re-take");
+    \u0275\u0275elementEnd()()()();
   }
   if (rf & 2) {
-    const entry_r3 = ctx.$implicit;
-    const i_r4 = ctx.index;
+    const entry_r4 = ctx.$implicit;
+    const i_r5 = ctx.index;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1(" Question ", i_r4 + 1, " ");
+    \u0275\u0275textInterpolate1(" Question ", i_r5 + 1, " ");
     \u0275\u0275advance(3);
-    \u0275\u0275classProp("score-pass", entry_r3.score >= 75)("score-fail", entry_r3.score < 75);
+    \u0275\u0275classProp("score-pass", entry_r4.score >= 75)("score-fail", entry_r4.score < 75);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1("", entry_r3.score, "%");
+    \u0275\u0275textInterpolate1("", entry_r4.score, "%");
     \u0275\u0275advance(7);
-    \u0275\u0275textInterpolate(entry_r3.question_text);
+    \u0275\u0275textInterpolate(entry_r4.question_text);
     \u0275\u0275advance(5);
-    \u0275\u0275textInterpolate(entry_r3.user_answer);
+    \u0275\u0275textInterpolate(entry_r4.user_answer);
     \u0275\u0275advance(5);
-    \u0275\u0275textInterpolate(entry_r3.expected_answer);
+    \u0275\u0275textInterpolate(entry_r4.expected_answer);
     \u0275\u0275advance(4);
-    \u0275\u0275property("innerHTML", \u0275\u0275pipeBind1(29, 10, entry_r3.feedback), \u0275\u0275sanitizeHtml);
+    \u0275\u0275property("innerHTML", \u0275\u0275pipeBind1(29, 10, entry_r4.feedback), \u0275\u0275sanitizeHtml);
   }
 }
 function ExamHistoryComponent_mat_accordion_10_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "mat-accordion", 12);
-    \u0275\u0275template(1, ExamHistoryComponent_mat_accordion_10_mat_expansion_panel_1_Template, 30, 12, "mat-expansion-panel", 13);
+    \u0275\u0275template(1, ExamHistoryComponent_mat_accordion_10_mat_expansion_panel_1_Template, 33, 12, "mat-expansion-panel", 13);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -61161,10 +61191,13 @@ var ExamHistoryComponent = class _ExamHistoryComponent {
   goBack() {
     this.router.navigate(["/home"]);
   }
+  retakeQuestion(entry) {
+    this.router.navigate(["/history/retake", entry.course_id, entry.question_id]);
+  }
   static \u0275fac = function ExamHistoryComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ExamHistoryComponent)(\u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamHistoryComponent, selectors: [["app-exam-history"]], decls: 11, vars: 4, consts: [["color", "primary"], ["mat-icon-button", "", 3, "click"], [1, "exam-history-container"], ["class", "loading-indicator", 4, "ngIf"], ["class", "error-card", 4, "ngIf"], ["class", "no-history-message", 4, "ngIf"], ["class", "history-accordion", 4, "ngIf"], [1, "loading-indicator"], [1, "error-card"], ["color", "warn"], [1, "no-history-message"], ["mat-flat-button", "", "color", "primary", 3, "click"], [1, "history-accordion"], [4, "ngFor", "ngForOf"], [1, "history-detail-card"], [1, "question-text-container"], [1, "user-answer-text"], [1, "expected-answer-text"], [1, "feedback-content", 3, "innerHTML"]], template: function ExamHistoryComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamHistoryComponent, selectors: [["app-exam-history"]], decls: 11, vars: 4, consts: [["color", "primary"], ["mat-icon-button", "", 3, "click"], [1, "exam-history-container"], ["class", "loading-indicator", 4, "ngIf"], ["class", "error-card", 4, "ngIf"], ["class", "no-history-message", 4, "ngIf"], ["class", "history-accordion", 4, "ngIf"], [1, "loading-indicator"], [1, "error-card"], ["color", "warn"], [1, "no-history-message"], ["mat-flat-button", "", "color", "primary", 3, "click"], [1, "history-accordion"], [4, "ngFor", "ngForOf"], [1, "history-detail-card"], [1, "question-text-container"], [1, "user-answer-text"], [1, "expected-answer-text"], [1, "feedback-content", 3, "innerHTML"], ["mat-flat-button", "", "color", "accent", 1, "retake-button", 3, "click"]], template: function ExamHistoryComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "mat-toolbar", 0)(1, "button", 1);
       \u0275\u0275listener("click", function ExamHistoryComponent_Template_button_click_1_listener() {
@@ -61232,11 +61265,333 @@ var ExamHistoryComponent = class _ExamHistoryComponent {
       MatListModule,
       MatToolbarModule,
       SafeHtmlPipe
-    ], template: '<mat-toolbar color="primary">\n  <button mat-icon-button (click)="goBack()">\n    <mat-icon>arrow_back</mat-icon>\n  </button>\n  <span>Exam History</span>\n</mat-toolbar>\n\n<div class="exam-history-container">\n  <div *ngIf="loading" class="loading-indicator">\n    <mat-spinner></mat-spinner>\n    <p>Loading exam history...</p>\n  </div>\n\n  <mat-card *ngIf="error" class="error-card">\n    <mat-card-content>\n      <mat-icon color="warn">error</mat-icon>\n      <p>{{ error }}</p>\n    </mat-card-content>\n  </mat-card>\n\n  <div *ngIf="!loading && !error && historyEntries.length === 0" class="no-history-message">\n    <mat-card>\n      <mat-card-content>\n        <p>No exam history found for this course.</p>\n        <button mat-flat-button color="primary" (click)="goBack()">Go Back</button>\n      </mat-card-content>\n    </mat-card>\n  </div>\n\n  <mat-accordion *ngIf="!loading && !error && historyEntries.length > 0" class="history-accordion">\n    <mat-expansion-panel *ngFor="let entry of historyEntries; let i = index">\n      <mat-expansion-panel-header>\n        <mat-panel-title>\n          Question {{ i + 1 }}\n        </mat-panel-title>\n        <mat-panel-description>\n          Score: <span [class.score-pass]="entry.score >= 75" [class.score-fail]="entry.score < 75">{{ entry.score }}%</span>\n        </mat-panel-description>\n      </mat-expansion-panel-header>\n\n      <mat-card class="history-detail-card">\n        <mat-card-content>\n          <div class="question-text-container">\n            <h3>Question:</h3>\n            <p>{{ entry.question_text }}</p>\n          </div>\n          <mat-divider></mat-divider>\n\n          <h3>Your Answer:</h3>\n          <p class="user-answer-text">{{ entry.user_answer }}</p>\n          <mat-divider></mat-divider>\n\n          <h3>Expected Answer:</h3>\n          <p class="expected-answer-text">{{ entry.expected_answer }}</p>\n          <mat-divider></mat-divider>\n\n          <h3>Feedback:</h3>\n          <div class="feedback-content" [innerHTML]="entry.feedback | safeHtml"></div>\n        </mat-card-content>\n      </mat-card>\n    </mat-expansion-panel>\n  </mat-accordion>\n</div>\n', styles: ["/* src/app/exam-history/exam-history.css */\n.exam-history-container {\n  padding: 20px;\n  max-width: 900px;\n  margin: 20px auto;\n}\n.loading-indicator,\n.no-history-message {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 40px;\n  text-align: center;\n}\n.error-card {\n  margin: 20px 0;\n  color: #f44336;\n  border: 1px solid #f44336;\n}\n.error-card mat-card-content {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.error-card mat-icon {\n  font-size: 30px;\n  width: 30px;\n  height: 30px;\n}\n.history-accordion {\n  margin-top: 20px;\n}\n.mat-expansion-panel-header {\n  padding: 16px 24px;\n  display: flex;\n  align-items: center;\n}\n.mat-panel-title {\n  font-weight: 500;\n  color: var(--mdc-typography-headline-small-color);\n}\n.mat-panel-description {\n  justify-content: flex-end;\n  align-items: center;\n  gap: 10px;\n}\n.question-text-container {\n  background-color: #f5f5f5;\n  padding: 16px;\n  border-radius: 4px;\n  margin-bottom: 16px;\n}\n.question-text-container h3 {\n  margin-top: 0;\n}\n.score-pass {\n  color: #4CAF50;\n  font-weight: bold;\n}\n.score-fail {\n  color: #f44336;\n  font-weight: bold;\n}\n.history-detail-card {\n  margin: 10px 0;\n}\n.history-detail-card h3 {\n  color: var(--mdc-typography-body-large-color);\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.history-detail-card p {\n  white-space: pre-wrap;\n  word-wrap: break-word;\n  color: var(--mdc-typography-body-medium-color);\n  margin-bottom: 15px;\n}\n.feedback-content {\n  margin-top: 10px;\n}\n.feedback-content table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n}\n.feedback-content th,\n.feedback-content td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n.feedback-content th {\n  background-color: #f2f2f2;\n  font-weight: bold;\n}\n.feedback-content tr:nth-child(even) {\n  background-color: #f9f9f9;\n}\n.feedback-content ul {\n  list-style-type: disc;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n.feedback-content ol {\n  list-style-type: decimal;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n/*# sourceMappingURL=exam-history.css.map */\n"] }]
+    ], template: '<mat-toolbar color="primary">\n  <button mat-icon-button (click)="goBack()">\n    <mat-icon>arrow_back</mat-icon>\n  </button>\n  <span>Exam History</span>\n</mat-toolbar>\n\n<div class="exam-history-container">\n  <div *ngIf="loading" class="loading-indicator">\n    <mat-spinner></mat-spinner>\n    <p>Loading exam history...</p>\n  </div>\n\n  <mat-card *ngIf="error" class="error-card">\n    <mat-card-content>\n      <mat-icon color="warn">error</mat-icon>\n      <p>{{ error }}</p>\n    </mat-card-content>\n  </mat-card>\n\n  <div *ngIf="!loading && !error && historyEntries.length === 0" class="no-history-message">\n    <mat-card>\n      <mat-card-content>\n        <p>No exam history found for this course.</p>\n        <button mat-flat-button color="primary" (click)="goBack()">Go Back</button>\n      </mat-card-content>\n    </mat-card>\n  </div>\n\n  <mat-accordion *ngIf="!loading && !error && historyEntries.length > 0" class="history-accordion">\n    <mat-expansion-panel *ngFor="let entry of historyEntries; let i = index">\n      <mat-expansion-panel-header>\n        <mat-panel-title>\n          Question {{ i + 1 }}\n        </mat-panel-title>\n        <mat-panel-description>\n          Score: <span [class.score-pass]="entry.score >= 75" [class.score-fail]="entry.score < 75">{{ entry.score }}%</span>\n        </mat-panel-description>\n      </mat-expansion-panel-header>\n\n      <mat-card class="history-detail-card">\n        <mat-card-content>\n          <div class="question-text-container">\n            <h3>Question:</h3>\n            <p>{{ entry.question_text }}</p>\n          </div>\n          <mat-divider></mat-divider>\n\n          <h3>Your Answer:</h3>\n          <p class="user-answer-text">{{ entry.user_answer }}</p>\n          <mat-divider></mat-divider>\n\n          <h3>Expected Answer:</h3>\n          <p class="expected-answer-text">{{ entry.expected_answer }}</p>\n          <mat-divider></mat-divider>\n\n          <h3>Feedback:</h3>\n          <div class="feedback-content" [innerHTML]="entry.feedback | safeHtml"></div>\n          <mat-divider></mat-divider>\n          <button mat-flat-button color="accent" (click)="retakeQuestion(entry)" class="retake-button">Re-take</button>\n        </mat-card-content>\n      </mat-card>\n    </mat-expansion-panel>\n  </mat-accordion>\n</div>\n', styles: ["/* src/app/exam-history/exam-history.css */\n.exam-history-container {\n  padding: 20px;\n  max-width: 900px;\n  margin: 20px auto;\n}\n.loading-indicator,\n.no-history-message {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 40px;\n  text-align: center;\n}\n.error-card {\n  margin: 20px 0;\n  color: #f44336;\n  border: 1px solid #f44336;\n}\n.error-card mat-card-content {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.error-card mat-icon {\n  font-size: 30px;\n  width: 30px;\n  height: 30px;\n}\n.history-accordion {\n  margin-top: 20px;\n}\n.mat-expansion-panel-header {\n  padding: 16px 24px;\n  display: flex;\n  align-items: center;\n}\n.mat-panel-title {\n  font-weight: 500;\n  color: var(--mdc-typography-headline-small-color);\n}\n.mat-panel-description {\n  justify-content: flex-end;\n  align-items: center;\n  gap: 10px;\n}\n.question-text-container {\n  background-color: #f5f5f5;\n  padding: 16px;\n  border-radius: 4px;\n  margin-bottom: 16px;\n}\n.question-text-container h3 {\n  margin-top: 0;\n}\n.score-pass {\n  color: #4CAF50;\n  font-weight: bold;\n}\n.score-fail {\n  color: #f44336;\n  font-weight: bold;\n}\n.history-detail-card {\n  margin: 10px 0;\n}\n.history-detail-card h3 {\n  color: var(--mdc-typography-body-large-color);\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.history-detail-card p {\n  white-space: pre-wrap;\n  word-wrap: break-word;\n  color: var(--mdc-typography-body-medium-color);\n  margin-bottom: 15px;\n}\n.feedback-content {\n  margin-top: 10px;\n}\n.feedback-content table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n}\n.feedback-content th,\n.feedback-content td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n.feedback-content th {\n  background-color: #f2f2f2;\n  font-weight: bold;\n}\n.feedback-content tr:nth-child(even) {\n  background-color: #f9f9f9;\n}\n.feedback-content ul {\n  list-style-type: disc;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n.feedback-content ol {\n  list-style-type: decimal;\n  padding-left: 20px;\n  margin-top: 10px;\n}\n/*# sourceMappingURL=exam-history.css.map */\n"] }]
   }], () => [{ type: ActivatedRoute }, { type: ApiService }, { type: AuthService }, { type: Router }], null);
 })();
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ExamHistoryComponent, { className: "ExamHistoryComponent", filePath: "src/app/exam-history/exam-history.component.ts", lineNumber: 35 });
+})();
+
+// angular/exam/retake-page/retake-page.ts
+function RetakePageComponent_div_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 6);
+    \u0275\u0275element(1, "mat-progress-bar", 7);
+    \u0275\u0275elementStart(2, "p");
+    \u0275\u0275text(3, "Loading...");
+    \u0275\u0275elementEnd()();
+  }
+}
+function RetakePageComponent_div_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 8)(1, "p");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r0.error);
+  }
+}
+function RetakePageComponent_div_8_div_1_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r2 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div")(1, "h3");
+    \u0275\u0275text(2, "Question:");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "p");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "mat-form-field", 9)(6, "mat-label");
+    \u0275\u0275text(7, "Your Answer");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(8, "textarea", 10, 0);
+    \u0275\u0275twoWayListener("ngModelChange", function RetakePageComponent_div_8_div_1_Template_textarea_ngModelChange_8_listener($event) {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      \u0275\u0275twoWayBindingSet(ctx_r0.userAnswer, $event) || (ctx_r0.userAnswer = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(10, "div", 11)(11, "button", 12);
+    \u0275\u0275listener("click", function RetakePageComponent_div_8_div_1_Template_button_click_11_listener() {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.goBackToHistory());
+    });
+    \u0275\u0275text(12, "Back to History");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(13, "button", 13);
+    \u0275\u0275listener("click", function RetakePageComponent_div_8_div_1_Template_button_click_13_listener() {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.submitAnswer());
+    });
+    \u0275\u0275text(14, "Submit Answer");
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate(ctx_r0.currentQuestion.q_question);
+    \u0275\u0275advance(4);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r0.userAnswer);
+    \u0275\u0275advance(5);
+    \u0275\u0275property("disabled", !ctx_r0.userAnswer.trim());
+  }
+}
+function RetakePageComponent_div_8_div_2_div_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div")(1, "h4");
+    \u0275\u0275text(2, "Expected Answer:");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "p");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate(ctx_r0.expectedAnswerFromAI);
+  }
+}
+function RetakePageComponent_div_8_div_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r3 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div")(1, "h3");
+    \u0275\u0275text(2, "Grading Result");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "mat-card-subtitle");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(5, "div", 14);
+    \u0275\u0275template(6, RetakePageComponent_div_8_div_2_div_6_Template, 5, 1, "div", 5);
+    \u0275\u0275elementStart(7, "div", 11)(8, "button", 12);
+    \u0275\u0275listener("click", function RetakePageComponent_div_8_div_2_Template_button_click_8_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.goBackToHistory());
+    });
+    \u0275\u0275text(9, "Back to History");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(10, "button", 15);
+    \u0275\u0275listener("click", function RetakePageComponent_div_8_div_2_Template_button_click_10_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.goBackToHistory());
+    });
+    \u0275\u0275text(11, " Continue to History ");
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1("Your Score: ", ctx_r0.gradeResult.score, "%");
+    \u0275\u0275advance();
+    \u0275\u0275property("innerHTML", ctx_r0.getSafeFeedbackHtml(), \u0275\u0275sanitizeHtml);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r0.expectedAnswerFromAI);
+  }
+}
+function RetakePageComponent_div_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275template(1, RetakePageComponent_div_8_div_1_Template, 15, 3, "div", 5)(2, RetakePageComponent_div_8_div_2_Template, 12, 3, "div", 5);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r0.currentQuestion && !ctx_r0.showResult);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r0.showResult && ctx_r0.gradeResult);
+  }
+}
+var RetakePageComponent = class _RetakePageComponent {
+  route;
+  router;
+  apiService;
+  authService;
+  sanitizer;
+  courseId;
+  questionId;
+  userId;
+  currentQuestion;
+  userAnswer = "";
+  gradeResult;
+  isLoading = false;
+  error = null;
+  showResult = false;
+  expectedAnswerFromAI = null;
+  constructor(route, router, apiService, authService, sanitizer) {
+    this.route = route;
+    this.router = router;
+    this.apiService = apiService;
+    this.authService = authService;
+    this.sanitizer = sanitizer;
+  }
+  ngOnInit() {
+    this.userId = this.authService.getUserId();
+    if (!this.userId) {
+      this.error = "User not logged in. Redirecting to home.";
+      this.router.navigate(["/home"]);
+      return;
+    }
+    this.route.paramMap.subscribe((params) => {
+      this.courseId = params.get("courseId");
+      this.questionId = params.get("questionId");
+      this.loadQuestion();
+    });
+  }
+  loadQuestion() {
+    this.isLoading = true;
+    this.error = null;
+    this.userAnswer = "";
+    this.gradeResult = null;
+    this.showResult = false;
+    this.expectedAnswerFromAI = null;
+    if (!this.userId || !this.courseId || !this.questionId) {
+      this.error = "Missing user ID, course ID, or question ID.";
+      this.isLoading = false;
+      return;
+    }
+    this.apiService.getQuestionById(this.questionId).subscribe({
+      next: (response) => {
+        if (response && response.length > 0) {
+          this.currentQuestion = response[0];
+        } else {
+          this.error = "Question not found.";
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error("Error loading question:", err);
+        this.error = "Failed to load question. Please try again.";
+        this.isLoading = false;
+      }
+    });
+  }
+  submitAnswer() {
+    if (!this.userAnswer.trim() || !this.currentQuestion) {
+      this.error = "Please provide an answer.";
+      return;
+    }
+    this.isLoading = true;
+    this.error = null;
+    this.gradeResult = null;
+    this.showResult = false;
+    this.expectedAnswerFromAI = null;
+    this.apiService.gradeAnswer(this.userAnswer, this.currentQuestion.q_answer).subscribe({
+      next: (aiResponse) => {
+        const content = aiResponse.choices[0]?.message?.content;
+        if (content) {
+          try {
+            const parsedContent = JSON.parse(content);
+            this.gradeResult = parsedContent;
+            const insightsRegex = /Additional Insights:[\s\S]*?a\)\s*The correct expected_answer:\s*([\s\S]*?)\s*b\)/;
+            const match2 = insightsRegex.exec(this.gradeResult.feedback);
+            if (match2 && match2[1]) {
+              this.expectedAnswerFromAI = match2[1].trim();
+            }
+            this.apiService.saveRetakeAnswer(this.userId, this.courseId, this.currentQuestion.q_id, this.userAnswer, this.gradeResult.score, this.gradeResult.feedback).subscribe({
+              next: (dbResponse) => {
+                this.showResult = true;
+                this.isLoading = false;
+              },
+              error: (dbErr) => {
+                console.error("Error saving retake answer to DB:", dbErr);
+                this.error = "Answer graded, but failed to save retake to database.";
+                this.showResult = true;
+                this.isLoading = false;
+              }
+            });
+          } catch (jsonError) {
+            console.error("Error parsing AI response content:", jsonError);
+            this.error = "Failed to parse AI grading response.";
+            this.isLoading = false;
+          }
+        } else {
+          this.error = "AI did not return a valid grading response.";
+          this.isLoading = false;
+        }
+      },
+      error: (err) => {
+        console.error("Error grading answer with AI:", err);
+        this.error = "Failed to get AI grading. Please try again.";
+        this.isLoading = false;
+      }
+    });
+  }
+  getSafeFeedbackHtml() {
+    return this.sanitizer.bypassSecurityTrustHtml(this.gradeResult?.feedback || "");
+  }
+  goBackToHistory() {
+    this.router.navigate(["/history", this.courseId]);
+  }
+  static \u0275fac = function RetakePageComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _RetakePageComponent)(\u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(DomSanitizer));
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _RetakePageComponent, selectors: [["app-retake-page"]], decls: 9, vars: 4, consts: [["autosize", "cdkTextareaAutosize"], [1, "exam-container"], [1, "exam-card"], ["class", "loading-spinner", 4, "ngIf"], ["class", "error-message", 4, "ngIf"], [4, "ngIf"], [1, "loading-spinner"], ["mode", "indeterminate"], [1, "error-message"], ["appearance", "fill", 1, "full-width-textarea"], ["matInput", "", "cdkTextareaAutosize", "", "cdkAutosizeMinRows", "10", "cdkAutosizeMaxRows", "20", 3, "ngModelChange", "ngModel"], [1, "exam-actions"], ["mat-flat-button", "", 1, "back-to-course-list-btn", 3, "click"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], [3, "innerHTML"], ["mat-flat-button", "", "color", "primary", 3, "click"]], template: function RetakePageComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "div", 1)(1, "mat-card", 2)(2, "mat-card-header")(3, "mat-card-title");
+      \u0275\u0275text(4);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(5, "mat-card-content");
+      \u0275\u0275template(6, RetakePageComponent_div_6_Template, 4, 0, "div", 3)(7, RetakePageComponent_div_7_Template, 3, 1, "div", 4)(8, RetakePageComponent_div_8_Template, 3, 2, "div", 5);
+      \u0275\u0275elementEnd()()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(4);
+      \u0275\u0275textInterpolate1("Retake Question - Course: ", ctx.courseId);
+      \u0275\u0275advance(2);
+      \u0275\u0275property("ngIf", ctx.isLoading);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.error);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", !ctx.isLoading && !ctx.error);
+    }
+  }, dependencies: [
+    CommonModule,
+    NgIf,
+    MatButtonModule,
+    MatButton,
+    MatIconModule,
+    MatCardModule,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatCardSubtitle,
+    MatCardTitle,
+    MatInputModule,
+    MatInput,
+    MatFormField,
+    MatLabel,
+    CdkTextareaAutosize,
+    FormsModule,
+    DefaultValueAccessor,
+    NgControlStatus,
+    NgModel,
+    MatProgressBarModule,
+    MatProgressBar
+  ], encapsulation: 2 });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RetakePageComponent, [{
+    type: Component,
+    args: [{ selector: "app-retake-page", standalone: true, imports: [
+      CommonModule,
+      MatButtonModule,
+      MatIconModule,
+      MatCardModule,
+      MatInputModule,
+      FormsModule,
+      MatProgressBarModule
+    ], template: '<div class="exam-container">\n  <mat-card class="exam-card">\n    <mat-card-header>\n      <mat-card-title>Retake Question - Course: {{ courseId }}</mat-card-title>\n    </mat-card-header>\n\n    <mat-card-content>\n      <div *ngIf="isLoading" class="loading-spinner">\n        <mat-progress-bar mode="indeterminate"></mat-progress-bar>\n        <p>Loading...</p>\n      </div>\n\n      <div *ngIf="error" class="error-message">\n        <p>{{ error }}</p>\n      </div>\n\n      <div *ngIf="!isLoading && !error">\n        <div *ngIf="currentQuestion && !showResult">\n          <h3>Question:</h3>\n          <p>{{ currentQuestion.q_question }}</p>\n\n          <mat-form-field appearance="fill" class="full-width-textarea">\n            <mat-label>Your Answer</mat-label>\n            <textarea matInput\n                      cdkTextareaAutosize\n                      #autosize="cdkTextareaAutosize"\n                      cdkAutosizeMinRows="10"\n                      cdkAutosizeMaxRows="20"\n                      [(ngModel)]="userAnswer"></textarea>\n          </mat-form-field>\n\n          <div class="exam-actions">\n            <button mat-flat-button class="back-to-course-list-btn" (click)="goBackToHistory()">Back to History</button>\n            <button mat-flat-button color="primary" (click)="submitAnswer()" [disabled]="!userAnswer.trim()">Submit Answer</button>\n          </div>\n        </div>\n\n        <div *ngIf="showResult && gradeResult">\n          <h3>Grading Result</h3>\n          <mat-card-subtitle>Your Score: {{ gradeResult.score }}%</mat-card-subtitle>\n          <div [innerHTML]="getSafeFeedbackHtml()"></div>\n\n          <div *ngIf="expectedAnswerFromAI">\n            <h4>Expected Answer:</h4>\n            <p>{{ expectedAnswerFromAI }}</p>\n          </div>\n\n          <div class="exam-actions">\n            <button mat-flat-button class="back-to-course-list-btn" (click)="goBackToHistory()">Back to History</button>\n            <button mat-flat-button color="primary" (click)="goBackToHistory()">\n              Continue to History\n            </button>\n          </div>\n        </div>\n      </div>\n    </mat-card-content>\n  </mat-card>\n</div>\n' }]
+  }], () => [{ type: ActivatedRoute }, { type: Router }, { type: ApiService }, { type: AuthService }, { type: DomSanitizer }], null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(RetakePageComponent, { className: "RetakePageComponent", filePath: "angular/exam/retake-page/retake-page.ts", lineNumber: 29 });
 })();
 
 // src/app/app.config.ts
@@ -61258,6 +61613,11 @@ var routes = [
     component: ExamHistoryComponent,
     canActivate: [AuthGuard]
     // Protect the history route
+  },
+  {
+    path: "history/retake/:courseId/:questionId",
+    component: RetakePageComponent,
+    canActivate: [AuthGuard]
   }
 ];
 var appConfig = {
