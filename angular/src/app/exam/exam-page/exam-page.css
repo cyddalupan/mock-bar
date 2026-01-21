@@ -76,3 +76,19 @@
   background-color: #28a745 !important; /* A distinct green */
   color: white !important;
 }
+
+.grading-method-note {
+  background-color: #e0f7fa; /* Light blue background */
+  border: 1px solid #00bcd4; /* Cyan border */
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 0.9em;
+  color: #006064;
+}
+
+.grading-method-note p {
+  margin: 0;
+  padding: 0;
+}

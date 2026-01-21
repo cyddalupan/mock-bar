@@ -49500,14 +49500,14 @@ var ApiService = class _ApiService {
     return this.postData("db.php", payload);
   }
   // New method to call AI for grading
-  gradeAnswer(userAnswer, expectedAnswer) {
-    const payload = { user_answer: userAnswer, expected_answer: expectedAnswer };
+  gradeAnswer(userAnswer, expectedAnswer, gradingMethodId) {
+    const payload = { user_answer: userAnswer, expected_answer: expectedAnswer, grading_method_id: gradingMethodId };
     return this.postData("ai.php", payload);
   }
   // New method to get the next unanswered question for a course
   getNextQuestion(courseId, userId) {
     const query = `
-      SELECT q_id, q_question, q_answer
+      SELECT q_id, q_question, q_answer, grading_method_id
       FROM quiz_new
       WHERE q_course_id = ?
         AND q_id NOT IN (SELECT question_id FROM diag_ans WHERE user_id = ? AND batch_id = ?)
@@ -49520,7 +49520,7 @@ var ApiService = class _ApiService {
   // New method to get a specific question by ID
   getQuestionById(questionId) {
     const query = `
-      SELECT q_id, q_question, q_answer
+      SELECT q_id, q_question, q_answer, grading_method_id
       FROM quiz_new
       WHERE q_id = ?;
     `;
@@ -49597,6 +49597,27 @@ var ApiService = class _ApiService {
       GROUP BY q_course_id;
     `;
     return this.getDbData(query);
+  }
+  // New method to get a grading method by its ID
+  getGradingMethodById(gradingMethodId) {
+    if (gradingMethodId === null) {
+      return of(null);
+    }
+    const query = `
+      SELECT id, name, prompt_template
+      FROM grading_methods
+      WHERE id = ?;
+    `;
+    const params = [gradingMethodId];
+    return this.getDbData(query, params).pipe(map((response) => {
+      if (response && response.length > 0) {
+        return response[0];
+      }
+      return null;
+    }), catchError((error) => {
+      console.error("Error fetching grading method:", error);
+      return throwError(() => new Error("Could not fetch grading method."));
+    }));
   }
   getCategoriesWithCourses() {
     const query = `
@@ -57244,6 +57265,20 @@ function ExamPageComponent_div_7_Template(rf, ctx) {
     \u0275\u0275textInterpolate(ctx_r0.error);
   }
 }
+function ExamPageComponent_div_8_div_1_div_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 15)(1, "p")(2, "strong");
+    \u0275\u0275text(3, "Grading Method:");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1(" ", ctx_r0.currentGradingMethodName);
+  }
+}
 function ExamPageComponent_div_8_div_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
@@ -57256,29 +57291,30 @@ function ExamPageComponent_div_8_div_1_Template(rf, ctx) {
     \u0275\u0275elementStart(5, "mat-form-field", 9)(6, "mat-label");
     \u0275\u0275text(7, "Your Answer");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "textarea", 10, 0);
-    \u0275\u0275twoWayListener("ngModelChange", function ExamPageComponent_div_8_div_1_Template_textarea_ngModelChange_8_listener($event) {
+    \u0275\u0275template(8, ExamPageComponent_div_8_div_1_div_8_Template, 5, 1, "div", 10);
+    \u0275\u0275elementStart(9, "textarea", 11, 0);
+    \u0275\u0275twoWayListener("ngModelChange", function ExamPageComponent_div_8_div_1_Template_textarea_ngModelChange_9_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext(2);
       \u0275\u0275twoWayBindingSet(ctx_r0.userAnswer, $event) || (ctx_r0.userAnswer = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 11)(11, "button", 12);
-    \u0275\u0275listener("click", function ExamPageComponent_div_8_div_1_Template_button_click_11_listener() {
+    \u0275\u0275elementStart(11, "div", 12)(12, "button", 13);
+    \u0275\u0275listener("click", function ExamPageComponent_div_8_div_1_Template_button_click_12_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.goBackToHome());
     });
-    \u0275\u0275text(12, "Back to Course List");
+    \u0275\u0275text(13, "Back to Course List");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "button", 13);
-    \u0275\u0275listener("click", function ExamPageComponent_div_8_div_1_Template_button_click_13_listener() {
+    \u0275\u0275elementStart(14, "button", 14);
+    \u0275\u0275listener("click", function ExamPageComponent_div_8_div_1_Template_button_click_14_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.submitAnswer());
     });
-    \u0275\u0275text(14, "Submit Answer");
+    \u0275\u0275text(15, "Submit Answer");
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -57286,6 +57322,8 @@ function ExamPageComponent_div_8_div_1_Template(rf, ctx) {
     \u0275\u0275advance(4);
     \u0275\u0275textInterpolate(ctx_r0.currentQuestion.q_question);
     \u0275\u0275advance(4);
+    \u0275\u0275property("ngIf", ctx_r0.currentGradingMethodName);
+    \u0275\u0275advance();
     \u0275\u0275twoWayProperty("ngModel", ctx_r0.userAnswer);
     \u0275\u0275advance(5);
     \u0275\u0275property("disabled", !ctx_r0.userAnswer.trim());
@@ -57300,7 +57338,7 @@ function ExamPageComponent_div_8_div_2_Template(rf, ctx) {
     \u0275\u0275elementStart(3, "p");
     \u0275\u0275text(4, "You have answered all available questions for this course.");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "button", 12);
+    \u0275\u0275elementStart(5, "button", 13);
     \u0275\u0275listener("click", function ExamPageComponent_div_8_div_2_Template_button_click_5_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r0 = \u0275\u0275nextContext(2);
@@ -57334,9 +57372,9 @@ function ExamPageComponent_div_8_div_3_Template(rf, ctx) {
     \u0275\u0275elementStart(3, "mat-card-subtitle");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275element(5, "div", 14);
+    \u0275\u0275element(5, "div", 16);
     \u0275\u0275template(6, ExamPageComponent_div_8_div_3_div_6_Template, 5, 1, "div", 5);
-    \u0275\u0275elementStart(7, "div", 11)(8, "button", 12);
+    \u0275\u0275elementStart(7, "div", 12)(8, "button", 13);
     \u0275\u0275listener("click", function ExamPageComponent_div_8_div_3_Template_button_click_8_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r0 = \u0275\u0275nextContext(2);
@@ -57344,7 +57382,7 @@ function ExamPageComponent_div_8_div_3_Template(rf, ctx) {
     });
     \u0275\u0275text(9, "Back to Course List");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "button", 15);
+    \u0275\u0275elementStart(10, "button", 17);
     \u0275\u0275listener("click", function ExamPageComponent_div_8_div_3_Template_button_click_10_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r0 = \u0275\u0275nextContext(2);
@@ -57368,7 +57406,7 @@ function ExamPageComponent_div_8_div_3_Template(rf, ctx) {
 function ExamPageComponent_div_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275template(1, ExamPageComponent_div_8_div_1_Template, 15, 3, "div", 5)(2, ExamPageComponent_div_8_div_2_Template, 7, 0, "div", 5)(3, ExamPageComponent_div_8_div_3_Template, 12, 4, "div", 5);
+    \u0275\u0275template(1, ExamPageComponent_div_8_div_1_Template, 16, 4, "div", 5)(2, ExamPageComponent_div_8_div_2_Template, 7, 0, "div", 5)(3, ExamPageComponent_div_8_div_3_Template, 12, 4, "div", 5);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -57397,6 +57435,8 @@ var ExamPageComponent = class _ExamPageComponent {
   examCompleted = false;
   showResult = false;
   expectedAnswerFromAI = null;
+  currentGradingMethodName = null;
+  currentGradingMethodId = null;
   constructor(route, router, apiService, authService, sanitizer) {
     this.route = route;
     this.router = router;
@@ -57423,6 +57463,8 @@ var ExamPageComponent = class _ExamPageComponent {
     this.gradeResult = null;
     this.showResult = false;
     this.expectedAnswerFromAI = null;
+    this.currentGradingMethodName = null;
+    this.currentGradingMethodId = null;
     if (!this.userId || !this.courseId) {
       this.error = "Missing user ID or course ID.";
       this.isLoading = false;
@@ -57433,6 +57475,23 @@ var ExamPageComponent = class _ExamPageComponent {
         if (response && response.length > 0) {
           this.currentQuestion = response[0];
           this.examCompleted = false;
+          if (this.currentQuestion.grading_method_id) {
+            this.currentGradingMethodId = this.currentQuestion.grading_method_id;
+            this.apiService.getGradingMethodById(this.currentGradingMethodId).subscribe({
+              next: (method) => {
+                if (method && method.name) {
+                  this.currentGradingMethodName = method.name;
+                }
+              },
+              error: (err) => {
+                console.error("Error fetching grading method name:", err);
+                this.currentGradingMethodName = "Default";
+              }
+            });
+          } else {
+            this.currentGradingMethodName = "Default";
+            this.currentGradingMethodId = 0;
+          }
         } else {
           this.currentQuestion = null;
           this.examCompleted = true;
@@ -57456,7 +57515,7 @@ var ExamPageComponent = class _ExamPageComponent {
     this.gradeResult = null;
     this.showResult = false;
     this.expectedAnswerFromAI = null;
-    this.apiService.gradeAnswer(this.userAnswer, this.currentQuestion.q_answer).subscribe({
+    this.apiService.gradeAnswer(this.userAnswer, this.currentQuestion.q_answer, this.currentGradingMethodId).subscribe({
       next: (aiResponse) => {
         const content = aiResponse.choices[0]?.message?.content;
         if (content) {
@@ -57509,7 +57568,7 @@ var ExamPageComponent = class _ExamPageComponent {
   static \u0275fac = function ExamPageComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ExamPageComponent)(\u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ApiService), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(DomSanitizer));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamPageComponent, selectors: [["app-exam-page"]], decls: 9, vars: 4, consts: [["autosize", "cdkTextareaAutosize"], [1, "exam-container"], [1, "exam-card"], ["class", "loading-spinner", 4, "ngIf"], ["class", "error-message", 4, "ngIf"], [4, "ngIf"], [1, "loading-spinner"], ["mode", "indeterminate"], [1, "error-message"], ["appearance", "fill", 1, "full-width-textarea"], ["matInput", "", "cdkTextareaAutosize", "", "cdkAutosizeMinRows", "10", "cdkAutosizeMaxRows", "20", 3, "ngModelChange", "ngModel"], [1, "exam-actions"], ["mat-flat-button", "", 1, "back-to-course-list-btn", 3, "click"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], [3, "innerHTML"], ["mat-flat-button", "", "color", "primary", 3, "click"]], template: function ExamPageComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ExamPageComponent, selectors: [["app-exam-page"]], decls: 9, vars: 4, consts: [["autosize", "cdkTextareaAutosize"], [1, "exam-container"], [1, "exam-card"], ["class", "loading-spinner", 4, "ngIf"], ["class", "error-message", 4, "ngIf"], [4, "ngIf"], [1, "loading-spinner"], ["mode", "indeterminate"], [1, "error-message"], ["appearance", "fill", 1, "full-width-textarea"], ["class", "grading-method-note", 4, "ngIf"], ["matInput", "", "cdkTextareaAutosize", "", "cdkAutosizeMinRows", "10", "cdkAutosizeMaxRows", "20", 3, "ngModelChange", "ngModel"], [1, "exam-actions"], ["mat-flat-button", "", 1, "back-to-course-list-btn", 3, "click"], ["mat-flat-button", "", "color", "primary", 3, "click", "disabled"], [1, "grading-method-note"], [3, "innerHTML"], ["mat-flat-button", "", "color", "primary", 3, "click"]], template: function ExamPageComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 1)(1, "mat-card", 2)(2, "mat-card-header")(3, "mat-card-title");
       \u0275\u0275text(4);
@@ -57551,7 +57610,7 @@ var ExamPageComponent = class _ExamPageComponent {
     NgModel,
     MatProgressBarModule,
     MatProgressBar
-  ], styles: ["\n\n.exam-container[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  padding: 20px;\n}\n.exam-card[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 800px;\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.loading-spinner[_ngcontent-%COMP%], \n.error-message[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n}\n.full-width-textarea[_ngcontent-%COMP%] {\n  width: 100%;\n  margin-top: 20px;\n}\n.exam-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 20px;\n}\n.mat-mdc-card-content[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.mat-mdc-card-content[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin-bottom: 10px;\n}\n[_nghost-%COMP%]     table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n[_nghost-%COMP%]     th, \n[_nghost-%COMP%]     td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n[_nghost-%COMP%]     th {\n  background-color: #f2f2f2;\n}\n[_nghost-%COMP%]     .table-bordered {\n  border: 1px solid #dee2e6;\n}\n[_nghost-%COMP%]     .table-bordered th, \n[_nghost-%COMP%]     .table-bordered td {\n  border: 1px solid #dee2e6;\n}\n[_nghost-%COMP%]     .table-striped tbody tr:nth-of-type(odd) {\n  background-color: rgba(0, 0, 0, 0.05);\n}\n[_nghost-%COMP%]     .table-hover tbody tr:hover {\n  background-color: rgba(0, 0, 0, 0.075);\n}\n.back-to-course-list-btn[_ngcontent-%COMP%] {\n  background-color: #28a745 !important;\n  color: white !important;\n}\n/*# sourceMappingURL=exam-page.css.map */"] });
+  ], styles: ["\n\n.exam-container[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  padding: 20px;\n}\n.exam-card[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 800px;\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.loading-spinner[_ngcontent-%COMP%], \n.error-message[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 20px;\n}\n.full-width-textarea[_ngcontent-%COMP%] {\n  width: 100%;\n  margin-top: 20px;\n}\n.exam-actions[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 20px;\n}\n.mat-mdc-card-content[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.mat-mdc-card-content[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin-bottom: 10px;\n}\n[_nghost-%COMP%]     table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n[_nghost-%COMP%]     th, \n[_nghost-%COMP%]     td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n[_nghost-%COMP%]     th {\n  background-color: #f2f2f2;\n}\n[_nghost-%COMP%]     .table-bordered {\n  border: 1px solid #dee2e6;\n}\n[_nghost-%COMP%]     .table-bordered th, \n[_nghost-%COMP%]     .table-bordered td {\n  border: 1px solid #dee2e6;\n}\n[_nghost-%COMP%]     .table-striped tbody tr:nth-of-type(odd) {\n  background-color: rgba(0, 0, 0, 0.05);\n}\n[_nghost-%COMP%]     .table-hover tbody tr:hover {\n  background-color: rgba(0, 0, 0, 0.075);\n}\n.back-to-course-list-btn[_ngcontent-%COMP%] {\n  background-color: #28a745 !important;\n  color: white !important;\n}\n.grading-method-note[_ngcontent-%COMP%] {\n  background-color: #e0f7fa;\n  border: 1px solid #00bcd4;\n  border-radius: 5px;\n  padding: 10px;\n  margin-top: 15px;\n  margin-bottom: 15px;\n  font-size: 0.9em;\n  color: #006064;\n}\n.grading-method-note[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  padding: 0;\n}\n/*# sourceMappingURL=exam-page.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ExamPageComponent, [{
@@ -57587,6 +57646,9 @@ var ExamPageComponent = class _ExamPageComponent {
 
           <mat-form-field appearance="fill" class="full-width-textarea">
             <mat-label>Your Answer</mat-label>
+            <div *ngIf="currentGradingMethodName" class="grading-method-note">
+              <p><strong>Grading Method:</strong> {{ currentGradingMethodName }}</p>
+            </div>
             <textarea matInput
                       cdkTextareaAutosize
                       #autosize="cdkTextareaAutosize"
@@ -57628,7 +57690,7 @@ var ExamPageComponent = class _ExamPageComponent {
     </mat-card-content>
   </mat-card>
 </div>
-`, styles: ["/* src/app/exam/exam-page/exam-page.css */\n.exam-container {\n  display: flex;\n  justify-content: center;\n  padding: 20px;\n}\n.exam-card {\n  width: 100%;\n  max-width: 800px;\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.loading-spinner,\n.error-message {\n  text-align: center;\n  padding: 20px;\n}\n.full-width-textarea {\n  width: 100%;\n  margin-top: 20px;\n}\n.exam-actions {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 20px;\n}\n.mat-mdc-card-content h3 {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.mat-mdc-card-content p {\n  margin-bottom: 10px;\n}\n:host ::ng-deep table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n:host ::ng-deep th,\n:host ::ng-deep td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n:host ::ng-deep th {\n  background-color: #f2f2f2;\n}\n:host ::ng-deep .table-bordered {\n  border: 1px solid #dee2e6;\n}\n:host ::ng-deep .table-bordered th,\n:host ::ng-deep .table-bordered td {\n  border: 1px solid #dee2e6;\n}\n:host ::ng-deep .table-striped tbody tr:nth-of-type(odd) {\n  background-color: rgba(0, 0, 0, 0.05);\n}\n:host ::ng-deep .table-hover tbody tr:hover {\n  background-color: rgba(0, 0, 0, 0.075);\n}\n.back-to-course-list-btn {\n  background-color: #28a745 !important;\n  color: white !important;\n}\n/*# sourceMappingURL=exam-page.css.map */\n"] }]
+`, styles: ["/* src/app/exam/exam-page/exam-page.css */\n.exam-container {\n  display: flex;\n  justify-content: center;\n  padding: 20px;\n}\n.exam-card {\n  width: 100%;\n  max-width: 800px;\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.loading-spinner,\n.error-message {\n  text-align: center;\n  padding: 20px;\n}\n.full-width-textarea {\n  width: 100%;\n  margin-top: 20px;\n}\n.exam-actions {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 20px;\n}\n.mat-mdc-card-content h3 {\n  margin-top: 20px;\n  margin-bottom: 10px;\n}\n.mat-mdc-card-content p {\n  margin-bottom: 10px;\n}\n:host ::ng-deep table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 15px;\n  margin-bottom: 15px;\n}\n:host ::ng-deep th,\n:host ::ng-deep td {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n:host ::ng-deep th {\n  background-color: #f2f2f2;\n}\n:host ::ng-deep .table-bordered {\n  border: 1px solid #dee2e6;\n}\n:host ::ng-deep .table-bordered th,\n:host ::ng-deep .table-bordered td {\n  border: 1px solid #dee2e6;\n}\n:host ::ng-deep .table-striped tbody tr:nth-of-type(odd) {\n  background-color: rgba(0, 0, 0, 0.05);\n}\n:host ::ng-deep .table-hover tbody tr:hover {\n  background-color: rgba(0, 0, 0, 0.075);\n}\n.back-to-course-list-btn {\n  background-color: #28a745 !important;\n  color: white !important;\n}\n.grading-method-note {\n  background-color: #e0f7fa;\n  border: 1px solid #00bcd4;\n  border-radius: 5px;\n  padding: 10px;\n  margin-top: 15px;\n  margin-bottom: 15px;\n  font-size: 0.9em;\n  color: #006064;\n}\n.grading-method-note p {\n  margin: 0;\n  padding: 0;\n}\n/*# sourceMappingURL=exam-page.css.map */\n"] }]
   }], () => [{ type: ActivatedRoute }, { type: Router }, { type: ApiService }, { type: AuthService }, { type: DomSanitizer }], null);
 })();
 (() => {
@@ -61485,7 +61547,7 @@ var RetakePageComponent = class _RetakePageComponent {
     this.gradeResult = null;
     this.showResult = false;
     this.expectedAnswerFromAI = null;
-    this.apiService.gradeAnswer(this.userAnswer, this.currentQuestion.q_answer).subscribe({
+    this.apiService.gradeAnswer(this.userAnswer, this.currentQuestion.q_answer, this.currentQuestion.grading_method_id || 0).subscribe({
       next: (aiResponse) => {
         const content = aiResponse.choices[0]?.message?.content;
         if (content) {

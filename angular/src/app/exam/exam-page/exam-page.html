@@ -21,6 +21,9 @@
 
           <mat-form-field appearance="fill" class="full-width-textarea">
             <mat-label>Your Answer</mat-label>
+            <div *ngIf="currentGradingMethodName" class="grading-method-note">
+              <p><strong>Grading Method:</strong> {{ currentGradingMethodName }}</p>
+            </div>
             <textarea matInput
                       cdkTextareaAutosize
                       #autosize="cdkTextareaAutosize"

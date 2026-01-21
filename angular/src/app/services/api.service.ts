@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'; // Import HttpParams
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -98,15 +98,15 @@ export class ApiService {
   }
 
   // New method to call AI for grading
-  gradeAnswer(userAnswer: string, expectedAnswer: string): Observable<any> {
-    const payload = { user_answer: userAnswer, expected_answer: expectedAnswer };
+  gradeAnswer(userAnswer: string, expectedAnswer: string, gradingMethodId: number | null): Observable<any> {
+    const payload = { user_answer: userAnswer, expected_answer: expectedAnswer, grading_method_id: gradingMethodId };
     return this.postData('ai.php', payload);
   }
 
   // New method to get the next unanswered question for a course
   getNextQuestion(courseId: string, userId: string): Observable<any> {
     const query = `
-      SELECT q_id, q_question, q_answer
+      SELECT q_id, q_question, q_answer, grading_method_id
       FROM quiz_new
       WHERE q_course_id = ?
         AND q_id NOT IN (SELECT question_id FROM diag_ans WHERE user_id = ? AND batch_id = ?)
@@ -120,7 +120,7 @@ export class ApiService {
   // New method to get a specific question by ID
   getQuestionById(questionId: string): Observable<any> {
     const query = `
-      SELECT q_id, q_question, q_answer
+      SELECT q_id, q_question, q_answer, grading_method_id
       FROM quiz_new
       WHERE q_id = ?;
     `;
@@ -204,6 +204,31 @@ export class ApiService {
       GROUP BY q_course_id;
     `;
     return this.getDbData(query);
+  }
+
+  // New method to get a grading method by its ID
+  getGradingMethodById(gradingMethodId: number | null): Observable<any> {
+    if (gradingMethodId === null) {
+      return of(null);
+    }
+    const query = `
+      SELECT id, name, prompt_template
+      FROM grading_methods
+      WHERE id = ?;
+    `;
+    const params = [gradingMethodId];
+    return this.getDbData(query, params).pipe(
+      map(response => {
+        if (response && response.length > 0) {
+          return response[0];
+        }
+        return null;
+      }),
+      catchError(error => {
+        console.error('Error fetching grading method:', error);
+        return throwError(() => new Error('Could not fetch grading method.'));
+      })
+    );
   }
 
     getCategoriesWithCourses(): Observable<any> {

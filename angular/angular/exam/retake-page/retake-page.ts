@@ -104,7 +104,7 @@ export class RetakePageComponent implements OnInit {
     this.showResult = false;
     this.expectedAnswerFromAI = null;
 
-    this.apiService.gradeAnswer(this.userAnswer, this.currentQuestion.q_answer).subscribe({
+    this.apiService.gradeAnswer(this.userAnswer, this.currentQuestion.q_answer, this.currentQuestion.grading_method_id || 0).subscribe({
       next: (aiResponse: any) => { // Explicitly typed
         const content = aiResponse.choices[0]?.message?.content;
         if (content) {

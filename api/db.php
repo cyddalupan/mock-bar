@@ -89,6 +89,16 @@ function executeQuery($query, $params = []) {
     return $data;
 }
 
+// New function to get a grading method by ID
+function getGradingMethodById($id) {
+    $query = "SELECT name, prompt_template FROM grading_methods WHERE id = ?";
+    $result = executeQuery($query, [$id]);
+    if (!empty($result)) {
+        return $result[0];
+    }
+    return null;
+}
+
 // Handle incoming plain JSON payload
 $input = file_get_contents('php://input');
 $request_data = json_decode($input, true);

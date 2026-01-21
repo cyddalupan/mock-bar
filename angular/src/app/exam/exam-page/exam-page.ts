@@ -37,6 +37,8 @@ export class ExamPageComponent implements OnInit {
   examCompleted: boolean = false;
   showResult: boolean = false;
   expectedAnswerFromAI: string | null = null;
+  currentGradingMethodName: string | null = null;
+  currentGradingMethodId: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,6 +69,8 @@ export class ExamPageComponent implements OnInit {
     this.gradeResult = null;
     this.showResult = false;
     this.expectedAnswerFromAI = null;
+    this.currentGradingMethodName = null; // Reset
+    this.currentGradingMethodId = null; // Reset
 
     if (!this.userId || !this.courseId) {
       this.error = 'Missing user ID or course ID.';
@@ -79,6 +83,26 @@ export class ExamPageComponent implements OnInit {
         if (response && response.length > 0) {
           this.currentQuestion = response[0];
           this.examCompleted = false;
+
+          // Fetch grading method name if ID is available
+          if (this.currentQuestion.grading_method_id) {
+            this.currentGradingMethodId = this.currentQuestion.grading_method_id;
+            this.apiService.getGradingMethodById(this.currentGradingMethodId).subscribe({
+              next: (method) => {
+                if (method && method.name) {
+                  this.currentGradingMethodName = method.name;
+                }
+              },
+              error: (err) => {
+                console.error('Error fetching grading method name:', err);
+                this.currentGradingMethodName = 'Default'; // Fallback
+              }
+            });
+          } else {
+            this.currentGradingMethodName = 'Default'; // Default if no ID
+            this.currentGradingMethodId = 0; // Explicitly set to 0 when no ID
+          }
+
         } else {
           this.currentQuestion = null;
           this.examCompleted = true;
@@ -105,7 +129,7 @@ export class ExamPageComponent implements OnInit {
     this.showResult = false;
     this.expectedAnswerFromAI = null;
 
-    this.apiService.gradeAnswer(this.userAnswer, this.currentQuestion.q_answer).subscribe({
+    this.apiService.gradeAnswer(this.userAnswer, this.currentQuestion.q_answer, this.currentGradingMethodId).subscribe({
       next: (aiResponse) => {
         // AI response might be nested
         const content = aiResponse.choices[0]?.message?.content;

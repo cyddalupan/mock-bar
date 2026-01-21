@@ -24,6 +24,17 @@ The current implementation of `db.php` directly accepts SQL queries from the fro
 **Backend Development Notes:**
 The `db.php` is currently considered stable. `ai.php` has been updated to handle AI grading for mock exam questions. Future development efforts and code changes should primarily focus on the Angular frontend.
 
+### Database Schema Updates for Dynamic Grading
+
+To enable dynamic grading methods, the following database changes have been implemented (documented in `QUERY.md`):
+
+*   **`grading_methods` table**: A new table has been created to store different grading method templates.
+    *   `id` (INT, Primary Key): Unique identifier for the grading method.
+    *   `name` (VARCHAR): A human-readable name for the grading method (e.g., "ALAC", "IRAC", "Default (AI General)").
+    *   `prompt_template` (TEXT): The actual AI prompt template to be used for grading questions with this method.
+*   **`quiz_new` table modification**: A new column `grading_method_id` (INT, Nullable) has been added to the `quiz_new` table. This column serves as a foreign key referencing the `grading_methods` table, linking each question to a specific grading approach.
+
+
 ### AI Grading System (`ai.php` Update)
 
 The `ai.php` endpoint has been refactored to serve specifically as an AI grading service for mock exam questions. It no longer accepts generic `system_prompt` and `history` arrays for conversational AI. Instead, it expects `user_answer` and `expected_answer` as inputs and returns a structured JSON response containing a score and detailed feedback.

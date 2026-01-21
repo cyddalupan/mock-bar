@@ -1,4 +1,6 @@
 <?php
+require_once 'db.php';
+
 // ai.php - Handles plain JSON OpenAI API calls
 
 // Load .env file
@@ -20,32 +22,42 @@ if (empty($openai_api_key)) {
 }
 
 // Function to call the OpenAI API for grading
-function callOpenAIGrader($userAnswer, $expectedAnswer) {
+function callOpenAIGrader($userAnswer, $expectedAnswer, $gradingMethodId = 0) {
     global $openai_api_key;
 
-    $url = 'https://api.openai.com/v1/chat/completions';
-    $messages = [
-        [
-            "role" => "system",
-            "content" => <<<EOD
-Compare the user_answer to expected_answer and output only a valid JSON object with:
+    $defaultSystemPrompt = <<<EOD
+Compare the user_answer to model_answer and output only a valid JSON object with:
 - "score": integer (1-100, 100 for full match, 70-95 for close match, 0-30 for mismatch).
 - "feedback": string (Bootstrap-styled HTML table that evaluates the following criteria: Answer, Legal Basis, Application, Conclusion, and Legal Writing.
     - Each criterion should be graded individually (5/5 if perfect).
     - Show subtotal per criterion (max 5 points each, total 25 = 100%).
     - Provide explanations for mistakes under each criterion.
     - After the table, include an "Additional Insights" section in plain text containing:
-        a) The correct expected_answer (either provided or AI-generated if missing).
+        a) The correct model_answer (either provided or AI-generated if missing).
         b) A section titled:
            🔎 Mistakes
            ❌ List each mistake clearly and specifically.
         c) Suggestions for improvement.
         d) If the user scored perfectly, congratulate them in this section.
-EOD
+EOD;
+
+    $systemPrompt = $defaultSystemPrompt;
+
+    if ($gradingMethodId !== 0) {
+        $gradingMethod = getGradingMethodById($gradingMethodId);
+        if ($gradingMethod && isset($gradingMethod['prompt_template'])) {
+            $systemPrompt = $gradingMethod['prompt_template'];
+        }
+    }
+
+    $messages = [
+        [
+            "role" => "system",
+            "content" => $systemPrompt
         ],
         [
             "role" => "system",
-            "content" => "expected_answer: " . $expectedAnswer
+            "content" => "model_answer: " . $expectedAnswer
         ],
         [
             "role" => "user",
@@ -92,8 +104,9 @@ if (!$request_data || !isset($request_data['user_answer']) || !isset($request_da
 
 $userAnswer = $request_data['user_answer'];
 $expectedAnswer = $request_data['expected_answer'];
+$gradingMethodId = isset($request_data['grading_method_id']) ? (int)$request_data['grading_method_id'] : 0;
 
-$response = callOpenAIGrader($userAnswer, $expectedAnswer);
+$response = callOpenAIGrader($userAnswer, $expectedAnswer, $gradingMethodId);
 
 header('Content-Type: application/json');
 echo json_encode($response);
