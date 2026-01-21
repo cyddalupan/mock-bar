@@ -39,11 +39,14 @@ To enable dynamic grading methods, the following database changes have been impl
 
 The `ai.php` endpoint has been refactored to serve specifically as an AI grading service for mock exam questions. It no longer accepts generic `system_prompt` and `history` arrays for conversational AI. Instead, it expects `user_answer` and `expected_answer` as inputs and returns a structured JSON response containing a score and detailed feedback.
 
+Crucially, `ai.php` now supports **dynamic grading prompts**. The `grading_method_id` passed from the frontend is used to retrieve a specific `prompt_template` from the `grading_methods` database table. If `grading_method_id` is `0` or no specific method is found, a `defaultSystemPrompt` is used as a fallback.
+
 **Input Payload (JSON):**
 ```json
 {
   "user_answer": "string",
-  "expected_answer": "string"
+  "expected_answer": "string",
+  "grading_method_id": "number" // Optional: ID of the grading method to use
 }
 ```
 
@@ -120,9 +123,24 @@ The `ai.php` script constructs a detailed system prompt for the OpenAI API (`gpt
     *   **`JSON.parse` Pitfall:** The Angular `HttpClient` automatically parses the JSON response from the API into JavaScript objects. A common mistake is to try and `JSON.parse()` this data again in the component. This will fail with a `SyntaxError: "[object Object]" is not valid JSON` because the data is already an object, not a JSON string.
     *   **Current Implementation:** With the PHP backend now providing a perfectly structured JSON response, the Angular `home.component.ts` simply receives the data and uses it directly, with no need for any client-side parsing.
 
-## Frontend Application (`/angular`)
+### Frontend Application (`/angular`)
 
 The frontend is an Angular application. We will be heavily utilizing Angular Material for UI components and its icon library.
+
+#### Dynamic Grading Method Display
+
+To inform users about the specific grading criteria for each question, the `ExamPageComponent` now displays the name of the active grading method (e.g., "ALAC", "IRAC", "Default (AI General)") near the answer input area. This ensures transparency and guides users on how to structure their responses.
+
+**Implementation Details:**
+*   **`ExamPageComponent` (`angular/src/app/exam/exam-page/exam-page.ts`)**:
+    *   Fetches the `currentGradingMethodName` from the backend using `ApiService.getGradingMethodById()` based on the `grading_method_id` associated with the current question.
+    *   If no specific `grading_method_id` is found for a question, it defaults to "Default".
+    *   The `currentGradingMethodName` is then displayed in `angular/src/app/exam/exam-page/exam-page.html` near the answer textarea.
+*   **`ApiService` (`angular/src/app/services/api.service.ts`)**:
+    *   The `gradeAnswer` and `getGradingMethodById` methods now accept `number | null` for the `gradingMethodId` parameter, allowing for cases where a specific grading method might not be explicitly assigned to a question.
+    *   The `getGradingMethodById` method handles `null` input gracefully by returning `null` in such cases.
+*   **`RetakePageComponent` (`angular/angular/exam/retake-page/retake-page.ts`)**:
+    *   The `submitAnswer` method now correctly passes the `currentQuestion.grading_method_id` (or `0` if null) to the `ApiService.gradeAnswer` method, ensuring that retake attempts are graded using the appropriate method.
 
 ### Authentication and User ID
 
