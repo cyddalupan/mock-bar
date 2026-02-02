@@ -93,7 +93,9 @@ EOD;
 
 // Handle incoming plain JSON payload
 $input = file_get_contents('php://input');
+error_log("AI PHP Raw Input: " . $input);
 $request_data = json_decode($input, true);
+error_log("AI PHP Decoded Request Data: " . print_r($request_data, true));
 
 // Check for required fields for grading
 if (!$request_data || !isset($request_data['user_answer']) || !isset($request_data['expected_answer'])) {

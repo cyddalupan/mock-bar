@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';     // Import MatIconMod
 import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
 import { RouterOutlet } from '@angular/router'; // Import RouterOutlet
 import { HeaderComponent } from './header/header.component'; // Import HeaderComponent
+import { environment } from '../environments/environment'; // Import environment
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,9 @@ import { HeaderComponent } from './header/header.component'; // Import HeaderCom
   imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet, HeaderComponent], // Add RouterOutlet and HeaderComponent here
   template: `
     <div>
+      <div *ngIf="isMaintenanceMode" style="background-color: red; color: white; text-align: center; padding: 10px;">
+        <h2>Maintenance Mode: We are currently debugging. Please bear with us.</h2>
+      </div>
       <app-header></app-header>
       <router-outlet></router-outlet>
       <footer style="background-color: #1e6328; color: white; padding: 20px; text-align: center;">
@@ -23,4 +27,5 @@ import { HeaderComponent } from './header/header.component'; // Import HeaderCom
 })
 export class App {
   protected readonly title = signal('Mock Bar App');
+  isMaintenanceMode = environment.isMaintenanceMode;
 }

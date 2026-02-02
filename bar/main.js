@@ -49433,7 +49433,8 @@ var MatProgressSpinnerModule = class _MatProgressSpinnerModule {
 // src/environments/environment.ts
 var environment = {
   production: false,
-  API_BASE_URL: "/mock/api"
+  API_BASE_URL: "/mock/api",
+  isMaintenanceMode: true
 };
 
 // src/app/services/api.service.ts
@@ -61728,26 +61729,42 @@ var HeaderComponent = class _HeaderComponent {
 })();
 
 // src/app/app.ts
+function App_div_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 2)(1, "h2");
+    \u0275\u0275text(2, "Maintenance Mode: We are currently debugging. Please bear with us.");
+    \u0275\u0275elementEnd()();
+  }
+}
 var App = class _App {
   title = signal("Mock Bar App", ...ngDevMode ? [{ debugName: "title" }] : []);
+  isMaintenanceMode = environment.isMaintenanceMode;
   static \u0275fac = function App_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _App)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 6, vars: 0, consts: [[2, "background-color", "#1e6328", "color", "white", "padding", "20px", "text-align", "center"]], template: function App_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 7, vars: 1, consts: [["style", "background-color: red; color: white; text-align: center; padding: 10px;", 4, "ngIf"], [2, "background-color", "#1e6328", "color", "white", "padding", "20px", "text-align", "center"], [2, "background-color", "red", "color", "white", "text-align", "center", "padding", "10px"]], template: function App_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div");
-      \u0275\u0275element(1, "app-header")(2, "router-outlet");
-      \u0275\u0275elementStart(3, "footer", 0)(4, "p");
-      \u0275\u0275text(5, "\xA9 premierebarreview 2025");
+      \u0275\u0275template(1, App_div_1_Template, 3, 0, "div", 0);
+      \u0275\u0275element(2, "app-header")(3, "router-outlet");
+      \u0275\u0275elementStart(4, "footer", 1)(5, "p");
+      \u0275\u0275text(6, "\xA9 premierebarreview 2025");
       \u0275\u0275elementEnd()()();
     }
-  }, dependencies: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet, HeaderComponent], encapsulation: 2 });
+    if (rf & 2) {
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.isMaintenanceMode);
+    }
+  }, dependencies: [CommonModule, NgIf, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet, HeaderComponent], encapsulation: 2 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(App, [{
     type: Component,
     args: [{ selector: "app-root", standalone: true, imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule, RouterOutlet, HeaderComponent], template: `
     <div>
+      <div *ngIf="isMaintenanceMode" style="background-color: red; color: white; text-align: center; padding: 10px;">
+        <h2>Maintenance Mode: We are currently debugging. Please bear with us.</h2>
+      </div>
       <app-header></app-header>
       <router-outlet></router-outlet>
       <footer style="background-color: #1e6328; color: white; padding: 20px; text-align: center;">
@@ -61758,7 +61775,7 @@ var App = class _App {
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 24 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 28 });
 })();
 
 // src/main.ts
