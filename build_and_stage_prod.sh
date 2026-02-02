@@ -5,7 +5,7 @@ set -e
 
 echo "--- Building Angular application ---"
 cd angular
-npm run build --configuration production
+npm run build -- --configuration production
 cd ..
 
 echo "--- Staging all changes ---"
