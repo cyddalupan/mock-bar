@@ -93,9 +93,10 @@ EOD;
 
 // Handle incoming plain JSON payload
 $input = file_get_contents('php://input');
-die("Raw Input: " . $input);
-
 $request_data = json_decode($input, true);
+die("Decoded Data: " . print_r($request_data, true));
+
+// Check for required fields for grading
 
 // Check for required fields for grading
 if (!$request_data || !isset($request_data['user_answer']) || !isset($request_data['expected_answer'])) {
