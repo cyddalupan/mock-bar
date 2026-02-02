@@ -44,6 +44,7 @@ EOD;
     $systemPrompt = $defaultSystemPrompt;
 
     if ($gradingMethodId !== 0) {
+        global $mysqli; // Ensure $mysqli is accessible for getGradingMethodById
         $gradingMethod = getGradingMethodById($gradingMethodId);
         if ($gradingMethod && isset($gradingMethod['prompt_template'])) {
             $systemPrompt = $gradingMethod['prompt_template'];
@@ -81,6 +82,7 @@ EOD;
     ];
 
     $context = stream_context_create($options);
+    $url = "https://api.openai.com/v1/chat/completions"; // Define $url
     $result = @file_get_contents($url, false, $context);
 
     if ($result === false) {
@@ -93,11 +95,7 @@ EOD;
 
 // Handle incoming plain JSON payload
 $input = file_get_contents('php://input');
-die("Raw Input: " . $input);
-
 $request_data = json_decode($input, true);
-
-// Check for required fields for grading
 
 // Check for required fields for grading
 if (!$request_data || !isset($request_data['user_answer']) || !isset($request_data['expected_answer'])) {
