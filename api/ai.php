@@ -1,6 +1,5 @@
 <?php
-die("AI PHP is being executed!");
-require_once 'db.php';
+// require_once 'db.php'; // Temporarily removed for debugging
 
 // ai.php - Handles plain JSON OpenAI API calls
 
@@ -94,8 +93,9 @@ EOD;
 
 // Handle incoming plain JSON payload
 $input = file_get_contents('php://input');
+die("Raw Input: " . $input);
+
 $request_data = json_decode($input, true);
-die("Decoded Data: " . print_r($request_data, true));
 
 // Check for required fields for grading
 
