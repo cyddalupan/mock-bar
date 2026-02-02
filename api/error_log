@@ -1,6 +1,0 @@
-[02-Jan-2026 21:36:48 America/Chicago] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '620-5' for key 'user_question_retake' in /home2/iwebphil/reviewcenterphil.com/chanrobles/mock/api/db.php:73
-Stack trace:
-#0 /home2/iwebphil/reviewcenterphil.com/chanrobles/mock/api/db.php(73): mysqli_stmt->execute()
-#1 /home2/iwebphil/reviewcenterphil.com/chanrobles/mock/api/db.php(104): executeQuery('\n      INSERT I...', Array)
-#2 {main}
-  thrown in /home2/iwebphil/reviewcenterphil.com/chanrobles/mock/api/db.php on line 73
