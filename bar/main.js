@@ -49540,7 +49540,13 @@ var ApiService = class _ApiService {
   saveRetakeAnswer(userId, courseId, questionId, answer, score, feedback) {
     const query = `
       INSERT INTO diag_ans_retake (user_id, batch_id, question_id, answer, score, feedback, date_created)
-      VALUES (?, ?, ?, ?, ?, ?, NOW());
+      VALUES (?, ?, ?, ?, ?, ?, NOW())
+      ON DUPLICATE KEY UPDATE
+          batch_id = VALUES(batch_id),
+          answer = VALUES(answer),
+          score = VALUES(score),
+          feedback = VALUES(feedback),
+          date_created = NOW();
     `;
     const params = [userId, courseId, questionId, answer, score, feedback];
     return this.getDbData(query, params);
