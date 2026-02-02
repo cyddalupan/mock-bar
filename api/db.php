@@ -91,6 +91,7 @@ function executeQuery($query, $params = []) {
 
 // New function to get a grading method by ID
 function getGradingMethodById($id) {
+    global $mysqli; // Ensure $mysqli is accessible
     $query = "SELECT name, prompt_template FROM grading_methods WHERE id = ?";
     $result = executeQuery($query, [$id]);
     if (!empty($result)) {
@@ -99,51 +100,54 @@ function getGradingMethodById($id) {
     return null;
 }
 
-// Handle incoming plain JSON payload
-$input = file_get_contents('php://input');
-$request_data = json_decode($input, true);
+// Only execute the payload handling logic if db.php is the main script being run
+if (basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
+    // Handle incoming plain JSON payload
+    $input = file_get_contents('php://input');
+    $request_data = json_decode($input, true);
 
-if (!$request_data || !isset($request_data['query'])) {
-    header('Content-Type: application/json');
-    echo json_encode(['error' => 'Invalid or unreadable JSON payload.']);
-    exit();
-}
-
-$query = $request_data['query'];
-$params = isset($request_data['params']) ? $request_data['params'] : [];
-$response_data = executeQuery($query, $params);
-
-// Check for aggregation flag
-if (strpos($query, '/* AGGREGATE_COURSES */') !== false) {
-    $categories = [];
-    foreach ($response_data as $row) {
-        $category_id = $row['category_id'];
-
-        // If category is not yet in our array, add it
-        if (!isset($categories[$category_id])) {
-            $categories[$category_id] = [
-                'category_id' => $category_id,
-                'category_name' => $row['category_name'],
-                'courses' => []
-            ];
-        }
-
-        // If there is a course in this row, add it to the courses array
-        if ($row['id'] !== null) {
-            $categories[$category_id]['courses'][] = [
-                'id' => $row['id'],
-                'title' => $row['title'],
-                'short_description' => $row['short_description'],
-                'upcoming_image_thumbnail' => $row['upcoming_image_thumbnail'],
-                'price' => $row['price'],
-                'level' => $row['level']
-            ];
-        }
+    if (!$request_data || !isset($request_data['query'])) {
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Invalid or unreadable JSON payload.']);
+        exit();
     }
-    // Convert the associative array to a simple indexed array for the final JSON
-    $response_data = array_values($categories);
-}
 
-header('Content-Type: application/json');
-echo json_encode($response_data);
+    $query = $request_data['query'];
+    $params = isset($request_data['params']) ? $request_data['params'] : [];
+    $response_data = executeQuery($query, $params);
+
+    // Check for aggregation flag
+    if (strpos($query, '/* AGGREGATE_COURSES */') !== false) {
+        $categories = [];
+        foreach ($response_data as $row) {
+            $category_id = $row['category_id'];
+
+            // If category is not yet in our array, add it
+            if (!isset($categories[$category_id])) {
+                $categories[$category_id] = [
+                    'category_id' => $category_id,
+                    'category_name' => $row['category_name'],
+                    'courses' => []
+                ];
+            }
+
+            // If there is a course in this row, add it to the courses array
+            if ($row['id'] !== null) {
+                $categories[$category_id]['courses'][] = [
+                    'id' => $row['id'],
+                    'title' => $row['title'],
+                    'short_description' => $row['short_description'],
+                    'upcoming_image_thumbnail' => $row['upcoming_image_thumbnail'],
+                    'price' => $row['price'],
+                    'level' => $row['level']
+                ];
+            }
+        }
+        // Convert the associative array to a simple indexed array for the final JSON
+        $response_data = array_values($categories);
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($response_data);
+}
 ?>

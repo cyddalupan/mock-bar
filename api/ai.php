@@ -1,5 +1,5 @@
 <?php
-// require_once 'db.php'; // Temporarily removed for debugging
+require_once 'db.php';
 
 // ai.php - Handles plain JSON OpenAI API calls
 
