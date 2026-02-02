@@ -1,4 +1,5 @@
 <?php
+die("AI PHP is being executed!");
 require_once 'db.php';
 
 // ai.php - Handles plain JSON OpenAI API calls
