@@ -93,9 +93,16 @@ EOD;
 
 // Handle incoming plain JSON payload
 $input = file_get_contents('php://input');
-error_log("AI PHP Raw Input: " . $input);
+
+// Log raw input to a temporary debug file
+$debug_file = __DIR__ . '/ai_debug_input.log';
+file_put_contents($debug_file, "Timestamp: " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+file_put_contents($debug_file, "Raw Input: " . $input . "\n", FILE_APPEND);
+
 $request_data = json_decode($input, true);
-error_log("AI PHP Decoded Request Data: " . print_r($request_data, true));
+
+// Log decoded request data to the same debug file
+file_put_contents($debug_file, "Decoded Request Data: " . print_r($request_data, true) . "\n\n", FILE_APPEND);
 
 // Check for required fields for grading
 if (!$request_data || !isset($request_data['user_answer']) || !isset($request_data['expected_answer'])) {
