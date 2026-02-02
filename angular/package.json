@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration development",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "postbuild": "if [ -d ../bar/browser ]; then cp -R ../bar/browser/. ../bar/; rm -rf ../bar/browser; fi",
     "test": "ng test"
