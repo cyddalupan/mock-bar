@@ -223,6 +223,12 @@ Angular Material has been successfully integrated for UI components and Material
             git commit -m "feat: Describe your Angular changes"
             git push
             ```
+    *   **Production Build and Deployment:** For production deployments, use the `build_and_stage_prod.sh` script. This script performs a production build of the Angular application, stages the changes, commits them with a default message, and pushes to `origin main`.
+        *   **Usage:** Execute the script from the project root:
+            ```bash
+            ./build_and_stage_prod.sh
+            ```
+        *   **Note:** This script automatically commits and pushes. Ensure your local branch is ready for deployment before running.
     *   **Agent-Managed Build and Deployment:** The AI agent (Gemini) is responsible for automatically building the Angular application and pushing changes to the remote repository. After the agent completes any code modifications in the `/angular` directory, or when a build and deployment is required to verify changes or gather logs, it will perform the following steps:
         1.  Execute `./build_and_stage.sh` from the project root to build the Angular application and stage the `/bar` directory.
         2.  Automatically commit the changes with an appropriate commit message.
