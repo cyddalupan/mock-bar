@@ -116,6 +116,9 @@ export class RetakePageComponent implements OnInit {
             const match = insightsRegex.exec(this.gradeResult.feedback);
             if (match && match[1]) {
               this.expectedAnswerFromAI = match[1].trim();
+            } else {
+              // Fallback to the expected answer from the current question if AI's format changed or regex fails
+              this.expectedAnswerFromAI = this.currentQuestion.q_answer;
             }
 
             // Call the new saveRetakeAnswer method

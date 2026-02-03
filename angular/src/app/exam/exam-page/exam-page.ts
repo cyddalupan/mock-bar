@@ -139,10 +139,13 @@ export class ExamPageComponent implements OnInit {
             this.gradeResult = parsedContent;
 
             // Extract expected_answer from the "Additional Insights" section if available
-            const insightsRegex = /Additional Insights:[\s\S]*?a\)\s*The correct expected_answer:\s*([\s\S]*?)\s*b\)/;
+            const insightsRegex = /Additional Insights:[\s\S]*?a\)\s*The correct model_answer:\s*([\s\S]*?)\s*b\)/;
             const match = insightsRegex.exec(this.gradeResult.feedback);
             if (match && match[1]) {
               this.expectedAnswerFromAI = match[1].trim();
+            } else {
+              // Fallback to the expected answer from the current question if AI's format changed or regex fails
+              this.expectedAnswerFromAI = this.currentQuestion.q_answer;
             }
 
             this.apiService.saveDiagAns(
