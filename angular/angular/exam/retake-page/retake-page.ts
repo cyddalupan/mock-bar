@@ -47,16 +47,24 @@ export class RetakePageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userId = this.authService.getUserId();
-    if (!this.userId) {
-      this.error = 'User not logged in. Redirecting to home.';
-      this.router.navigate(['/home']);
-      return;
-    }
-
     this.route.paramMap.subscribe(params => {
       this.courseId = params.get('courseId')!;
       this.questionId = params.get('questionId')!;
+
+      // If courseId is '0', bypass login check
+      if (this.courseId === '0') {
+        this.userId = null; // Ensure userId is null for unauthenticated free practice
+        this.loadQuestion();
+        return;
+      }
+
+      // For other courseIds, perform regular login check
+      this.userId = this.authService.getUserId();
+      if (!this.userId) {
+        this.error = 'User not logged in. Redirecting to home.';
+        this.router.navigate(['/home']);
+        return;
+      }
       this.loadQuestion();
     });
   }
@@ -121,26 +129,32 @@ export class RetakePageComponent implements OnInit {
               this.expectedAnswerFromAI = this.currentQuestion.q_answer;
             }
 
-            // Call the new saveRetakeAnswer method
-            this.apiService.saveRetakeAnswer(
-              this.userId!,
-              this.courseId,
-              this.currentQuestion.q_id,
-              this.userAnswer,
-              this.gradeResult.score,
-              this.gradeResult.feedback
-            ).subscribe({
-              next: (dbResponse: any) => { // Explicitly typed
-                this.showResult = true;
-                this.isLoading = false;
-              },
-              error: (dbErr: any) => { // Explicitly typed
-                console.error('Error saving retake answer to DB:', dbErr);
-                this.error = 'Answer graded, but failed to save retake to database.';
-                this.showResult = true;
-                this.isLoading = false;
-              }
-            });
+            // Only save to DB if courseId is not '0'
+            if (this.courseId !== '0') {
+              this.apiService.saveRetakeAnswer(
+                this.userId!,
+                this.courseId,
+                this.currentQuestion.q_id,
+                this.userAnswer,
+                this.gradeResult.score,
+                this.gradeResult.feedback
+              ).subscribe({
+                next: (dbResponse: any) => { // Explicitly typed
+                  this.showResult = true;
+                  this.isLoading = false;
+                },
+                error: (dbErr: any) => { // Explicitly typed
+                  console.error('Error saving retake answer to DB:', dbErr);
+                  this.error = 'Answer graded, but failed to save retake to database.';
+                  this.showResult = true;
+                  this.isLoading = false;
+                }
+              });
+            } else {
+              // If courseId is '0', do not save, just show result
+              this.showResult = true;
+              this.isLoading = false;
+            }
 
           } catch (jsonError) {
             console.error('Error parsing AI response content:', jsonError);

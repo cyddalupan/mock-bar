@@ -148,26 +148,33 @@ export class ExamPageComponent implements OnInit {
               this.expectedAnswerFromAI = this.currentQuestion.q_answer;
             }
 
-            this.apiService.saveDiagAns(
-              this.userId!,
-              this.courseId,
-              this.currentQuestion.q_id,
-              this.userAnswer,
-              this.gradeResult.score,
-              this.gradeResult.feedback
-            ).subscribe({
-              next: (dbResponse) => {
-                // console.log('Answer saved to DB:', dbResponse);
-                this.showResult = true;
-                this.isLoading = false;
-              },
-              error: (dbErr) => {
-                console.error('Error saving answer to DB:', dbErr);
-                this.error = 'Answer graded, but failed to save to database.';
-                this.showResult = true; // Still show AI result even if DB save fails
-                this.isLoading = false;
-              }
-            });
+            // Only save to DB if courseId is not '0'
+            if (this.courseId !== '0') {
+              this.apiService.saveDiagAns(
+                this.userId!,
+                this.courseId,
+                this.currentQuestion.q_id,
+                this.userAnswer,
+                this.gradeResult.score,
+                this.gradeResult.feedback
+              ).subscribe({
+                next: (dbResponse) => {
+                  // console.log('Answer saved to DB:', dbResponse);
+                  this.showResult = true;
+                  this.isLoading = false;
+                },
+                error: (dbErr) => {
+                  console.error('Error saving answer to DB:', dbErr);
+                  this.error = 'Answer graded, but failed to save to database.';
+                  this.showResult = true; // Still show AI result even if DB save fails
+                  this.isLoading = false;
+                }
+              });
+            } else {
+              // If courseId is '0', do not save, just show result
+              this.showResult = true;
+              this.isLoading = false;
+            }
 
           } catch (jsonError) {
             console.error('Error parsing AI response content:', jsonError);

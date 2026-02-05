@@ -13,6 +13,13 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
+    const courseId = route.paramMap.get('courseId');
+
+    // Allow access if courseId is '0' (for free practice exams)
+    if (courseId === '0') {
+      return true;
+    }
+
     if (this.authService.isLoggedIn()) {
       return true;
     } else {
