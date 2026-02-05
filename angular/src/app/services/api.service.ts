@@ -104,16 +104,31 @@ export class ApiService {
   }
 
   // New method to get the next unanswered question for a course
-  getNextQuestion(courseId: string, userId: string): Observable<any> {
-    const query = `
-      SELECT q_id, q_question, q_answer, grading_method_id
-      FROM quiz_new
-      WHERE q_course_id = ?
-        AND q_id NOT IN (SELECT question_id FROM diag_ans WHERE user_id = ? AND batch_id = ?)
-      ORDER BY q_id ASC
-      LIMIT 1;
-    `;
-    const params = [courseId, userId, courseId];
+  getNextQuestion(courseId: string, userId: string | null): Observable<any> {
+    let query: string;
+    let params: (string | null)[];
+
+    if (userId) {
+      query = `
+        SELECT q_id, q_question, q_answer, grading_method_id
+        FROM quiz_new
+        WHERE q_course_id = ?
+          AND q_id NOT IN (SELECT question_id FROM diag_ans WHERE user_id = ? AND batch_id = ?)
+        ORDER BY q_id ASC
+        LIMIT 1;
+      `;
+      params = [courseId, userId, courseId];
+    } else {
+      // If no userId, fetch any question for the course (for free practice)
+      query = `
+        SELECT q_id, q_question, q_answer, grading_method_id
+        FROM quiz_new
+        WHERE q_course_id = ?
+        ORDER BY q_id ASC
+        LIMIT 1;
+      `;
+      params = [courseId];
+    }
     return this.getDbData(query, params);
   }
 

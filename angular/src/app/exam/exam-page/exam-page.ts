@@ -50,14 +50,17 @@ export class ExamPageComponent implements OnInit {
 
   ngOnInit() {
     this.userId = this.authService.getUserId();
-    if (!this.userId) {
-      this.error = 'User not logged in. Redirecting to home.';
-      this.router.navigate(['/home']);
-      return;
-    }
-
     this.route.paramMap.subscribe(params => {
       this.courseId = params.get('courseId')!;
+
+      // Allow access if courseId is '0' even if user is not logged in
+      if (!this.userId && this.courseId === '0') {
+        // No user ID needed for free practice exam
+      } else if (!this.userId) {
+        this.error = 'User not logged in. Redirecting to home.';
+        this.router.navigate(['/home']);
+        return;
+      }
       this.loadNextQuestion();
     });
   }
@@ -72,13 +75,13 @@ export class ExamPageComponent implements OnInit {
     this.currentGradingMethodName = null; // Reset
     this.currentGradingMethodId = null; // Reset
 
-    if (!this.userId || !this.courseId) {
-      this.error = 'Missing user ID or course ID.';
+    if (!this.courseId || (!this.userId && this.courseId !== '0')) {
+      this.error = 'Missing course ID or user not logged in.';
       this.isLoading = false;
       return;
     }
 
-    this.apiService.getNextQuestion(this.courseId, this.userId).subscribe({
+    this.apiService.getNextQuestion(this.courseId, this.userId || null).subscribe({
       next: (response) => {
         if (response && response.length > 0) {
           this.currentQuestion = response[0];
