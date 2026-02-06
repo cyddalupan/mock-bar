@@ -39,6 +39,8 @@ export class ExamPageComponent implements OnInit {
   expectedAnswerFromAI: string | null = null;
   currentGradingMethodName: string | null = null;
   currentGradingMethodId: number | null = null;
+  allQuestions: any[] = []; // Stores all questions for free practice
+  currentQuestionIndex: number = 0; // Tracks current question index
 
   constructor(
     private route: ActivatedRoute,
@@ -48,18 +50,45 @@ export class ExamPageComponent implements OnInit {
     private sanitizer: DomSanitizer // Inject DomSanitizer
   ) {}
 
+  private displayQuestionAtIndex(question: any) {
+    this.currentQuestion = question;
+    this.examCompleted = false; // Reset status when a new question is displayed
+
+    // Fetch grading method name if ID is available
+    if (this.currentQuestion.grading_method_id) {
+      this.currentGradingMethodId = this.currentQuestion.grading_method_id;
+      this.apiService.getGradingMethodById(this.currentGradingMethodId).subscribe({
+        next: (method) => {
+          if (method && method.name) {
+            this.currentGradingMethodName = method.name;
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching grading method name:', err);
+          this.currentGradingMethodName = 'Default'; // Fallback
+        }
+      });
+    } else {
+      this.currentGradingMethodName = 'Default'; // Default if no ID
+      this.currentGradingMethodId = 0; // Explicitly set to 0 when no ID
+    }
+    this.isLoading = false; // Set loading to false after displaying question
+  }
+
   ngOnInit() {
-    this.userId = this.authService.getUserId();
     this.route.paramMap.subscribe(params => {
       this.courseId = params.get('courseId')!;
 
       // Allow access if courseId is '0' even if user is not logged in
-      if (!this.userId && this.courseId === '0') {
-        // No user ID needed for free practice exam
-      } else if (!this.userId) {
-        this.error = 'User not logged in. Redirecting to home.';
-        this.router.navigate(['/home']);
-        return;
+      if (this.courseId === '0') {
+        this.userId = null; // No user ID needed for free practice exam
+      } else {
+        this.userId = this.authService.getUserId();
+        if (!this.userId) {
+          this.error = 'User not logged in. Redirecting to home.';
+          this.router.navigate(['/home']);
+          return;
+        }
       }
       this.loadNextQuestion();
     });
@@ -81,43 +110,58 @@ export class ExamPageComponent implements OnInit {
       return;
     }
 
-    this.apiService.getNextQuestion(this.courseId, this.userId || null).subscribe({
-      next: (response) => {
-        if (response && response.length > 0) {
-          this.currentQuestion = response[0];
-          this.examCompleted = false;
-
-          // Fetch grading method name if ID is available
-          if (this.currentQuestion.grading_method_id) {
-            this.currentGradingMethodId = this.currentQuestion.grading_method_id;
-            this.apiService.getGradingMethodById(this.currentGradingMethodId).subscribe({
-              next: (method) => {
-                if (method && method.name) {
-                  this.currentGradingMethodName = method.name;
-                }
-              },
-              error: (err) => {
-                console.error('Error fetching grading method name:', err);
-                this.currentGradingMethodName = 'Default'; // Fallback
-              }
-            });
-          } else {
-            this.currentGradingMethodName = 'Default'; // Default if no ID
-            this.currentGradingMethodId = 0; // Explicitly set to 0 when no ID
+    // Logic for Free Practice (courseId = '0')
+    if (this.courseId === '0') {
+      if (this.allQuestions.length === 0) {
+        // First load: fetch all questions
+        this.apiService.getFreePracticeQuestions(this.courseId).subscribe({
+          next: (response) => {
+            if (response && response.length > 0) {
+              this.allQuestions = response;
+              this.currentQuestionIndex = 0;
+              this.displayQuestionAtIndex(this.allQuestions[this.currentQuestionIndex]);
+            } else {
+              this.currentQuestion = null;
+              this.examCompleted = true;
+              this.isLoading = false;
+            }
+          },
+          error: (err) => {
+            console.error('Error loading free practice questions:', err);
+            this.error = 'Failed to load free practice questions. Please try again.';
+            this.isLoading = false;
           }
-
+        });
+      } else {
+        // Subsequent loads: move to next question in the array
+        this.currentQuestionIndex++;
+        if (this.currentQuestionIndex < this.allQuestions.length) {
+          this.displayQuestionAtIndex(this.allQuestions[this.currentQuestionIndex]);
         } else {
           this.currentQuestion = null;
           this.examCompleted = true;
+          this.isLoading = false;
         }
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error loading next question:', err);
-        this.error = 'Failed to load question. Please try again.';
-        this.isLoading = false;
       }
-    });
+    } else {
+      // Logic for Regular Exams (authenticated, non-zero courseId)
+      this.apiService.getNextQuestion(this.courseId, this.userId || null).subscribe({
+        next: (response) => {
+          if (response && response.length > 0) {
+            this.displayQuestionAtIndex(response[0]); // Display the single question
+          } else {
+            this.currentQuestion = null;
+            this.examCompleted = true;
+            this.isLoading = false;
+          }
+        },
+        error: (err) => {
+          console.error('Error loading next question:', err);
+          this.error = 'Failed to load question. Please try again.';
+          this.isLoading = false;
+        }
+      });
+    }
   }
 
   submitAnswer() {

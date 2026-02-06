@@ -143,6 +143,18 @@ export class ApiService {
     return this.getDbData(query, params);
   }
 
+  // New method to get all questions for a free practice exam (courseId = '0')
+  getFreePracticeQuestions(courseId: string): Observable<any> {
+    const query = `
+      SELECT q_id, q_question, q_answer, grading_method_id
+      FROM quiz_new
+      WHERE q_course_id = ?
+      ORDER BY q_id ASC;
+    `;
+    const params = [courseId];
+    return this.getDbData(query, params);
+  }
+
   // New method to save graded answer to diag_ans
   saveDiagAns(userId: string, courseId: string, questionId: string, answer: string, score: number, feedback: string): Observable<any> {
     const query = `
